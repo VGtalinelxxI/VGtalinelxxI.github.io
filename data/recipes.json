@@ -1,5 +1,34 @@
 [
   {
+    "id": "potage-a-la-reine-mwpjd1ar",
+    "title": "Potage a la reine",
+    "image": "images/potage-a-la-reine-mwpjd1ar.jpg",
+    "ingredients": [
+      {
+        "ingredientId": "vermicelle",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "jaune-d-oeuf",
+        "quantity": "2"
+      },
+      {
+        "ingredientId": "bouillon-volaille",
+        "quantity": "1"
+      },
+      {
+        "ingredientId": "creme",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "ail",
+        "quantity": ""
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-20T22:13:40.179Z"
+  },
+  {
     "id": "chocolate-mwpiheec",
     "title": "Chocolate",
     "image": null,
