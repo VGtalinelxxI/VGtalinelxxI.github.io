@@ -76,6 +76,7 @@
         <button class="chip active" data-mode="all">All</button>
         <button class="chip" data-mode="title">Title</button>
         <button class="chip" data-mode="ingredients">Ingredients</button>
+        <button class="chip archive-chip" id="archived-toggle" type="button" hidden>📦 Archived</button>
       </div>
       <p id="status" class="muted" role="status"></p>
       <div id="grid"></div>
@@ -84,6 +85,10 @@
     <!-- Creation -->
     <section id="tab-create" hidden>
       <form id="create-form" novalidate>
+        <div id="edit-banner" class="edit-banner" hidden>
+          <span>✏️ Editing <b id="edit-name"></b></span>
+          <button type="button" id="edit-cancel" class="secondary small">Cancel</button>
+        </div>
         <label>Title
           <input id="f-title" type="text" maxlength="100" placeholder="Chocolate cake" autocomplete="off" enterkeyhint="next">
         </label>
@@ -91,6 +96,7 @@
           <input id="f-image" type="file" accept="image/*">
         </label>
         <img id="preview" alt="Preview" hidden>
+        <label id="f-remove-wrap" class="opt" hidden><input type="checkbox" id="f-remove-image"> Remove the current picture</label>
 
         <div class="field">
           <span class="field-label">Ingredients <small>(optional)</small></span>
@@ -191,7 +197,11 @@
     <img id="d-img" alt="" hidden>
     <div class="d-body">
       <h2 id="d-title"></h2>
-      <button type="button" id="d-grocery" class="secondary"></button>
+      <p id="d-archived" class="archived-note" hidden>📦 Archived<span id="d-archived-date"></span>. Hidden from the gallery, grocery and cook tabs.</p>
+      <div class="d-actions">
+        <button type="button" id="edit-btn" class="secondary">✏️ Edit</button>
+        <button type="button" id="d-grocery" class="secondary"></button>
+      </div>
       <div id="d-ing-sec">
         <h3>Ingredients</h3>
         <ul id="d-ingredients"></ul>
@@ -200,7 +210,7 @@
         <h3>Steps</h3>
         <ol id="d-steps"></ol>
       </div>
-      <button id="delete-btn" class="danger">Delete this recipe</button>
+      <button type="button" id="archive-btn" class="archive">📦 Archive this recipe</button>
     </div>
   </article>
 </dialog>

@@ -6,6 +6,8 @@ A personal recipe book hosted on GitHub Pages. Phone friendly.
 - **+ New** tab to add a recipe. Only the **title** is mandatory; picture, ingredients and steps are optional
 - **Ingredients are reusable objects**: pick one from your library or type a new name, it is created once and shared by all recipes
 - **🛒 Grocery** tab: tick the recipes you plan to cook, get one checklist of ingredients showing which recipe needs each one (and how much)
+- **Edit** any recipe after creation (✏️ Edit in the recipe): title, picture, ingredients, steps
+- **Archive instead of delete**: archived recipes are hidden but kept, and can be restored at any time from *📦 Archived* in the gallery
 - **Export the grocery list with its ticks**: Share, Copy, Download .txt, Print / PDF, or a *Link with ticks* that rebuilds the same list on another device
 - **🥕 Cook** tab: tap the ingredients you have, see the recipes you can make and the ones you can *almost* make, with the missing ingredients listed
 - Everything is stored in this repo: recipes in `data/recipes.json`, the ingredient library in `data/ingredients.json`, pictures in `images/`
@@ -48,6 +50,16 @@ Open the **🛒 Grocery** tab (or tap *Add to grocery list* inside a recipe), ti
 ```
 
 Tick items as you shop; checked items go to the bottom. The selection and the ticks are kept on the device (not in the repo), so each phone has its own shopping list.
+
+## Edit a recipe
+
+Open a recipe and tap **✏️ Edit**. The form opens pre-filled (the tab shows *✏️ Edit*). Change anything, then **Save changes**, or **Cancel**.
+For the picture: choose a new file to replace it, or tick *Remove the current picture*. The old picture file is removed from the repo.
+
+## Archive (no more delete)
+
+**📦 Archive this recipe** hides the recipe from the gallery, the grocery tab and the cook tab. Nothing is deleted: the recipe and its picture stay in the repo.
+The gallery shows a **📦 Archived (n)** button when at least one recipe is archived. Open it, tap a recipe, then **↩︎ Restore this recipe**.
 
 ## Export the grocery list
 
@@ -117,3 +129,4 @@ GitHub Pages is static hosting, so there is no server to check a password. Inste
 ```
 
 `image` is `null` when there is no picture; `ingredients` and `steps` can be empty.
+Edited recipes get an `updatedAt` date. Archived recipes get `"archived": true` and an `archivedAt` date.

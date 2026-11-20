@@ -4,7 +4,8 @@
   /* ────────────────────────────────────────────────────────────
      cookbook — static app hosted on GitHub Pages.
 
-     data/recipes.json      → [{ id, title, image, ingredients:[{ingredientId, quantity}], steps:[], createdAt }]
+     data/recipes.json      → [{ id, title, image, ingredients:[{ingredientId, quantity}], steps:[], createdAt,
+                                 updatedAt?, archived?, archivedAt? }]
      data/ingredients.json  → [{ id, name }]   (shared library, reused by every recipe)
      images/<id>.jpg        → recipe pictures
      config.json            → repo + GitHub token encrypted with your password
@@ -34,6 +35,8 @@
   let remoteIngredientsJson = '[]';
   let searchMode = 'all';
   let current = null;           // recipe shown in the detail dialog
+  let showArchived = false;     // gallery shows archived recipes instead of active ones
+  let editing = null;           // { id, image } while a recipe is being edited
   let grocery = loadGrocery();  // { selected: [recipeId], checked: [ingredientId] }
   let pantry = loadPantry();    // { have: [ingredientId], maxMissing: 2 }
 
@@ -155,6 +158,9 @@
   }
 
   /* ───────── ingredients library ───────── */
+
+  // Archived recipes stay in the repo but are hidden from the gallery, grocery and cook modes.
+  const activeRecipes = () => recipes.filter((r) => !r.archived);
 
   const ingName = (entry) => (ingMap.get(entry.ingredientId) || {}).name || entry.ingredientId || '';
 
@@ -340,23 +346,34 @@
 
   function renderGallery() {
     const terms = norm($('#search').value).split(/[\s,]+/).filter(Boolean);
-    const list = recipes.filter((r) => matches(r, terms));
+    const archivedCount = recipes.filter((r) => r.archived).length;
+    if (!archivedCount) showArchived = false;
+    const toggle = $('#archived-toggle');
+    toggle.hidden = !archivedCount;
+    toggle.textContent = showArchived ? '← Back to recipes' : `📦 Archived (${archivedCount})`;
+    toggle.classList.toggle('active', showArchived);
+
+    const base = recipes.filter((r) => !!r.archived === showArchived);
+    const list = base.filter((r) => matches(r, terms));
     const grid = $('#grid');
     grid.replaceChildren();
 
-    if (!recipes.length) {
-      $('#status').textContent = 'No recipe yet. Add your first one in the “+ New” tab.';
+    if (!base.length) {
+      $('#status').textContent = archivedCount
+        ? 'Every recipe is archived. Open “📦 Archived” to restore one, or add a new one in “+ New”.'
+        : 'No recipe yet. Add your first one in the “+ New” tab.';
       return;
     }
+    const noun = showArchived ? 'archived recipe' : 'recipe';
     $('#status').textContent = list.length
-      ? `${list.length} recipe${list.length > 1 ? 's' : ''}`
+      ? `${list.length} ${noun}${list.length > 1 ? 's' : ''}`
       : 'No recipe matches your search.';
 
     for (const r of list) {
       const n = r.ingredients.length;
       const card = el(
         'button',
-        { className: 'card', type: 'button' },
+        { className: 'card' + (r.archived ? ' archived' : ''), type: 'button' },
         thumbFor(r, 'thumb'),
         el('div', { className: 'info' },
           el('div', { className: 'name' }, r.title),
@@ -378,6 +395,11 @@
       img.removeAttribute('src');
     }
     $('#d-title').textContent = r.title;
+    $('#d-archived').hidden = !r.archived;
+    $('#d-archived-date').textContent = r.archivedAt ? ` on ${new Date(r.archivedAt).toLocaleDateString()}` : '';
+    $('#d-grocery').hidden = !!r.archived;
+    $('#archive-btn').textContent = r.archived ? '↩︎ Restore this recipe' : '📦 Archive this recipe';
+    $('#archive-btn').className = r.archived ? 'primary' : 'archive';
 
     $('#d-ing-sec').hidden = !r.ingredients.length;
     $('#d-ingredients').replaceChildren(
@@ -520,6 +542,46 @@
     $('#ing-rows').replaceChildren();
     addIngredientRow();
     $('#preview').hidden = true;
+    $('#preview').removeAttribute('src');
+    $('#create-msg').textContent = '';
+    editing = null;
+    updateFormMode();
+  }
+
+  // Switches the “+ New” form between creating and editing.
+  function updateFormMode() {
+    const on = !!editing;
+    $('#edit-banner').hidden = !on;
+    $('#f-remove-wrap').hidden = !(on && editing.image);
+    $('#save-btn').textContent = on ? 'Save changes' : 'Save recipe';
+    $('.tab[data-tab="create"]').textContent = on ? '✏️ Edit' : '+ New';
+    if (on) $('#edit-name').textContent = editing.title;
+  }
+
+  function showCurrentPicture() {
+    const preview = $('#preview');
+    if (editing && editing.image && !$('#f-remove-image').checked) {
+      loadImage(preview, { title: editing.title, image: editing.image });
+      preview.loading = 'eager';
+      preview.hidden = false;
+    } else {
+      preview.hidden = true;
+      preview.removeAttribute('src');
+    }
+  }
+
+  function startEdit(r) {
+    resetCreateForm();
+    editing = { id: r.id, image: r.image, title: r.title };
+    $('#f-title').value = r.title;
+    $('#ing-rows').replaceChildren();
+    r.ingredients.forEach((e) => addIngredientRow(ingName(e), e.quantity || ''));
+    if (!r.ingredients.length) addIngredientRow();
+    $('#f-steps').value = r.steps.join('\n');
+    updateFormMode();
+    showCurrentPicture();
+    if ($('#detail').open) $('#detail').close();
+    showTab('create');
   }
 
 
@@ -543,7 +605,7 @@
 
   function pruneGrocery() {
     if (!recipes.length && !grocery.selected.length) return;
-    const ids = new Set(recipes.map((r) => r.id));
+    const ids = new Set(activeRecipes().map((r) => r.id));
     const kept = grocery.selected.filter((id) => ids.has(id));
     if (kept.length !== grocery.selected.length) {
       grocery.selected = kept;
@@ -577,7 +639,8 @@
     const terms = norm($('#g-filter').value).split(/\s+/).filter(Boolean);
     const picker = $('#g-recipes');
     picker.replaceChildren();
-    for (const r of recipes) {
+    const active = activeRecipes();
+    for (const r of active) {
       if (!terms.every((t) => norm(r.title).includes(t))) continue;
       const cb = el('input', { type: 'checkbox', checked: selected.has(r.id) });
       cb.addEventListener('change', () => toggleSelected(r.id, cb.checked));
@@ -595,7 +658,7 @@
     // 2. Build the list: one entry per ingredient, with every recipe that needs it
     const items = new Map();
     const withoutIngredients = [];
-    for (const r of recipes) {
+    for (const r of active) {
       if (!selected.has(r.id)) continue;
       if (!r.ingredients.length) withoutIngredients.push(r.title);
       for (const e of r.ingredients) {
@@ -630,7 +693,7 @@
     $('#g-summary').textContent = sorted.length ? `${sorted.length} item${sorted.length > 1 ? 's' : ''} · ${doneCount} checked` : '';
 
     let msg = '';
-    if (!recipes.length) msg = 'Add some recipes first.';
+    if (!active.length) msg = 'Add some recipes first.';
     else if (!selected.size) msg = 'Select recipes above to build your shopping list.';
     else if (!sorted.length) msg = 'The selected recipes have no ingredients yet.';
     if (withoutIngredients.length && sorted.length) {
@@ -804,8 +867,9 @@
     $('#c-clear').hidden = !selected.length;
 
     // 2. Library, filtered, only ingredients used by at least one recipe (most used first)
+    const active = activeRecipes();
     const used = new Map();
-    for (const r of recipes) for (const e of new Set(r.ingredients.map((x) => x.ingredientId))) used.set(e, (used.get(e) || 0) + 1);
+    for (const r of active) for (const e of new Set(r.ingredients.map((x) => x.ingredientId))) used.set(e, (used.get(e) || 0) + 1);
     const terms = norm($('#c-filter').value).split(/\s+/).filter(Boolean);
     const pool = ingredients
       .filter((i) => used.has(i.id) && !have.has(i.id))
@@ -821,7 +885,7 @@
     const can = [];
     const almost = [];
     let noIng = 0;
-    for (const r of recipes) {
+    for (const r of active) {
       const ids = [...new Set(r.ingredients.map((e) => e.ingredientId))];
       if (!ids.length) { noIng++; continue; }
       const missing = ids.filter((id) => !have.has(id));
@@ -873,7 +937,7 @@
     $('#c-almost-sec').hidden = !selected.length;
     $('#c-can-empty').textContent = can.length ? '' : 'Nothing complete yet. Add more ingredients.';
     $('#c-almost-empty').textContent = almost.length ? '' : `No recipe missing ${pantry.maxMissing > 1 ? `${pantry.maxMissing} ingredients or fewer` : 'only one ingredient'}.`;
-    $('#c-hint').textContent = !recipes.length
+    $('#c-hint').textContent = !active.length
       ? 'Add some recipes first.'
       : !selected.length
         ? 'Tap the ingredients you have. Recipes you can make appear below.'
@@ -1047,13 +1111,18 @@
 
   // Search
   $('#search').addEventListener('input', renderGallery);
-  $$('.chip').forEach((chip) =>
+  $$('.chip[data-mode]').forEach((chip) =>
     chip.addEventListener('click', () => {
       searchMode = chip.dataset.mode;
-      $$('.chip').forEach((c) => c.classList.toggle('active', c === chip));
+      $$('.chip[data-mode]').forEach((c) => c.classList.toggle('active', c === chip));
       renderGallery();
     })
   );
+  $('#archived-toggle').addEventListener('click', () => {
+    showArchived = !showArchived;
+    renderGallery();
+    window.scrollTo(0, 0);
+  });
 
   // Detail dialog
   $('#close-detail').addEventListener('click', () => $('#detail').close());
@@ -1064,25 +1133,34 @@
     if (current) toggleSelected(current.id, !grocery.selected.includes(current.id));
   });
 
-  $('#delete-btn').addEventListener('click', async () => {
-    if (!current || !confirm(`Delete “${current.title}”?`)) return;
+  $('#edit-btn').addEventListener('click', () => { if (current) startEdit(current); });
+
+  // Archive / restore: the recipe is kept in the repo, only flagged. Nothing is ever deleted.
+  $('#archive-btn').addEventListener('click', async () => {
+    if (!current) return;
     const target = current;
-    const btn = $('#delete-btn');
+    const archive = !target.archived;
+    if (archive && !confirm(`Archive “${target.title}”?\n\nIt will be hidden from the gallery, grocery and cook tabs. You can restore it at any time from “📦 Archived”.`)) return;
+    const btn = $('#archive-btn');
     btn.disabled = true;
     try {
-      await commitData((d) => { d.recipes = d.recipes.filter((r) => r.id !== target.id); }, `Delete recipe: ${target.title}`);
-      if (target.image) {
-        const file = await getFile(target.image);
-        if (file) await gh(contentsPath(target.image), {
-          method: 'DELETE',
-          body: JSON.stringify({ message: `Delete picture: ${target.title}`, sha: file.sha, branch: cfg.branch }),
-        });
-      }
+      await commitData((d) => {
+        const r = d.recipes.find((x) => x.id === target.id);
+        if (!r) throw new Error('This recipe no longer exists.');
+        if (archive) {
+          r.archived = true;
+          r.archivedAt = new Date().toISOString();
+        } else {
+          delete r.archived;
+          delete r.archivedAt;
+        }
+      }, `${archive ? 'Archive' : 'Restore'} recipe: ${target.title}`);
       $('#detail').close();
       current = null;
+      if (!archive) showArchived = false;
       refreshAll();
     } catch (ex) {
-      alert(`Could not delete: ${ex.message}`);
+      alert(`Could not ${archive ? 'archive' : 'restore'}: ${ex.message}`);
     } finally {
       btn.disabled = false;
     }
@@ -1151,10 +1229,36 @@
   $('#f-image').addEventListener('change', (e) => {
     const file = e.target.files[0];
     const preview = $('#preview');
-    if (!file) { preview.hidden = true; return; }
+    if (!file) { showCurrentPicture(); return; }
+    preview.onerror = null;
     preview.src = URL.createObjectURL(file);
     preview.hidden = false;
+    $('#f-remove-image').checked = false;
   });
+
+  $('#f-remove-image').addEventListener('change', () => {
+    if ($('#f-remove-image').checked) $('#f-image').value = '';
+    showCurrentPicture();
+  });
+
+  $('#edit-cancel').addEventListener('click', () => {
+    const id = editing && editing.id;
+    resetCreateForm();
+    showTab('gallery');
+    const r = recipes.find((x) => x.id === id);
+    if (r) openDetail(r);
+  });
+
+  // Best effort: an unused picture left behind is harmless.
+  async function deletePicture(path, title) {
+    try {
+      const file = await getFile(path);
+      if (file) await gh(contentsPath(path), {
+        method: 'DELETE',
+        body: JSON.stringify({ message: `Remove old picture: ${title}`, sha: file.sha, branch: cfg.branch }),
+      });
+    } catch (_) { /* ignore */ }
+  }
 
   $('#create-form').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -1181,6 +1285,52 @@
 
     btn.disabled = true;
     btn.textContent = 'Saving…';
+
+    if (editing) {
+      const { id, image: oldImage } = editing;
+      try {
+        let image = oldImage;
+        const file = $('#f-image').files[0];
+        if (file) {
+          say('Uploading picture…');
+          // A new file name, so phones do not keep showing the old cached picture
+          const path = `images/${id}-${Date.now().toString(36)}.jpg`;
+          await putFile(path, await prepareImage(file), `Change picture: ${title}`);
+          image = path;
+        } else if ($('#f-remove-image').checked) {
+          image = null;
+        }
+
+        say('Saving changes…');
+        await commitData((d) => {
+          const r = d.recipes.find((x) => x.id === id);
+          if (!r) throw new Error('This recipe no longer exists.');
+          r.title = title;
+          r.ingredients = entries.map(({ name, quantity }) => ({
+            ingredientId: getOrCreateIngredient(d.ingredients, name).id,
+            quantity,
+          }));
+          r.steps = steps;
+          r.image = image;
+          r.updatedAt = new Date().toISOString();
+        }, `Edit recipe: ${title}`);
+
+        if (oldImage && oldImage !== image) await deletePicture(oldImage, title);
+
+        resetCreateForm();
+        showTab('gallery');
+        refreshAll();
+        const saved = recipes.find((x) => x.id === id);
+        if (saved) openDetail(saved);
+      } catch (ex) {
+        say(`Could not save: ${ex.message}`, true);
+      } finally {
+        btn.disabled = false;
+        updateFormMode();
+      }
+      return;
+    }
+
     try {
       const id = `${slug(title).slice(0, 40) || 'recipe'}-${Date.now().toString(36)}`;
       const recipe = { id, title, image: null, ingredients: [], steps, createdAt: new Date().toISOString() };
@@ -1211,7 +1361,7 @@
       say(`Could not save: ${ex.message}`, true);
     } finally {
       btn.disabled = false;
-      btn.textContent = 'Save recipe';
+      updateFormMode();
     }
   });
 

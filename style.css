@@ -516,3 +516,42 @@ body.modal-open { overflow: hidden; }
   input[type="checkbox"] { -webkit-print-color-adjust: exact; print-color-adjust: exact; border-color: #000; }
   input[type="checkbox"]:checked { background: #000; border-color: #000; }
 }
+
+/* ── Edit & archive ── */
+.edit-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+}
+.edit-banner b { overflow-wrap: anywhere; }
+
+.d-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+button.archive {
+  margin-top: 24px;
+  padding: 10px 14px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--muted);
+  font-weight: 600;
+}
+#archive-btn.primary { margin-top: 24px; }
+
+.archived-note {
+  margin: 0 0 12px;
+  padding: 8px 12px;
+  border: 1px dashed var(--muted);
+  border-radius: 10px;
+  color: var(--muted);
+  font-size: .92rem;
+}
+
+.chip.archive-chip { margin-left: auto; }
+.chip.archive-chip.active { border-color: var(--accent); color: var(--accent); font-weight: 700; }
+.card.archived .thumb { filter: grayscale(1); opacity: .7; }
