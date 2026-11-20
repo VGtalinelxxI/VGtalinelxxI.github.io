@@ -6,6 +6,8 @@ A personal recipe book hosted on GitHub Pages. Phone friendly.
 - **+ New** tab to add a recipe. Only the **title** is mandatory; picture, ingredients and steps are optional
 - **Ingredients are reusable objects**: pick one from your library or type a new name, it is created once and shared by all recipes
 - **🛒 Grocery** tab: tick the recipes you plan to cook, get one checklist of ingredients showing which recipe needs each one (and how much)
+- **Export the grocery list with its ticks**: Share, Copy, Download .txt, Print / PDF, or a *Link with ticks* that rebuilds the same list on another device
+- **🥕 Cook** tab: tap the ingredients you have, see the recipes you can make and the ones you can *almost* make, with the missing ingredients listed
 - Everything is stored in this repo: recipes in `data/recipes.json`, the ingredient library in `data/ingredients.json`, pictures in `images/`
 - Locked by a password, asked **once per device**
 
@@ -26,7 +28,8 @@ On a phone, use *Share → Add to Home Screen* to get an app icon.
 
 ## Updating an existing cookbook
 
-Replace `index.html`, `app.js`, `style.css` and `README.md` in the repo. **Do not touch `data/`, `images/` or `config.json`.**
+Replace `index.html`, `app.js`, `style.css` and `README.md` in the repo.
+On the phone, force a refresh after the update (close the app completely, or clear the website data) so the new `app.js` is loaded. **Do not touch `data/`, `images/` or `config.json`.**
 GitHub Pages can take a minute or two to publish; refresh the page (pull to refresh, or close and reopen the app).
 
 Recipes created with the first version (ingredients as plain text lines such as `250 g flour`) are converted automatically:
@@ -45,6 +48,34 @@ Open the **🛒 Grocery** tab (or tap *Add to grocery list* inside a recipe), ti
 ```
 
 Tick items as you shop; checked items go to the bottom. The selection and the ticks are kept on the device (not in the repo), so each phone has its own shopping list.
+
+## Export the grocery list
+
+Under the list, *Export the list*:
+
+- **Include checked items**: keep the ☑ lines (otherwise only what is left to buy is exported)
+- **Share** opens the phone share sheet (Messages, WhatsApp, Notes…). **Copy** puts the text in the clipboard. **Download** saves a `.txt` file
+- **Print / PDF** prints only the list, ticks included (choose *Save as PDF* in the print dialog)
+- **Link with ticks** creates a link; opening it on another device restores the same recipes and the same ticks
+
+```
+🛒 Shopping list — 20/11/2026
+
+☑ Flour
+    Crêpes — 250 g
+☐ Eggs
+    Crêpes — 3
+```
+
+## Cook mode (🥕)
+
+Tap the ingredients you have (or type in the search box and press Enter). The app shows:
+
+- **✅ You can make**: every ingredient of the recipe is selected
+- **🟡 Almost**: recipes missing at most *N* ingredients (choose 1 to 5); the missing ones are listed with their quantity. Tap a missing ingredient if you actually have it
+- **🛒 Add** puts the recipe in the grocery list and ticks what you already have, so only the missing items remain
+
+Your selection is remembered on the device.
 
 ## How the lock works (please read)
 

@@ -17,6 +17,7 @@
   const LS_TOKEN = 'cookbook.token';
   const LS_CFG = 'cookbook.cfg';
   const LS_GROCERY = 'cookbook.grocery';
+  const LS_PANTRY = 'cookbook.pantry';
   const PBKDF2_ITERATIONS = 250000;
 
   const $ = (sel) => document.querySelector(sel);
@@ -34,6 +35,7 @@
   let searchMode = 'all';
   let current = null;           // recipe shown in the detail dialog
   let grocery = loadGrocery();  // { selected: [recipeId], checked: [ingredientId] }
+  let pantry = loadPantry();    // { have: [ingredientId], maxMissing: 2 }
 
   /* ───────── helpers ───────── */
 
@@ -138,7 +140,7 @@
 
   async function getFile(path) {
     try {
-      return await gh(`${contentsPath(path)}?ref=${encodeURIComponent(cfg.branch)}`);
+      return await gh(`${contentsPath(path)}?ref=${encodeURIComponent(cfg.branch)}&t=${Date.now()}`);
     } catch (e) {
       if (e.status === 404) return null;
       throw e;
@@ -261,8 +263,11 @@
     const url = URL.createObjectURL(file);
     try {
       const img = new Image();
-      img.src = url;
-      await img.decode();
+      await new Promise((resolve, reject) => {
+        img.onload = resolve;
+        img.onerror = () => reject(new Error('This picture format cannot be read by the browser. Try a JPEG or PNG.'));
+        img.src = url;
+      });
       return img;
     } finally {
       URL.revokeObjectURL(url);
@@ -279,8 +284,24 @@
     canvas.width = Math.round(w * scale);
     canvas.height = Math.round(h * scale);
     canvas.getContext('2d').drawImage(bmp, 0, 0, canvas.width, canvas.height);
+    if (bmp.close) bmp.close();
     const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', quality));
-    return b64.enc(await blob.arrayBuffer());
+    if (!blob) {
+      // Some phones return null for large canvases: fall back to a data URL.
+      return canvas.toDataURL('image/jpeg', quality).split(',')[1];
+    }
+    return b64.enc(await readBlob(blob));
+  }
+
+  // Blob.arrayBuffer() is missing on older iOS versions.
+  function readBlob(blob) {
+    if (blob.arrayBuffer) return blob.arrayBuffer();
+    return new Promise((resolve, reject) => {
+      const r = new FileReader();
+      r.onload = () => resolve(r.result);
+      r.onerror = () => reject(r.error);
+      r.readAsArrayBuffer(blob);
+    });
   }
 
   function loadImage(img, recipe) {
@@ -381,15 +402,80 @@
 
   /* ───────── create form: ingredient rows ───────── */
 
+  // Ingredient names whose normalised form contains every typed word; prefix matches first.
+  function suggestIngredients(text, exclude = new Set(), limit = 6) {
+    const q = norm(clean(text));
+    if (!q) return [];
+    const words = q.split(' ');
+    return ingredients
+      .map((i) => ({ i, n: norm(i.name) }))
+      .filter(({ i, n }) => !exclude.has(i.id) && words.every((w) => n.includes(w)))
+      .sort((a, b) => (b.n.startsWith(q) - a.n.startsWith(q)) || a.n.localeCompare(b.n))
+      .slice(0, limit)
+      .map(({ i }) => i);
+  }
+
+  // A small dropdown under an input. The native <datalist> is unreliable on phones
+  // (several mobile browsers show it as an empty white box), so it is not used.
+  function attachSuggest(input, onPick, { exclude = () => new Set(), showWhenEmpty = false } = {}) {
+    const box = el('ul', { className: 'suggest', hidden: true });
+    box.setAttribute('role', 'listbox');
+    let items = [];
+    let active = -1;
+
+    const close = () => { box.hidden = true; active = -1; };
+    const paint = () => [...box.children].forEach((li, k) => li.classList.toggle('active', k === active));
+    const open = () => {
+      items = suggestIngredients(input.value, exclude());
+      const exact = items.length === 1 && norm(items[0].name) === norm(clean(input.value));
+      if (!items.length || exact || (!showWhenEmpty && !clean(input.value))) return close();
+      box.replaceChildren(...items.map((i) => {
+        const li = el('li', { textContent: i.name });
+        li.setAttribute('role', 'option');
+        // pointerdown + preventDefault keeps the focus in the input (no keyboard flicker on phones)
+        li.addEventListener('pointerdown', (e) => e.preventDefault());
+        li.addEventListener('mousedown', (e) => e.preventDefault());
+        li.addEventListener('click', () => { close(); onPick(i); });
+        return li;
+      }));
+      active = -1;
+      box.hidden = false;
+    };
+
+    input.addEventListener('input', open);
+    input.addEventListener('focus', open);
+    input.addEventListener('blur', () => setTimeout(close, 150));
+    input.addEventListener('keydown', (e) => {
+      if (box.hidden) return;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        const n = items.length;
+        active = (active + (e.key === 'ArrowDown' ? 1 : -1) + n) % n;
+        paint();
+      } else if (e.key === 'Enter' && active >= 0) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        const pick = items[active];
+        close();
+        onPick(pick);
+      } else if (e.key === 'Escape') {
+        close();
+      }
+    });
+    return box;
+  }
+
   function addIngredientRow(name = '', quantity = '', focus = false) {
-    const nameInput = el('input', { className: 'ing-name', placeholder: 'Ingredient', value: name });
-    nameInput.setAttribute('list', 'ing-list');
+    const nameInput = el('input', { type: 'text', className: 'ing-name', placeholder: 'Ingredient', value: name });
     nameInput.setAttribute('aria-label', 'Ingredient');
     nameInput.setAttribute('autocomplete', 'off');
+    nameInput.setAttribute('autocapitalize', 'sentences');
+    nameInput.setAttribute('enterkeyhint', 'next');
     const tag = el('span', { className: 'tag', hidden: true }, 'new');
-    const qty = el('input', { className: 'ing-qty', placeholder: 'Quantity', value: quantity });
+    const qty = el('input', { type: 'text', className: 'ing-qty', placeholder: 'Qty', value: quantity });
     qty.setAttribute('aria-label', 'Quantity');
     qty.setAttribute('autocomplete', 'off');
+    qty.setAttribute('enterkeyhint', 'next');
     const remove = el('button', { type: 'button', className: 'icon-btn', title: 'Remove', textContent: '✕' });
     remove.setAttribute('aria-label', 'Remove ingredient');
 
@@ -397,6 +483,11 @@
       const v = clean(nameInput.value);
       tag.hidden = !v || ingredients.some((i) => norm(i.name) === norm(v));
     };
+    const box = attachSuggest(nameInput, (ing) => {
+      nameInput.value = ing.name;
+      refreshTag();
+      qty.focus();
+    });
     nameInput.addEventListener('input', refreshTag);
     nameInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') { e.preventDefault(); qty.focus(); }
@@ -405,7 +496,7 @@
       if (e.key === 'Enter') { e.preventDefault(); addIngredientRow('', '', true); }
     });
 
-    const row = el('div', { className: 'ing-row' }, el('div', { className: 'ing-name-wrap' }, nameInput, tag), qty, remove);
+    const row = el('div', { className: 'ing-row' }, el('div', { className: 'ing-name-wrap' }, nameInput, tag, box), qty, remove);
     remove.addEventListener('click', () => {
       row.remove();
       if (!$$('#ing-rows .ing-row').length) addIngredientRow();
@@ -431,10 +522,6 @@
     $('#preview').hidden = true;
   }
 
-  function updateDatalist() {
-    const sorted = ingredients.slice().sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
-    $('#ing-list').replaceChildren(...sorted.map((i) => el('option', { value: i.name })));
-  }
 
   /* ───────── grocery mode ───────── */
 
@@ -521,6 +608,7 @@
     const sorted = [...items.values()].sort((a, b) =>
       (checked.has(a.id) - checked.has(b.id)) || a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
 
+    lastGroceryItems = sorted;
     const list = $('#g-list');
     list.replaceChildren();
     for (const item of sorted) {
@@ -549,6 +637,247 @@
       msg = `${withoutIngredients.join(', ')} ${withoutIngredients.length > 1 ? 'have' : 'has'} no ingredients yet.`;
     }
     $('#g-empty').textContent = msg;
+    $('#g-export').hidden = !sorted.length;
+    $('#g-mark-have').hidden = !sorted.length || !pantry.have.length;
+  }
+
+  /* ───────── grocery export ───────── */
+
+  let lastGroceryItems = [];
+
+  function groceryText() {
+    const checked = new Set(grocery.checked);
+    const withChecked = $('#g-exp-checked').checked;
+    const withRecipes = $('#g-exp-recipes').checked;
+    const items = lastGroceryItems.filter((i) => withChecked || !checked.has(i.id));
+    const date = new Date().toLocaleDateString();
+    const out = [`🛒 Shopping list — ${date}`, ''];
+    for (const item of items) {
+      out.push(`${checked.has(item.id) ? '☑' : '☐'} ${item.name}`);
+      if (withRecipes) {
+        for (const u of item.uses) out.push(`    ${u.recipe}${u.quantity ? ` — ${u.quantity}` : ''}`);
+      }
+    }
+    const done = items.filter((i) => checked.has(i.id)).length;
+    if (!items.length) out.push('Everything is already checked. ✔');
+    else out.push('', `${items.length} item${items.length > 1 ? 's' : ''} · ${done} checked`);
+    return out.join('\n');
+  }
+
+  // A link that rebuilds the same list (same recipes, same ticks) on another device.
+  function groceryLink() {
+    const data = JSON.stringify({ s: grocery.selected, c: grocery.checked });
+    const code = b64.enc(utf8.enc(data)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    return `${location.origin}${location.pathname}#list=${code}`;
+  }
+
+  // Opens a list received through “Link with ticks”.
+  function importSharedList() {
+    const shared = readListFromHash();
+    if (!shared) return;
+    history.replaceState(null, '', location.pathname + location.search);
+    const same = JSON.stringify(shared) === JSON.stringify(grocery);
+    if (!same && grocery.selected.length && !confirm('Replace your current grocery list with the shared one?')) return;
+    grocery = shared;
+    saveGrocery();
+    renderGrocery();
+    showTab('grocery');
+  }
+  window.addEventListener('hashchange', () => { if (token && recipes.length) importSharedList(); });
+
+  function readListFromHash() {
+    const m = location.hash.match(/^#list=([A-Za-z0-9_-]+)/);
+    if (!m) return null;
+    try {
+      let code = m[1].replace(/-/g, '+').replace(/_/g, '/');
+      while (code.length % 4) code += '=';
+      const d = JSON.parse(utf8.dec(b64.dec(code)));
+      return { selected: Array.isArray(d.s) ? d.s : [], checked: Array.isArray(d.c) ? d.c : [] };
+    } catch (_) {
+      return null;
+    }
+  }
+
+  async function copyText(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (_) {
+      const ta = el('textarea', { value: text });
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.append(ta);
+      ta.select();
+      ta.setSelectionRange(0, text.length);
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (_) { /* ignore */ }
+      ta.remove();
+      return ok;
+    }
+  }
+
+  function flash(msg) {
+    const n = $('#g-exp-msg');
+    n.textContent = msg;
+    clearTimeout(flash.t);
+    flash.t = setTimeout(() => { n.textContent = ''; }, 3000);
+  }
+
+  async function shareOrCopy(payload, copied) {
+    if (navigator.share) {
+      try {
+        await navigator.share(payload);
+        return;
+      } catch (e) {
+        if (e && e.name === 'AbortError') return; // user closed the share sheet
+      }
+    }
+    flash((await copyText(payload.url || payload.text)) ? copied : 'Could not copy. Use “Download” instead.');
+  }
+
+  function downloadText(text, filename) {
+    const url = URL.createObjectURL(new Blob([text], { type: 'text/plain;charset=utf-8' }));
+    const a = el('a', { href: url, download: filename });
+    document.body.append(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  /* ───────── cook mode: what can I make with what I have? ───────── */
+
+  function loadPantry() {
+    try {
+      const p = JSON.parse(localStorage.getItem(LS_PANTRY) || '{}');
+      return {
+        have: Array.isArray(p.have) ? p.have : [],
+        maxMissing: Number.isInteger(p.maxMissing) ? p.maxMissing : 2,
+      };
+    } catch (_) {
+      return { have: [], maxMissing: 2 };
+    }
+  }
+
+  function savePantry() {
+    try { localStorage.setItem(LS_PANTRY, JSON.stringify(pantry)); } catch (_) { /* private mode */ }
+  }
+
+  function toggleHave(id, on) {
+    const set = new Set(pantry.have);
+    on ? set.add(id) : set.delete(id);
+    pantry.have = [...set];
+    savePantry();
+    renderCook();
+  }
+
+  function cookChip(ing, on) {
+    const b = el('button', { type: 'button', className: 'ing-chip' + (on ? ' on' : ''), textContent: (on ? '✓ ' : '') + ing.name });
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    b.addEventListener('click', () => toggleHave(ing.id, !on));
+    return b;
+  }
+
+  // Ticks, in the grocery list, every ingredient the user already has.
+  function markHaveInGrocery() {
+    const set = new Set(grocery.checked);
+    pantry.have.forEach((id) => set.add(id));
+    grocery.checked = [...set];
+    saveGrocery();
+  }
+
+  function renderCook() {
+    if (!$('#tab-cook')) return;
+    // Forget ingredients that no longer exist
+    if (ingredients.length) {
+      const kept = pantry.have.filter((id) => ingMap.has(id));
+      if (kept.length !== pantry.have.length) { pantry.have = kept; savePantry(); }
+    }
+    const have = new Set(pantry.have);
+    const byName = (a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
+
+    // 1. Selected ingredients
+    const sel = $('#c-selected');
+    const selected = pantry.have.map((id) => ingMap.get(id)).filter(Boolean).sort(byName);
+    sel.replaceChildren(...selected.map((i) => cookChip(i, true)));
+    $('#c-count').textContent = selected.length ? `(${selected.length})` : '';
+    $('#c-clear').hidden = !selected.length;
+
+    // 2. Library, filtered, only ingredients used by at least one recipe (most used first)
+    const used = new Map();
+    for (const r of recipes) for (const e of new Set(r.ingredients.map((x) => x.ingredientId))) used.set(e, (used.get(e) || 0) + 1);
+    const terms = norm($('#c-filter').value).split(/\s+/).filter(Boolean);
+    const pool = ingredients
+      .filter((i) => used.has(i.id) && !have.has(i.id))
+      .filter((i) => terms.every((t) => norm(i.name).includes(t)))
+      .sort((a, b) => (terms.length ? 0 : used.get(b.id) - used.get(a.id)) || byName(a, b));
+    $('#c-library').replaceChildren(...pool.map((i) => cookChip(i, false)));
+    $('#c-library-empty').textContent = !ingredients.length
+      ? 'Your recipes have no ingredients yet.'
+      : !pool.length && terms.length ? 'No ingredient matches.' : '';
+
+    // 3. Results
+    $('#c-max').value = String(pantry.maxMissing);
+    const can = [];
+    const almost = [];
+    let noIng = 0;
+    for (const r of recipes) {
+      const ids = [...new Set(r.ingredients.map((e) => e.ingredientId))];
+      if (!ids.length) { noIng++; continue; }
+      const missing = ids.filter((id) => !have.has(id));
+      const owned = ids.length - missing.length;
+      if (!missing.length) can.push({ r, missing, owned, total: ids.length });
+      else if (owned > 0 && missing.length <= pantry.maxMissing) almost.push({ r, missing, owned, total: ids.length });
+    }
+    can.sort((a, b) => b.total - a.total || a.r.title.localeCompare(b.r.title));
+    almost.sort((a, b) => a.missing.length - b.missing.length || b.owned / b.total - a.owned / a.total || a.r.title.localeCompare(b.r.title));
+
+    const resultCard = ({ r, missing, owned, total }) => {
+      const open = el('button', { type: 'button', className: 'c-open' },
+        thumbFor(r, 'pick-thumb'),
+        el('span', { className: 'c-info' },
+          el('span', { className: 'pick-title' }, r.title),
+          el('small', { className: 'muted' }, `${owned}/${total} ingredients`)));
+      open.addEventListener('click', () => openDetail(r));
+      const inList = grocery.selected.includes(r.id);
+      const add = el('button', { type: 'button', className: 'secondary small', textContent: inList ? '✓ In list' : '🛒 Add' });
+      add.title = 'Add this recipe to the grocery list, with what you have already ticked';
+      add.addEventListener('click', () => {
+        if (!grocery.selected.includes(r.id)) grocery.selected = [...grocery.selected, r.id];
+        markHaveInGrocery();
+        renderGrocery();
+        renderCook();
+        updateDetailGrocery();
+      });
+      const card = el('li', { className: 'c-card' }, el('div', { className: 'c-row' }, open, add));
+      if (missing.length) {
+        card.append(el('div', { className: 'c-missing' },
+          el('span', { className: 'muted' }, 'Missing: '),
+          ...missing.map((id) => {
+            const name = (ingMap.get(id) || {}).name || id;
+            const q = r.ingredients.find((e) => e.ingredientId === id);
+            const chip = el('button', { type: 'button', className: 'miss-chip', textContent: name + (q && q.quantity ? ` (${q.quantity})` : '') });
+            chip.title = 'I have it';
+            chip.addEventListener('click', () => toggleHave(id, true));
+            return chip;
+          })));
+      }
+      return card;
+    };
+
+    $('#c-can').replaceChildren(...can.map(resultCard));
+    $('#c-almost').replaceChildren(...almost.map(resultCard));
+    $('#c-can-title').textContent = `✅ You can make (${can.length})`;
+    $('#c-almost-title').textContent = `🟡 Almost (${almost.length})`;
+    $('#c-can-sec').hidden = !selected.length;
+    $('#c-almost-sec').hidden = !selected.length;
+    $('#c-can-empty').textContent = can.length ? '' : 'Nothing complete yet. Add more ingredients.';
+    $('#c-almost-empty').textContent = almost.length ? '' : `No recipe missing ${pantry.maxMissing > 1 ? `${pantry.maxMissing} ingredients or fewer` : 'only one ingredient'}.`;
+    $('#c-hint').textContent = !recipes.length
+      ? 'Add some recipes first.'
+      : !selected.length
+        ? 'Tap the ingredients you have. Recipes you can make appear below.'
+        : noIng ? `${noIng} recipe${noIng > 1 ? 's' : ''} without ingredients ${noIng > 1 ? 'are' : 'is'} not taken into account.` : '';
   }
 
   /* ───────── tabs & screens ───────── */
@@ -558,7 +887,10 @@
     $('#tab-gallery').hidden = name !== 'gallery';
     $('#tab-create').hidden = name !== 'create';
     $('#tab-grocery').hidden = name !== 'grocery';
+    $('#tab-cook').hidden = name !== 'cook';
     if (name === 'grocery') renderGrocery();
+    if (name === 'cook') renderCook();
+    window.scrollTo(0, 0);
   }
 
   function show(which) {
@@ -569,8 +901,8 @@
 
   function refreshAll() {
     renderGallery();
-    updateDatalist();
     renderGrocery();
+    renderCook();
   }
 
   async function start() {
@@ -580,6 +912,7 @@
     try {
       await loadData();
       refreshAll();
+      importSharedList();
     } catch (e) {
       $('#status').textContent = `Could not load recipes: ${e.message}`;
     }
@@ -768,6 +1101,50 @@
     renderGrocery();
   });
 
+  $('#g-mark-have').addEventListener('click', () => {
+    markHaveInGrocery();
+    renderGrocery();
+  });
+
+  // Grocery export
+  $('#g-share').addEventListener('click', () => shareOrCopy({ title: 'Shopping list', text: groceryText() }, 'List copied to the clipboard.'));
+  $('#g-copy').addEventListener('click', async () =>
+    flash((await copyText(groceryText())) ? 'List copied to the clipboard.' : 'Could not copy. Use “Download” instead.'));
+  $('#g-download').addEventListener('click', () =>
+    downloadText(groceryText(), `shopping-list-${new Date().toISOString().slice(0, 10)}.txt`));
+  $('#g-print').addEventListener('click', () => window.print());
+  $('#g-link').addEventListener('click', () =>
+    shareOrCopy({ title: 'Shopping list', url: groceryLink() }, 'Link copied. Open it on another device to get the same list.'));
+
+  // Cook mode
+  $('#c-filter').addEventListener('input', renderCook);
+  $('#c-filter').addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+    const first = suggestIngredients($('#c-filter').value, new Set(pantry.have), 1)[0];
+    if (first) {
+      $('#c-filter').value = '';
+      toggleHave(first.id, true);
+    }
+  });
+  $('#c-max').addEventListener('change', () => {
+    pantry.maxMissing = parseInt($('#c-max').value, 10) || 1;
+    savePantry();
+    renderCook();
+  });
+  $('#c-clear').addEventListener('click', () => {
+    pantry.have = [];
+    savePantry();
+    renderCook();
+  });
+
+  // On phones, hide the bottom tab bar while typing so it never covers a field or the Save button.
+  const isField = (t) => t && t.matches && t.matches('input:not([type="checkbox"]):not([type="file"]), textarea, select');
+  document.addEventListener('focusin', (e) => { if (isField(e.target)) document.body.classList.add('typing'); });
+  document.addEventListener('focusout', (e) => {
+    if (isField(e.target)) setTimeout(() => { if (!isField(document.activeElement)) document.body.classList.remove('typing'); }, 100);
+  });
+
   // Creation
   $('#add-ing').addEventListener('click', () => addIngredientRow('', '', true));
 
@@ -785,27 +1162,38 @@
     const msg = $('#create-msg');
     const title = clean($('#f-title').value);
 
+    const say = (text, isError) => {
+      msg.textContent = text;
+      msg.classList.toggle('error', !!isError);
+      msg.scrollIntoView({ block: 'nearest' });
+    };
+
     if (!title) {
-      msg.textContent = 'Please enter a title.';
+      say('Please enter a title.', true);
+      $('#f-title').focus();
+      $('#f-title').scrollIntoView({ block: 'center' });
       return;
     }
+    if (btn.disabled) return; // already saving
+    if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
     const entries = readIngredientRows();
     const steps = lines($('#f-steps').value, true);
 
     btn.disabled = true;
+    btn.textContent = 'Saving…';
     try {
       const id = `${slug(title).slice(0, 40) || 'recipe'}-${Date.now().toString(36)}`;
       const recipe = { id, title, image: null, ingredients: [], steps, createdAt: new Date().toISOString() };
 
       const file = $('#f-image').files[0];
       if (file) {
-        msg.textContent = 'Uploading picture…';
+        say('Uploading picture…');
         const path = `images/${id}.jpg`;
         await putFile(path, await prepareImage(file), `Add picture: ${title}`);
         recipe.image = path;
       }
 
-      msg.textContent = 'Saving recipe…';
+      say('Saving recipe…');
       await commitData((d) => {
         recipe.ingredients = entries.map(({ name, quantity }) => ({
           ingredientId: getOrCreateIngredient(d.ingredients, name).id,
@@ -815,16 +1203,25 @@
       }, `Add recipe: ${title}`);
 
       resetCreateForm();
-      msg.textContent = '';
+      say('');
       $('#search').value = '';
       showTab('gallery');
       refreshAll();
     } catch (ex) {
-      msg.textContent = `Could not save: ${ex.message}`;
+      say(`Could not save: ${ex.message}`, true);
     } finally {
       btn.disabled = false;
+      btn.textContent = 'Save recipe';
     }
   });
+
+  // Older iOS (< 15.4) has no <dialog>: minimal fallback.
+  const dlg = $('#detail');
+  if (typeof dlg.showModal !== 'function') {
+    dlg.classList.add('no-dialog');
+    dlg.showModal = () => { dlg.setAttribute('open', ''); document.body.classList.add('modal-open'); };
+    dlg.close = () => { dlg.removeAttribute('open'); document.body.classList.remove('modal-open'); };
+  }
 
   addIngredientRow();
   init();

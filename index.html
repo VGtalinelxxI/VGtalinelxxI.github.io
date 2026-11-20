@@ -62,6 +62,7 @@
     <nav>
       <button class="tab active" data-tab="gallery">Gallery</button>
       <button class="tab" data-tab="create">+ New</button>
+      <button class="tab" data-tab="cook">🥕 Cook</button>
       <button class="tab" data-tab="grocery">🛒 Grocery</button>
     </nav>
     <button id="lock-btn" class="icon-btn" title="Lock this device" aria-label="Lock this device">🔒</button>
@@ -82,9 +83,9 @@
 
     <!-- Creation -->
     <section id="tab-create" hidden>
-      <form id="create-form">
+      <form id="create-form" novalidate>
         <label>Title
-          <input id="f-title" required maxlength="100" placeholder="Chocolate cake">
+          <input id="f-title" type="text" maxlength="100" placeholder="Chocolate cake" autocomplete="off" enterkeyhint="next">
         </label>
         <label>Picture <small>(optional)</small>
           <input id="f-image" type="file" accept="image/*">
@@ -97,7 +98,6 @@
           <button type="button" id="add-ing" class="secondary">+ Add ingredient</button>
           <small class="muted">Pick an existing ingredient or type a new name: it is created once and reused by all your recipes.</small>
         </div>
-        <datalist id="ing-list"></datalist>
 
         <label>Steps <small>(optional, one per line)</small>
           <textarea id="f-steps" rows="8" placeholder="Preheat the oven to 180°C&#10;Mix the dry ingredients&#10;…"></textarea>
@@ -123,8 +123,62 @@
       <p id="g-empty" class="muted" role="status"></p>
       <ul id="g-list"></ul>
       <div class="g-actions">
+        <button type="button" id="g-mark-have" class="secondary" hidden>✓ Tick what I have (🥕 Cook)</button>
         <button type="button" id="g-uncheck" class="secondary">Uncheck all</button>
         <button type="button" id="g-clear" class="secondary">Clear selection</button>
+      </div>
+
+      <div id="g-export" class="export" hidden>
+        <h3>Export the list</h3>
+        <div class="exp-opts">
+          <label class="opt"><input type="checkbox" id="g-exp-checked" checked> Include checked items (☑)</label>
+          <label class="opt"><input type="checkbox" id="g-exp-recipes" checked> Show recipes and quantities</label>
+        </div>
+        <div class="g-actions">
+          <button type="button" id="g-share" class="secondary">📤 Share</button>
+          <button type="button" id="g-copy" class="secondary">📋 Copy</button>
+          <button type="button" id="g-download" class="secondary">⬇️ Download .txt</button>
+          <button type="button" id="g-print" class="secondary">🖨️ Print / PDF</button>
+          <button type="button" id="g-link" class="secondary">🔗 Link with ticks</button>
+        </div>
+        <p id="g-exp-msg" class="muted" role="status"></p>
+      </div>
+    </section>
+
+    <!-- Cook: what can I make with what I have? -->
+    <section id="tab-cook" hidden>
+      <div class="g-head">
+        <h2>What do I have? <span id="c-count" class="muted"></span></h2>
+        <button type="button" id="c-clear" class="link-btn" hidden>Clear</button>
+      </div>
+      <div id="c-selected" class="chip-cloud"></div>
+      <input id="c-filter" type="search" placeholder="Find an ingredient… (Enter adds the first match)" autocomplete="off" enterkeyhint="done">
+      <div id="c-library" class="chip-cloud library"></div>
+      <p id="c-library-empty" class="muted"></p>
+
+      <p id="c-hint" class="muted" role="status"></p>
+
+      <div id="c-can-sec" hidden>
+        <h2 id="c-can-title" class="c-title"></h2>
+        <p id="c-can-empty" class="muted"></p>
+        <ul id="c-can" class="c-list"></ul>
+      </div>
+
+      <div id="c-almost-sec" hidden>
+        <div class="g-head">
+          <h2 id="c-almost-title" class="c-title"></h2>
+          <label class="opt">Missing at most
+            <select id="c-max">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </label>
+        </div>
+        <p id="c-almost-empty" class="muted"></p>
+        <ul id="c-almost" class="c-list"></ul>
       </div>
     </section>
   </main>
