@@ -1,17 +1,5 @@
 [
   {
-    "id": "curry-mwpi1zng",
-    "title": "Curry",
-    "image": "images/curry-mwpi1zng.jpg",
-    "ingredients": [
-      "None"
-    ],
-    "steps": [
-      "None"
-    ],
-    "createdAt": "2026-11-20T21:37:05.212Z"
-  },
-  {
     "id": "quiche-lorraine-mwphz0jh",
     "title": "Quiche lorraine",
     "image": "images/quiche-lorraine-mwphz0jh.jpg",
