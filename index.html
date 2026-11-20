@@ -1,0 +1,1540 @@
+<!-- ... existing code ... -->
+    <title>Atelier Culinaire | GitHub Recipe Vault</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#FAF8F5',
+                        sand: '#F2EDE4',
+                        terracotta: '#D95D39',
+                        terracottaDark: '#B84A29',
+                        charcoal: '#1F2933',
+                        muted: '#616E7C',
+                        sage: '#3E6B5C',
+                        sageLight: '#E8F2EE'
+                    },
+                    fontFamily: {
+                        sans: ['"Inter"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FAF8F5;
+            color: #1F2933;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .font-serif-title {
+            font-family: 'Playfair Display', serif;
+        }
+        .modal-backdrop {
+            transition: opacity 0.25s ease;
+        }
+        .modal-panel {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+        }
+        .ingredient-checked {
+            text-decoration: line-through;
+            color: #9AA5B1;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        /* Safe area padding for iOS/Android bottom navigation */
+        .pb-safe {
+            padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col pb-24 md:pb-8">
+
+    <!-- =====================================================================
+         1. ONE-TIME UNLOCK & GITHUB REPOSITORY SETUP OVERLAY
+         ===================================================================== -->
+    <div id="lock-screen" class="fixed inset-0 z-50 bg-cream overflow-y-auto flex items-center justify-center p-4 transition-opacity duration-300">
+        <div class="w-full max-w-md bg-white rounded-3xl shadow-xl border border-stone-200/80 p-6 sm:p-8 my-auto">
+            <div class="w-14 h-14 bg-terracotta/10 text-terracotta rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <i data-lucide="chef-hat" class="w-7 h-7"></i>
+            </div>
+            <h1 class="font-serif-title text-2xl font-bold text-charcoal text-center mb-1.5">Atelier Culinaire</h1>
+            <p class="text-xs sm:text-sm text-muted text-center mb-6">
+                Connect your GitHub repository once on this device to store recipes & photos directly in Git.
+            </p>
+            
+            <form id="unlock-form" class="space-y-4">
+                <!-- App Password (Optional if APP_PASSWORD is set in CONFIG) -->
+                <div id="app-password-group">
+                    <label class="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">Kitchen Passcode</label>
+                    <input 
+                        type="password" 
+                        id="password-input" 
+                        placeholder="Enter passcode (default: chef2026)" 
+                        autocomplete="current-password"
+                        class="w-full h-11 px-4 rounded-xl bg-cream border border-stone-300 text-charcoal focus:outline-none focus:ring-2 focus:ring-terracotta text-sm"
+                    >
+                </div>
+
+                <!-- GitHub Repo Owner/Name -->
+                <div class="grid grid-cols-2 gap-2.5">
+                    <div>
+                        <label class="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">GitHub Username</label>
+                        <input 
+                            type="text" 
+                            id="gh-owner-input" 
+                            required
+                            placeholder="e.g. jane-doe"
+                            class="w-full h-11 px-3.5 rounded-xl bg-cream border border-stone-300 text-charcoal focus:outline-none focus:ring-2 focus:ring-terracotta text-sm"
+                        >
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">Repository Name</label>
+                        <input 
+                            type="text" 
+                            id="gh-repo-input" 
+                            required
+                            placeholder="e.g. my-recipes"
+                            class="w-full h-11 px-3.5 rounded-xl bg-cream border border-stone-300 text-charcoal focus:outline-none focus:ring-2 focus:ring-terracotta text-sm"
+                        >
+                    </div>
+                </div>
+
+                <!-- Branch & Personal Access Token -->
+                <div>
+                    <label class="block text-xs font-bold text-charcoal uppercase tracking-wider mb-1.5">
+                        GitHub Personal Access Token <span class="text-terracotta">*</span>
+                    </label>
+                    <input 
+                        type="password" 
+                        id="gh-token-input" 
+                        required
+                        placeholder="github_pat_... or ghp_..."
+                        class="w-full h-11 px-4 rounded-xl bg-cream border border-stone-300 text-charcoal focus:outline-none focus:ring-2 focus:ring-terracotta text-sm font-mono"
+                    >
+                </div>
+
+                <div class="flex items-center justify-between text-xs text-muted">
+                    <label class="flex items-center gap-1.5">
+                        <span>Branch:</span>
+                        <input type="text" id="gh-branch-input" value="main" class="w-20 px-2 py-1 rounded-lg bg-cream border border-stone-200 text-charcoal font-mono text-xs">
+                    </label>
+                    <span>Saved once on this device</span>
+                </div>
+
+                <p id="password-error" class="text-xs text-red-600 font-medium bg-red-50 p-2.5 rounded-xl hidden"></p>
+
+                <button 
+                    type="submit" 
+                    id="unlock-submit-btn"
+                    class="w-full h-12 bg-terracotta hover:bg-terracottaDark active:scale-[0.99] text-white font-semibold rounded-xl shadow-md shadow-terracotta/20 transition-all flex items-center justify-center gap-2"
+                >
+                    <i data-lucide="github" class="w-4 h-4"></i>
+                    <span>Connect & Unlock Kitchen</span>
+                </button>
+            </form>
+
+            <!-- Collapsible 1-Minute Setup Guide -->
+            <details class="mt-5 pt-4 border-t border-stone-100 text-left group">
+                <summary class="text-xs font-semibold text-sage cursor-pointer flex items-center justify-between list-none">
+                    <span class="flex items-center gap-1.5">
+                        <i data-lucide="help-circle" class="w-4 h-4"></i>
+                        How to set up your GitHub Token (1-minute guide)
+                    </span>
+                    <i data-lucide="chevron-down" class="w-4 h-4 group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <ol class="mt-3 space-y-1.5 text-xs text-muted list-decimal list-inside bg-cream p-3.5 rounded-2xl border border-stone-200/70 leading-relaxed">
+                    <li>Go to <strong>GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens</strong>.</li>
+                    <li>Click <strong>Generate new token</strong> and select your recipe repository under <em>Repository access</em>.</li>
+                    <li>Under <strong>Permissions → Repository permissions</strong>, set <strong>Contents</strong> to <span class="bg-sageLight text-sage font-semibold px-1.5 py-0.5 rounded">Read and write</span>.</li>
+                    <li>Copy the token and paste it above. It stays safely in your browser's local storage.</li>
+                </ol>
+            </details>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+         2. TOP HEADER NAVIGATION
+         ===================================================================== -->
+    <header class="sticky top-0 z-30 bg-cream/90 backdrop-blur-md border-b border-stone-200/70">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <button onclick="switchTab('gallery')" class="flex items-center gap-2.5 text-left group focus:outline-none">
+                <div class="w-9 h-9 rounded-xl bg-terracotta text-white flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
+                    <i data-lucide="utensils" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <span class="font-serif-title font-bold text-lg sm:text-xl text-charcoal tracking-tight block leading-none">Atelier Culinaire</span>
+                    <span id="header-repo-label" class="text-[11px] text-muted font-mono block mt-0.5 truncate max-w-[160px] sm:max-w-xs">GitHub Synced</span>
+                </div>
+            </button>
+
+            <!-- Desktop Navigation Tabs -->
+            <nav class="hidden md:flex items-center gap-2 bg-sand/70 p-1.5 rounded-2xl">
+                <button onclick="switchTab('gallery')" id="nav-desk-gallery" class="nav-desk-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 bg-white text-charcoal shadow-sm">
+                    <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                    <span>Gallery</span>
+                </button>
+                <button onclick="switchTab('create')" id="nav-desk-create" class="nav-desk-btn px-4 py-2 rounded-xl text-sm font-semibold text-muted hover:text-charcoal transition-all flex items-center gap-2">
+                    <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                    <span>New Recipe</span>
+                </button>
+                <button onclick="switchTab('settings')" id="nav-desk-settings" class="nav-desk-btn px-4 py-2 rounded-xl text-sm font-semibold text-muted hover:text-charcoal transition-all flex items-center gap-2">
+                    <i data-lucide="github" class="w-4 h-4"></i>
+                    <span>GitHub Status</span>
+                </button>
+            </nav>
+
+            <!-- Sync & Lock Actions -->
+            <div class="flex items-center gap-2">
+                <button onclick="fetchRecipesFromGitHub(true)" id="header-sync-btn" title="Sync from GitHub" class="h-10 px-3 rounded-xl bg-white hover:bg-sand border border-stone-200 text-charcoal text-xs font-semibold flex items-center gap-1.5 transition-colors">
+                    <i data-lucide="refresh-cw" id="header-sync-icon" class="w-3.5 h-3.5 text-sage"></i>
+                    <span class="hidden sm:inline">Sync</span>
+                </button>
+                <button onclick="switchTab('settings')" title="GitHub Settings & Lock" class="h-10 w-10 rounded-xl bg-white hover:bg-sand border border-stone-200 text-muted hover:text-charcoal flex items-center justify-center transition-colors">
+                    <i data-lucide="lock" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- =====================================================================
+         3. MAIN CONTENT AREA
+         ===================================================================== -->
+    <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-6">
+
+        <!-- -----------------------------------------------------------------
+             TAB A: GALLERY VIEW & LIVE SEARCH
+             ----------------------------------------------------------------- -->
+        <section id="view-gallery" class="space-y-6">
+            <!-- Hero Search & Filter Bar -->
+            <div class="bg-white rounded-3xl p-4 sm:p-6 shadow-xs border border-stone-200/70">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                    <div>
+                        <h2 class="font-serif-title text-2xl font-bold text-charcoal">Your GitHub Cookbook</h2>
+                        <p class="text-xs sm:text-sm text-muted">Search by recipe title or any ingredient stored in <code class="text-xs bg-sand px-1.5 py-0.5 rounded">data/recipes.json</code>.</p>
+                    </div>
+                    <div class="flex items-center gap-2 self-start sm:self-center">
+                        <span id="recipe-count-badge" class="px-3 py-1 rounded-full bg-sageLight text-sage text-xs font-bold">
+                            0 Recipes
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Search Input -->
+                <div class="relative">
+                    <i data-lucide="search" class="w-5 h-5 text-muted absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                    <input 
+                        type="text" 
+                        id="search-input" 
+                        placeholder="Search by title or ingredient (e.g., garlic, salmon, lemon)..." 
+                        class="w-full h-12 pl-12 pr-10 rounded-2xl bg-cream border border-stone-200 text-charcoal placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-terracotta focus:bg-white transition-all text-sm sm:text-base"
+                    >
+                    <button id="clear-search-btn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full hover:bg-stone-200/70 flex items-center justify-center text-muted">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                </div>
+
+                <!-- Quick Ingredient Filter Pills -->
+                <div class="flex items-center gap-2 mt-3 overflow-x-auto no-scrollbar pb-1">
+                    <span class="text-xs font-medium text-muted shrink-0">Quick filter:</span>
+                    <button onclick="quickFilter('garlic')" class="shrink-0 px-3 py-1.5 rounded-xl bg-cream hover:bg-sand border border-stone-200/80 text-xs font-medium text-charcoal transition-colors">Garlic</button>
+                    <button onclick="quickFilter('olive oil')" class="shrink-0 px-3 py-1.5 rounded-xl bg-cream hover:bg-sand border border-stone-200/80 text-xs font-medium text-charcoal transition-colors">Olive Oil</button>
+                    <button onclick="quickFilter('lemon')" class="shrink-0 px-3 py-1.5 rounded-xl bg-cream hover:bg-sand border border-stone-200/80 text-xs font-medium text-charcoal transition-colors">Lemon</button>
+                    <button onclick="quickFilter('chicken')" class="shrink-0 px-3 py-1.5 rounded-xl bg-cream hover:bg-sand border border-stone-200/80 text-xs font-medium text-charcoal transition-colors">Chicken</button>
+                    <button onclick="quickFilter('tomato')" class="shrink-0 px-3 py-1.5 rounded-xl bg-cream hover:bg-sand border border-stone-200/80 text-xs font-medium text-charcoal transition-colors">Tomato</button>
+                </div>
+            </div>
+
+            <!-- Loading Skeleton Grid -->
+            <div id="loading-skeleton" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div class="bg-white rounded-3xl overflow-hidden border border-stone-200/80 animate-pulse">
+                    <div class="h-48 bg-sand"></div>
+                    <div class="p-5 space-y-3">
+                        <div class="h-5 bg-sand rounded-lg w-3/4"></div>
+                        <div class="h-3 bg-sand rounded-lg w-full"></div>
+                        <div class="h-3 bg-sand rounded-lg w-1/2"></div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden border border-stone-200/80 animate-pulse hidden sm:block">
+                    <div class="h-48 bg-sand"></div>
+                    <div class="p-5 space-y-3">
+                        <div class="h-5 bg-sand rounded-lg w-2/3"></div>
+                        <div class="h-3 bg-sand rounded-lg w-full"></div>
+                        <div class="h-3 bg-sand rounded-lg w-1/2"></div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden border border-stone-200/80 animate-pulse hidden lg:block">
+                    <div class="h-48 bg-sand"></div>
+                    <div class="p-5 space-y-3">
+                        <div class="h-5 bg-sand rounded-lg w-4/5"></div>
+                        <div class="h-3 bg-sand rounded-lg w-full"></div>
+                        <div class="h-3 bg-sand rounded-lg w-1/2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Responsive Recipe Grid -->
+            <div id="recipe-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                <!-- Cards injected dynamically via JS -->
+            </div>
+
+            <!-- Empty State (Either no recipes in repo yet OR search had 0 matches) -->
+            <div id="empty-state" class="hidden bg-white rounded-3xl p-10 text-center border border-stone-200/70">
+                <div class="w-14 h-14 bg-sand text-muted rounded-2xl flex items-center justify-center mx-auto mb-3">
+                    <i data-lucide="book-open" class="w-7 h-7"></i>
+                </div>
+                <h3 id="empty-state-title" class="font-serif-title text-lg font-bold text-charcoal mb-1">No recipes found</h3>
+                <p id="empty-state-desc" class="text-sm text-muted mb-5">Your repository doesn't have any matching recipes yet.</p>
+                <div class="flex justify-center gap-3">
+                    <button id="empty-clear-btn" onclick="clearSearch()" class="hidden px-5 py-2.5 rounded-xl bg-sand text-charcoal text-sm font-semibold hover:bg-stone-300/70 transition-colors">
+                        Clear Search
+                    </button>
+                    <button onclick="switchTab('create')" class="px-5 py-2.5 rounded-xl bg-terracotta text-white text-sm font-semibold hover:bg-terracottaDark transition-colors flex items-center gap-2">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        <span>Create First Recipe</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- -----------------------------------------------------------------
+             TAB B: CREATE NEW RECIPE (Commits Photo & JSON directly to GitHub)
+             ----------------------------------------------------------------- -->
+        <section id="view-create" class="hidden max-w-2xl mx-auto">
+            <div class="bg-white rounded-3xl p-5 sm:p-8 shadow-xs border border-stone-200/70">
+                <div class="mb-6">
+                    <h2 class="font-serif-title text-2xl font-bold text-charcoal">Publish New Recipe</h2>
+                    <p class="text-sm text-muted">Photos commit to <code class="text-xs bg-sand px-1.5 py-0.5 rounded">images/</code> and data commits to <code class="text-xs bg-sand px-1.5 py-0.5 rounded">data/recipes.json</code>.</p>
+                </div>
+
+                <form id="create-recipe-form" class="space-y-6">
+                    <!-- 1. Recipe Title -->
+                    <div>
+                        <label for="recipe-title" class="block text-sm font-bold text-charcoal mb-2">Recipe Title <span class="text-terracotta">*</span></label>
+                        <input 
+                            type="text" 
+                            id="recipe-title" 
+                            required 
+                            placeholder="e.g., Crispy Garlic Butter Salmon"
+                            class="w-full h-12 px-4 rounded-xl bg-cream border border-stone-200 focus:outline-none focus:ring-2 focus:ring-terracotta focus:bg-white transition-all"
+                        >
+                    </div>
+
+                    <!-- 2. Photo Upload (Camera/Gallery -> GitHub images/) or External URL -->
+                    <div class="space-y-3">
+                        <label class="block text-sm font-bold text-charcoal">Dish Photo (Uploaded to GitHub)</label>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <!-- Mobile Camera / File Upload -->
+                            <label class="w-full h-12 px-4 rounded-xl bg-terracotta/10 hover:bg-terracotta/15 border border-terracotta/30 text-terracotta text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer transition-colors">
+                                <i data-lucide="camera" class="w-4 h-4"></i>
+                                <span>Take / Choose Photo</span>
+                                <input type="file" id="recipe-image-file" accept="image/*" class="hidden">
+                            </label>
+
+                            <!-- Optional External URL -->
+                            <input 
+                                type="url" 
+                                id="recipe-image-url" 
+                                placeholder="Or paste external image URL..."
+                                class="w-full h-12 px-4 rounded-xl bg-cream border border-stone-200 text-sm focus:outline-none focus:ring-2 focus:ring-terracotta focus:bg-white transition-all"
+                            >
+                        </div>
+
+                        <!-- Live Image Preview -->
+                        <div id="image-preview-container" class="hidden relative rounded-2xl overflow-hidden border border-stone-200 h-52 bg-cream">
+                            <img id="image-preview" src="" alt="Recipe preview" class="w-full h-full object-cover">
+                            <span id="image-badge-info" class="absolute bottom-2.5 left-2.5 px-2.5 py-1 rounded-lg bg-charcoal/80 text-white text-[11px] font-medium">
+                                Ready to upload to GitHub
+                            </span>
+                            <button type="button" onclick="clearImageSelection()" class="absolute top-2.5 right-2.5 w-8 h-8 rounded-full bg-charcoal/75 text-white flex items-center justify-center hover:bg-charcoal">
+                                <i data-lucide="x" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 3. Dynamic Ingredients List -->
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <label class="block text-sm font-bold text-charcoal">Ingredients <span class="text-terracotta">*</span></label>
+                            <button type="button" onclick="toggleBulkIngredients()" class="text-xs font-semibold text-terracotta hover:underline">
+                                + Paste multiple lines
+                            </button>
+                        </div>
+
+                        <!-- Optional Bulk Paste Area -->
+                        <div id="bulk-ingredients-box" class="hidden bg-cream p-3 rounded-2xl border border-stone-200 space-y-2">
+                            <textarea id="bulk-ingredients-text" rows="4" placeholder="Paste ingredients here, one per line:&#10;2 tbsp olive oil&#10;3 cloves garlic, minced&#10;400g spaghetti" class="w-full p-3 rounded-xl bg-white border border-stone-200 text-sm focus:outline-none focus:ring-2 focus:ring-terracotta"></textarea>
+                            <div class="flex justify-end gap-2">
+                                <button type="button" onclick="toggleBulkIngredients()" class="px-3 py-1.5 text-xs font-semibold text-muted">Cancel</button>
+                                <button type="button" onclick="applyBulkIngredients()" class="px-3 py-1.5 rounded-lg bg-sage text-white text-xs font-semibold">Add Lines</button>
+                            </div>
+                        </div>
+
+                        <div id="ingredients-list" class="space-y-2.5">
+                            <!-- Ingredient inputs injected here -->
+                        </div>
+
+                        <button type="button" onclick="addIngredientRow('', '', true)" class="w-full h-11 rounded-xl border-2 border-dashed border-stone-300 hover:border-terracotta text-muted hover:text-terracotta text-sm font-semibold flex items-center justify-center gap-1.5 transition-colors">
+                            <i data-lucide="plus" class="w-4 h-4"></i>
+                            <span>Add Ingredient (or press Enter)</span>
+                        </button>
+                    </div>
+
+                    <!-- 4. Dynamic Preparation Steps -->
+                    <div class="space-y-3">
+                        <label class="block text-sm font-bold text-charcoal">Preparation Steps <span class="text-terracotta">*</span></label>
+                        
+                        <div id="steps-list" class="space-y-3">
+                            <!-- Step textareas injected here -->
+                        </div>
+
+                        <button type="button" onclick="addStepRow('', true)" class="w-full h-11 rounded-xl border-2 border-dashed border-stone-300 hover:border-terracotta text-muted hover:text-terracotta text-sm font-semibold flex items-center justify-center gap-1.5 transition-colors">
+                            <i data-lucide="plus" class="w-4 h-4"></i>
+                            <span>Add Step</span>
+                        </button>
+                    </div>
+
+                    <!-- Commit Progress Indicator -->
+                    <div id="publish-progress-box" class="hidden p-4 rounded-2xl bg-sageLight border border-sage/20 flex items-center gap-3">
+                        <i data-lucide="loader-2" class="w-5 h-5 text-sage animate-spin shrink-0"></i>
+                        <div>
+                            <p id="publish-progress-title" class="text-sm font-bold text-sage">Publishing to GitHub...</p>
+                            <p id="publish-progress-sub" class="text-xs text-sage/80">Preparing commit</p>
+                        </div>
+                    </div>
+
+                    <!-- Submit Buttons -->
+                    <div class="pt-4 border-t border-stone-100 flex items-center gap-3">
+                        <button type="button" onclick="switchTab('gallery')" class="flex-1 h-12 rounded-xl bg-sand text-charcoal font-semibold text-sm hover:bg-stone-300/70 transition-colors">
+                            Cancel
+                        </button>
+                        <button type="submit" id="publish-submit-btn" class="flex-[2] h-12 rounded-xl bg-terracotta hover:bg-terracottaDark text-white font-semibold text-sm shadow-md shadow-terracotta/20 transition-all flex items-center justify-center gap-2">
+                            <i data-lucide="git-commit" class="w-4 h-4"></i>
+                            <span>Publish to GitHub</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- -----------------------------------------------------------------
+             TAB C: GITHUB CONNECTION STATUS & SECURITY
+             ----------------------------------------------------------------- -->
+        <section id="view-settings" class="hidden max-w-2xl mx-auto space-y-5">
+            <!-- Connected Repository Card -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-xs border border-stone-200/70 space-y-5">
+                <div class="flex items-start justify-between gap-4">
+                    <div class="flex items-start gap-3.5">
+                        <div class="w-11 h-11 rounded-2xl bg-sageLight text-sage flex items-center justify-center shrink-0">
+                            <i data-lucide="github" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h2 class="font-serif-title text-xl font-bold text-charcoal">GitHub Storage Connected</h2>
+                            <p id="settings-repo-path" class="text-sm font-mono text-sage font-semibold mt-0.5">owner/repo (main)</p>
+                            <p id="settings-repo-visibility" class="text-xs text-muted mt-1">Checking repository visibility...</p>
+                        </div>
+                    </div>
+                    <span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold shrink-0">Active</span>
+                </div>
+
+                <div class="bg-cream rounded-2xl p-4 border border-stone-200/70 space-y-2 text-xs text-muted">
+                    <div class="flex justify-between">
+                        <span>Recipes JSON Path:</span>
+                        <code class="text-charcoal font-semibold">data/recipes.json</code>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Images Directory:</span>
+                        <code class="text-charcoal font-semibold">images/*.jpg</code>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Recipes in Repository:</span>
+                        <strong id="settings-recipe-count" class="text-charcoal">0</strong>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                    <button onclick="fetchRecipesFromGitHub(true)" class="h-12 px-4 rounded-xl bg-charcoal hover:bg-stone-800 text-white text-sm font-semibold flex items-center justify-center gap-2 transition-colors">
+                        <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                        <span>Force Sync from GitHub</span>
+                    </button>
+
+                    <button onclick="exportRecipesJSON()" class="h-12 px-4 rounded-xl bg-sand hover:bg-stone-300/70 text-charcoal text-sm font-semibold flex items-center justify-center gap-2 transition-colors">
+                        <i data-lucide="download" class="w-4 h-4"></i>
+                        <span>Download JSON Snapshot</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Lock / Disconnect Device Card -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-xs border border-stone-200/70 space-y-4">
+                <h3 class="font-serif-title text-lg font-bold text-charcoal">Device Security & Token</h3>
+                <p class="text-xs sm:text-sm text-muted">
+                    Locking clears your saved GitHub token from this browser so you will be prompted again on next visit. Your recipes remain safely stored in your GitHub repository.
+                </p>
+                <button onclick="confirmDisconnect()" class="w-full sm:w-auto h-12 px-6 rounded-xl border border-red-200 bg-red-50/50 hover:bg-red-100/70 text-red-600 text-sm font-semibold flex items-center justify-center gap-2 transition-colors">
+                    <i data-lucide="log-out" class="w-4 h-4"></i>
+                    <span>Lock & Disconnect Device</span>
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- =====================================================================
+         4. BOTTOM MOBILE NAVIGATION BAR
+         ===================================================================== -->
+    <nav class="md:hidden fixed bottom-0 inset-x-0 z-30 bg-white/95 backdrop-blur-md border-t border-stone-200 px-2 pt-1.5 pb-safe flex items-center justify-around">
+        <button onclick="switchTab('gallery')" id="nav-mob-gallery" class="nav-mob-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-terracotta">
+            <i data-lucide="layout-grid" class="w-5 h-5"></i>
+            <span class="text-[11px] font-bold">Gallery</span>
+        </button>
+        <button onclick="switchTab('create')" id="nav-mob-create" class="nav-mob-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-muted">
+            <i data-lucide="plus-circle" class="w-5 h-5"></i>
+            <span class="text-[11px] font-semibold">New Recipe</span>
+        </button>
+        <button onclick="switchTab('settings')" id="nav-mob-settings" class="nav-mob-btn flex-1 py-1.5 flex flex-col items-center justify-center gap-1 text-muted">
+            <i data-lucide="github" class="w-5 h-5"></i>
+            <span class="text-[11px] font-semibold">GitHub</span>
+        </button>
+    </nav>
+
+    <!-- =====================================================================
+         5. RECIPE DETAIL MODAL (Full Cooking View)
+         ===================================================================== -->
+    <div id="recipe-modal" class="fixed inset-0 z-40 hidden">
+        <div onclick="closeRecipeModal()" class="modal-backdrop fixed inset-0 bg-charcoal/60 backdrop-blur-xs"></div>
+        
+        <div class="fixed inset-x-0 bottom-0 sm:inset-0 sm:flex sm:items-center sm:justify-center sm:p-4 pointer-events-none">
+            <div class="modal-panel pointer-events-auto w-full sm:max-w-2xl max-h-[92vh] bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col">
+                
+                <!-- Modal Top Image Header -->
+                <div class="relative h-56 sm:h-72 bg-sand shrink-0">
+                    <img id="modal-image" src="" alt="" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent"></div>
+                    
+                    <button onclick="closeRecipeModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 hover:bg-white text-charcoal shadow-md flex items-center justify-center transition-transform active:scale-95">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+
+                    <div class="absolute bottom-4 left-5 right-5 text-white">
+                        <span id="modal-meta" class="inline-block px-2.5 py-0.5 rounded-full bg-terracotta text-[11px] font-bold uppercase tracking-wider mb-1.5">
+                            0 Ingredients
+                        </span>
+                        <h2 id="modal-title" class="font-serif-title text-2xl sm:text-3xl font-bold leading-tight"></h2>
+                    </div>
+                </div>
+
+                <!-- Scrollable Recipe Body -->
+                <div class="p-5 sm:p-7 overflow-y-auto space-y-7 flex-1">
+                    <!-- Ingredients Checklist -->
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="font-serif-title text-lg font-bold text-charcoal flex items-center gap-2">
+                                <i data-lucide="shopping-basket" class="w-5 h-5 text-terracotta"></i>
+                                <span>Ingredients</span>
+                            </h3>
+                            <span class="text-xs text-muted">Tap to check off</span>
+                        </div>
+                        <ul id="modal-ingredients" class="space-y-2 bg-cream p-4 rounded-2xl border border-stone-200/70">
+                            <!-- Checkable items injected via JS -->
+                        </ul>
+                    </div>
+
+                    <!-- Step-by-step Instructions -->
+                    <div>
+                        <h3 class="font-serif-title text-lg font-bold text-charcoal flex items-center gap-2 mb-3">
+                            <i data-lucide="list-ordered" class="w-5 h-5 text-sage"></i>
+                            <span>Instructions</span>
+                        </h3>
+                        <ol id="modal-steps" class="space-y-4">
+                            <!-- Numbered steps injected via JS -->
+                        </ol>
+                    </div>
+
+                    <!-- Delete Recipe Action -->
+                    <div class="pt-4 border-t border-stone-100 flex justify-between items-center">
+                        <span id="modal-date" class="text-xs text-muted"></span>
+                        <button id="modal-delete-btn" class="px-4 py-2 rounded-xl text-xs font-semibold text-red-600 hover:bg-red-50 flex items-center gap-1.5 transition-colors">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            <span>Delete from GitHub</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+         6. CUSTOM CONFIRMATION MODAL & TOAST NOTIFICATION
+         ===================================================================== -->
+    <div id="confirm-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-charcoal/60 backdrop-blur-xs">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-xl border border-stone-200 text-center space-y-4">
+            <div class="w-12 h-12 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center mx-auto">
+                <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+            </div>
+            <h3 id="confirm-title" class="font-serif-title text-lg font-bold text-charcoal">Are you sure?</h3>
+            <p id="confirm-message" class="text-sm text-muted">This action cannot be undone.</p>
+            <div class="flex gap-3 pt-2">
+                <button onclick="closeConfirmModal()" class="flex-1 h-11 rounded-xl bg-sand text-charcoal text-sm font-semibold">Cancel</button>
+                <button id="confirm-action-btn" class="flex-1 h-11 rounded-xl bg-red-600 text-white text-sm font-semibold">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 transition-all duration-300 transform -translate-y-2">
+        <div class="bg-charcoal text-white px-5 py-3 rounded-2xl shadow-lg text-sm font-medium flex items-center gap-2.5">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+            <span id="toast-message">Saved!</span>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+         7. GITHUB REST API & APPLICATION LOGIC
+         ===================================================================== -->
+    <script>
+        /**
+         * PRESET CONFIGURATION
+         * You can optionally pre-fill REPO_OWNER, REPO_NAME, or change APP_PASSWORD here.
+         * Set APP_PASSWORD to "" if you only want to prompt for the GitHub Token on first visit.
+         */
+        const CONFIG = {
+            APP_PASSWORD: "chef2026",
+            REPO_OWNER: "",
+            REPO_NAME: "",
+            BRANCH: "main",
+            RECIPES_PATH: "data/recipes.json",
+            IMAGES_DIR: "images"
+        };
+
+        const STORAGE_KEY_AUTH = "atelier_gh_auth_v2";
+        const FALLBACK_IMAGE = "https://placehold.co/800x600/F2EDE4/616E7C?text=Recipe+Photo";
+
+        // Runtime State
+        let ghAuth = null; // { owner, repo, branch, token, isPrivate }
+        let recipes = [];
+        let currentRecipesSha = null;
+        let pendingPhotoBlob = null; // { base64Raw, previewUrl }
+        let privateImageCache = new Map(); // imagePath -> objectURL
+        let confirmCallback = null;
+
+        /**
+         * INITIALIZATION
+         */
+        document.addEventListener("DOMContentLoaded", () => {
+            lucide.createIcons();
+            prefillRepoFromHostname();
+            initCreateForm();
+            setupEventListeners();
+            checkAuthAndBoot();
+        });
+
+        /**
+         * Auto-detect GitHub owner & repo if hosted on https://<owner>.github.io/<repo>/
+         */
+        function prefillRepoFromHostname() {
+            const ownerInput = document.getElementById("gh-owner-input");
+            const repoInput = document.getElementById("gh-repo-input");
+            const branchInput = document.getElementById("gh-branch-input");
+
+            if (CONFIG.REPO_OWNER) ownerInput.value = CONFIG.REPO_OWNER;
+            if (CONFIG.REPO_NAME) repoInput.value = CONFIG.REPO_NAME;
+            if (CONFIG.BRANCH) branchInput.value = CONFIG.BRANCH;
+
+            const host = window.location.hostname;
+            if (host.endsWith(".github.io")) {
+                const detectedOwner = host.replace(".github.io", "");
+                const pathParts = window.location.pathname.split("/").filter(Boolean);
+                if (!ownerInput.value && detectedOwner) ownerInput.value = detectedOwner;
+                if (!repoInput.value && pathParts.length > 0) repoInput.value = pathParts[0];
+            }
+
+            if (!CONFIG.APP_PASSWORD) {
+                document.getElementById("app-password-group").classList.add("hidden");
+            }
+        }
+
+        /**
+         * 1. ONE-TIME UNLOCK & GITHUB AUTHENTICATION
+         */
+        function checkAuthAndBoot() {
+            const saved = localStorage.getItem(STORAGE_KEY_AUTH);
+            const lockScreen = document.getElementById("lock-screen");
+
+            if (saved) {
+                try {
+                    ghAuth = JSON.parse(saved);
+                    if (ghAuth && ghAuth.owner && ghAuth.repo && ghAuth.token) {
+                        lockScreen.classList.add("hidden");
+                        updateConnectedUI();
+                        fetchRecipesFromGitHub(false);
+                        return;
+                    }
+                } catch (e) {
+                    localStorage.removeItem(STORAGE_KEY_AUTH);
+                }
+            }
+
+            // Show first-time unlock screen
+            lockScreen.classList.remove("hidden");
+        }
+
+        document.getElementById("unlock-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const errorMsg = document.getElementById("password-error");
+            const submitBtn = document.getElementById("unlock-submit-btn");
+            errorMsg.classList.add("hidden");
+
+            const passVal = document.getElementById("password-input").value.trim();
+            const owner = document.getElementById("gh-owner-input").value.trim();
+            const repo = document.getElementById("gh-repo-input").value.trim();
+            const branch = document.getElementById("gh-branch-input").value.trim() || "main";
+            const token = document.getElementById("gh-token-input").value.trim();
+
+            if (CONFIG.APP_PASSWORD && passVal !== CONFIG.APP_PASSWORD) {
+                errorMsg.textContent = "Incorrect kitchen passcode.";
+                errorMsg.classList.remove("hidden");
+                return;
+            }
+
+            if (!owner || !repo || !token) {
+                errorMsg.textContent = "Please fill in GitHub username, repository, and token.";
+                errorMsg.classList.remove("hidden");
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i><span>Verifying GitHub Access...</span>`;
+            lucide.createIcons();
+
+            try {
+                // Verify repository access and permissions via GitHub REST API
+                const repoInfo = await githubRequest(`https://api.github.com/repos/${owner}/${repo}`, {
+                    token
+                });
+
+                if (repoInfo.permissions && repoInfo.permissions.push === false) {
+                    throw new Error("Token does not have write (Contents: Read & Write) permission on this repo.");
+                }
+
+                ghAuth = {
+                    owner,
+                    repo,
+                    branch,
+                    token,
+                    isPrivate: Boolean(repoInfo.private)
+                };
+
+                localStorage.setItem(STORAGE_KEY_AUTH, JSON.stringify(ghAuth));
+
+                const lockScreen = document.getElementById("lock-screen");
+                lockScreen.classList.add("opacity-0");
+                setTimeout(() => {
+                    lockScreen.classList.add("hidden");
+                    lockScreen.classList.remove("opacity-0");
+                }, 300);
+
+                updateConnectedUI();
+                showToast(`Connected to ${owner}/${repo}!`);
+                await fetchRecipesFromGitHub(false);
+
+            } catch (err) {
+                errorMsg.textContent = err.message || "Could not connect to GitHub. Check repo name & token.";
+                errorMsg.classList.remove("hidden");
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<i data-lucide="github" class="w-4 h-4"></i><span>Connect & Unlock Kitchen</span>`;
+                lucide.createIcons();
+            }
+        });
+
+        function updateConnectedUI() {
+            if (!ghAuth) return;
+            document.getElementById("header-repo-label").textContent = `${ghAuth.owner}/${ghAuth.repo}`;
+            document.getElementById("settings-repo-path").textContent = `${ghAuth.owner}/${ghAuth.repo} (${ghAuth.branch})`;
+            document.getElementById("settings-repo-visibility").textContent = ghAuth.isPrivate
+                ? "Private repository (images authenticated via GitHub API)"
+                : "Public repository (fast raw GitHub image delivery)";
+        }
+
+        function confirmDisconnect() {
+            openConfirmModal(
+                "Lock & Disconnect Device?",
+                "Your saved GitHub token will be removed from this browser. Your recipes remain safely in GitHub.",
+                () => {
+                    localStorage.removeItem(STORAGE_KEY_AUTH);
+                    ghAuth = null;
+                    recipes = [];
+                    currentRecipesSha = null;
+                    document.getElementById("gh-token-input").value = "";
+                    document.getElementById("password-input").value = "";
+                    switchTab("gallery");
+                    checkAuthAndBoot();
+                }
+            );
+        }
+
+        /**
+         * 2. GITHUB REST API HELPERS (UTF-8 Base64 & Contents API)
+         */
+        async function githubRequest(url, { method = "GET", token = ghAuth?.token, body = null } = {}) {
+            const headers = {
+                "Accept": "application/vnd.github+json",
+                "X-GitHub-Api-Version": "2022-11-28"
+            };
+            if (token) {
+                headers["Authorization"] = `Bearer ${token}`;
+            }
+            if (body) {
+                headers["Content-Type"] = "application/json";
+            }
+
+            const response = await fetch(url, {
+                method,
+                headers,
+                body: body ? JSON.stringify(body) : null,
+                cache: "no-store"
+            });
+
+            if (response.status === 404) {
+                const err404 = new Error("Not Found");
+                err404.status = 404;
+                throw err404;
+            }
+
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok) {
+                const err = new Error(data.message || `GitHub API error (${response.status})`);
+                err.status = response.status;
+                throw err;
+            }
+            return data;
+        }
+
+        function utf8ToBase64(str) {
+            const bytes = new TextEncoder().encode(str);
+            let binary = "";
+            for (let i = 0; i < bytes.byteLength; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            return btoa(binary);
+        }
+
+        function base64ToUtf8(b64) {
+            const clean = b64.replace(/\s/g, "");
+            const binary = atob(clean);
+            const bytes = new Uint8Array(binary.length);
+            for (let i = 0; i < binary.length; i++) {
+                bytes[i] = binary.charCodeAt(i);
+            }
+            return new TextDecoder().decode(bytes);
+        }
+
+        function getRawGitHubUrl(path) {
+            return `https://raw.githubusercontent.com/${ghAuth.owner}/${ghAuth.repo}/${ghAuth.branch}/${path}`;
+        }
+
+        /**
+         * Resolves a recipe image for display:
+         * - External URLs load directly.
+         * - Public repo paths use raw.githubusercontent.com.
+         * - Private repo paths fetch via GitHub Contents API and create a cached Blob URL.
+         */
+        async function resolveRecipeImageSrc(recipe) {
+            if (recipe.imageUrl && !recipe.imagePath) {
+                return recipe.imageUrl;
+            }
+            if (!recipe.imagePath) {
+                return recipe.image || FALLBACK_IMAGE;
+            }
+            if (!ghAuth.isPrivate) {
+                return recipe.imageUrl || getRawGitHubUrl(recipe.imagePath);
+            }
+
+            if (privateImageCache.has(recipe.imagePath)) {
+                return privateImageCache.get(recipe.imagePath);
+            }
+
+            try {
+                const apiUrl = `https://api.github.com/repos/${ghAuth.owner}/${ghAuth.repo}/contents/${recipe.imagePath}?ref=${encodeURIComponent(ghAuth.branch)}`;
+                const fileData = await githubRequest(apiUrl);
+                if (fileData && fileData.content) {
+                    const cleanB64 = fileData.content.replace(/\s/g, "");
+                    const dataUrl = `data:image/jpeg;base64,${cleanB64}`;
+                    privateImageCache.set(recipe.imagePath, dataUrl);
+                    return dataUrl;
+                }
+            } catch (e) {
+                console.warn("Could not load private image:", recipe.imagePath, e);
+            }
+            return FALLBACK_IMAGE;
+        }
+
+        /**
+         * 3. FETCH & COMMIT RECIPES ON GITHUB (data/recipes.json)
+         */
+        async function fetchRecipesFromGitHub(showFeedback = false) {
+            if (!ghAuth) return;
+
+            const skeleton = document.getElementById("loading-skeleton");
+            const grid = document.getElementById("recipe-grid");
+            const syncIcon = document.getElementById("header-sync-icon");
+
+            syncIcon.classList.add("animate-spin");
+            if (recipes.length === 0) {
+                skeleton.classList.remove("hidden");
+                grid.classList.add("hidden");
+            }
+
+            try {
+                const url = `https://api.github.com/repos/${ghAuth.owner}/${ghAuth.repo}/contents/${CONFIG.RECIPES_PATH}?ref=${encodeURIComponent(ghAuth.branch)}&t=${Date.now()}`;
+                const fileData = await githubRequest(url);
+                currentRecipesSha = fileData.sha;
+
+                const decodedJson = base64ToUtf8(fileData.content);
+                const parsed = JSON.parse(decodedJson);
+                recipes = Array.isArray(parsed) ? parsed : [];
+
+                if (showFeedback) showToast("Synced latest recipes from GitHub!");
+            } catch (err) {
+                if (err.status === 404) {
+                    // File doesn't exist yet in repo — start with empty list
+                    recipes = [];
+                    currentRecipesSha = null;
+                    if (showFeedback) showToast("Connected! Add your first recipe to initialize data/recipes.json.");
+                } else {
+                    showToast(`Sync failed: ${err.message}`);
+                }
+            } finally {
+                syncIcon.classList.remove("animate-spin");
+                skeleton.classList.add("hidden");
+                grid.classList.remove("hidden");
+                document.getElementById("settings-recipe-count").textContent = recipes.length;
+                renderGallery();
+            }
+        }
+
+        async function commitRecipesToGitHub(updatedList, commitMessage) {
+            const url = `https://api.github.com/repos/${ghAuth.owner}/${ghAuth.repo}/contents/${CONFIG.RECIPES_PATH}`;
+
+            // Always fetch latest SHA right before writing to prevent merge/SHA conflicts
+            let latestSha = currentRecipesSha;
+            try {
+                const latestFile = await githubRequest(`${url}?ref=${encodeURIComponent(ghAuth.branch)}&t=${Date.now()}`);
+                latestSha = latestFile.sha;
+            } catch (err) {
+                if (err.status === 404) {
+                    latestSha = null;
+                } else {
+                    throw err;
+                }
+            }
+
+            const body = {
+                message: commitMessage,
+                content: utf8ToBase64(JSON.stringify(updatedList, null, 2)),
+                branch: ghAuth.branch
+            };
+            if (latestSha) {
+                body.sha = latestSha;
+            }
+
+            const res = await githubRequest(url, {
+                method: "PUT",
+                body
+            });
+
+            currentRecipesSha = res.content.sha;
+            recipes = updatedList;
+            document.getElementById("settings-recipe-count").textContent = recipes.length;
+            renderGallery();
+        }
+
+        async function uploadImageToGitHub(imagePath, base64Raw, title) {
+            const url = `https://api.github.com/repos/${ghAuth.owner}/${ghAuth.repo}/contents/${imagePath}`;
+            await githubRequest(url, {
+                method: "PUT",
+                body: {
+                    message: `Add recipe photo for ${title}`,
+                    content: base64Raw,
+                    branch: ghAuth.branch
+                }
+            });
+        }
+
+        async function deleteFileFromGitHub(filePath, commitMessage) {
+            const url = `https://api.github.com/repos/${ghAuth.owner}/${ghAuth.repo}/contents/${filePath}`;
+            const fileInfo = await githubRequest(`${url}?ref=${encodeURIComponent(ghAuth.branch)}`);
+            await githubRequest(url, {
+                method: "DELETE",
+                body: {
+                    message: commitMessage,
+                    sha: fileInfo.sha,
+                    branch: ghAuth.branch
+                }
+            });
+        }
+
+        /**
+         * 4. GALLERY VIEW & REAL-TIME SEARCH
+         */
+        function renderGallery() {
+            const query = document.getElementById("search-input").value.trim().toLowerCase();
+            const clearBtn = document.getElementById("clear-search-btn");
+            clearBtn.classList.toggle("hidden", query.length === 0);
+
+            const filtered = recipes.filter(recipe => {
+                if (!query) return true;
+                const matchTitle = recipe.title.toLowerCase().includes(query);
+                const matchIngredient = recipe.ingredients.some(ing => ing.toLowerCase().includes(query));
+                return matchTitle || matchIngredient;
+            });
+
+            const grid = document.getElementById("recipe-grid");
+            const emptyState = document.getElementById("empty-state");
+            const countBadge = document.getElementById("recipe-count-badge");
+
+            countBadge.textContent = `${filtered.length} ${filtered.length === 1 ? 'Recipe' : 'Recipes'}`;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = "";
+                emptyState.classList.remove("hidden");
+                const emptyTitle = document.getElementById("empty-state-title");
+                const emptyDesc = document.getElementById("empty-state-desc");
+                const emptyClear = document.getElementById("empty-clear-btn");
+
+                if (recipes.length === 0) {
+                    emptyTitle.textContent = "Your GitHub cookbook is empty";
+                    emptyDesc.textContent = "Create your first recipe to commit it directly to your repository.";
+                    emptyClear.classList.add("hidden");
+                } else {
+                    emptyTitle.textContent = "No matching recipes found";
+                    emptyDesc.textContent = `No titles or ingredients matched "${query}".`;
+                    emptyClear.classList.remove("hidden");
+                }
+                return;
+            }
+
+            emptyState.classList.add("hidden");
+            grid.innerHTML = filtered.map(recipe => {
+                let matchedIngBadge = "";
+                if (query) {
+                    const matchedIng = recipe.ingredients.find(i => i.toLowerCase().includes(query));
+                    if (matchedIng && !recipe.title.toLowerCase().includes(query)) {
+                        matchedIngBadge = `<span class="inline-block mt-2 px-2.5 py-1 rounded-lg bg-sageLight text-sage text-[11px] font-semibold truncate max-w-full">Match: ${escapeHTML(matchedIng)}</span>`;
+                    }
+                }
+
+                const initialSrc = (!ghAuth?.isPrivate && (recipe.imageUrl || recipe.image))
+                    ? (recipe.imageUrl || recipe.image)
+                    : FALLBACK_IMAGE;
+
+                return `
+                    <article onclick="openRecipeModal('${recipe.id}')" class="group bg-white rounded-3xl overflow-hidden border border-stone-200/80 shadow-xs hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer flex flex-col">
+                        <div class="relative h-48 bg-sand overflow-hidden">
+                            <img 
+                                id="card-img-${recipe.id}"
+                                src="${escapeHTML(initialSrc)}" 
+                                alt="${escapeHTML(recipe.title)}" 
+                                onerror="this.onerror=null;this.src='${FALLBACK_IMAGE}';"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            >
+                            <div class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-xs text-charcoal text-xs font-bold shadow-xs">
+                                ${recipe.ingredients.length} ingr. • ${recipe.steps.length} steps
+                            </div>
+                        </div>
+                        <div class="p-5 flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-serif-title text-lg font-bold text-charcoal group-hover:text-terracotta transition-colors line-clamp-2">
+                                    ${escapeHTML(recipe.title)}
+                                </h3>
+                                <p class="text-xs text-muted mt-1.5 line-clamp-2">
+                                    ${escapeHTML(recipe.ingredients.slice(0, 4).join(" • "))}
+                                </p>
+                                ${matchedIngBadge}
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between text-xs">
+                                <span class="text-muted">${escapeHTML(recipe.createdAt || "")}</span>
+                                <span class="font-semibold text-terracotta flex items-center gap-1">
+                                    Cook <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join("");
+
+            lucide.createIcons();
+
+            // Hydrate private repo images asynchronously via GitHub API
+            if (ghAuth?.isPrivate) {
+                filtered.forEach(async (recipe) => {
+                    if (recipe.imagePath) {
+                        const resolved = await resolveRecipeImageSrc(recipe);
+                        const imgEl = document.getElementById(`card-img-${recipe.id}`);
+                        if (imgEl) imgEl.src = resolved;
+                    }
+                });
+            }
+        }
+
+        function quickFilter(term) {
+            const searchInput = document.getElementById("search-input");
+            searchInput.value = term;
+            renderGallery();
+        }
+
+        function clearSearch() {
+            const searchInput = document.getElementById("search-input");
+            searchInput.value = "";
+            renderGallery();
+        }
+
+        /**
+         * 5. RECIPE DETAIL MODAL & DELETE FROM GITHUB
+         */
+        async function openRecipeModal(id) {
+            const recipe = recipes.find(r => r.id === id);
+            if (!recipe) return;
+
+            const modal = document.getElementById("recipe-modal");
+            const imgEl = document.getElementById("modal-image");
+            imgEl.src = FALLBACK_IMAGE;
+            resolveRecipeImageSrc(recipe).then(src => { imgEl.src = src; });
+
+            document.getElementById("modal-title").textContent = recipe.title;
+            document.getElementById("modal-meta").textContent = `${recipe.ingredients.length} Ingredients • ${recipe.steps.length} Steps`;
+            document.getElementById("modal-date").textContent = recipe.createdAt ? `Committed ${recipe.createdAt}` : "";
+
+            const ingList = document.getElementById("modal-ingredients");
+            ingList.innerHTML = recipe.ingredients.map(ing => `
+                <li onclick="toggleIngredientCheck(this)" class="flex items-start gap-3 p-2 rounded-xl hover:bg-white cursor-pointer transition-colors select-none">
+                    <div class="w-5 h-5 rounded-md border-2 border-terracotta/60 flex items-center justify-center shrink-0 mt-0.5 check-box transition-colors">
+                        <i data-lucide="check" class="w-3.5 h-3.5 text-white hidden check-icon"></i>
+                    </div>
+                    <span class="text-sm text-charcoal leading-snug ing-text">${escapeHTML(ing)}</span>
+                </li>
+            `).join("");
+
+            const stepsList = document.getElementById("modal-steps");
+            stepsList.innerHTML = recipe.steps.map((step, idx) => `
+                <li class="flex gap-3.5">
+                    <span class="w-7 h-7 rounded-full bg-sageLight text-sage font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
+                        ${idx + 1}
+                    </span>
+                    <p class="text-sm sm:text-base text-charcoal leading-relaxed">${escapeHTML(step)}</p>
+                </li>
+            `).join("");
+
+            document.getElementById("modal-delete-btn").onclick = () => {
+                openConfirmModal(
+                    "Delete from GitHub?",
+                    `This will remove "${recipe.title}" from data/recipes.json${recipe.imagePath ? " and delete its photo from GitHub" : ""}.`,
+                    async () => {
+                        closeRecipeModal();
+                        showToast("Deleting recipe from GitHub...");
+                        try {
+                            const remaining = recipes.filter(r => r.id !== recipe.id);
+                            await commitRecipesToGitHub(remaining, `Delete recipe: ${recipe.title}`);
+                            if (recipe.imagePath) {
+                                await deleteFileFromGitHub(recipe.imagePath, `Delete photo for ${recipe.title}`).catch(() => {});
+                            }
+                            showToast("Deleted from GitHub!");
+                        } catch (err) {
+                            showToast(`Delete failed: ${err.message}`);
+                        }
+                    }
+                );
+            };
+
+            modal.classList.remove("hidden");
+            document.body.style.overflow = "hidden";
+            lucide.createIcons();
+        }
+
+        function toggleIngredientCheck(liElement) {
+            const box = liElement.querySelector(".check-box");
+            const icon = liElement.querySelector(".check-icon");
+            const text = liElement.querySelector(".ing-text");
+
+            const isChecked = box.classList.toggle("bg-terracotta");
+            box.classList.toggle("border-terracotta", isChecked);
+            icon.classList.toggle("hidden", !isChecked);
+            text.classList.toggle("ingredient-checked", isChecked);
+        }
+
+        function closeRecipeModal() {
+            document.getElementById("recipe-modal").classList.add("hidden");
+            document.body.style.overflow = "";
+        }
+
+        /**
+         * 6. CREATE NEW RECIPE TAB (Compresses photo & commits to GitHub)
+         */
+        function initCreateForm() {
+            resetCreateForm();
+        }
+
+        function resetCreateForm() {
+            document.getElementById("create-recipe-form").reset();
+            clearImageSelection();
+            
+            const ingList = document.getElementById("ingredients-list");
+            ingList.innerHTML = "";
+            addIngredientRow("e.g., 2 tbsp olive oil", "");
+            addIngredientRow("e.g., 3 cloves garlic, minced", "");
+
+            const stepsList = document.getElementById("steps-list");
+            stepsList.innerHTML = "";
+            addStepRow("");
+            addStepRow("");
+        }
+
+        function addIngredientRow(placeholderText = "e.g., 1 tsp sea salt", valueText = "", focusNew = false) {
+            const list = document.getElementById("ingredients-list");
+            const row = document.createElement("div");
+            row.className = "flex items-center gap-2";
+            row.innerHTML = `
+                <input 
+                    type="text" 
+                    name="ingredient[]" 
+                    value="${escapeHTML(valueText)}"
+                    placeholder="${escapeHTML(placeholderText)}"
+                    class="flex-1 h-11 px-3.5 rounded-xl bg-cream border border-stone-200 text-sm focus:outline-none focus:ring-2 focus:ring-terracotta focus:bg-white"
+                >
+                <button type="button" onclick="this.parentElement.remove()" class="w-11 h-11 rounded-xl text-muted hover:text-red-600 hover:bg-red-50 flex items-center justify-center shrink-0 transition-colors" title="Remove">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+            `;
+            const input = row.querySelector("input");
+            input.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    addIngredientRow("Next ingredient...", "", true);
+                }
+            });
+            list.appendChild(row);
+            lucide.createIcons();
+            if (focusNew) input.focus();
+        }
+
+        function toggleBulkIngredients() {
+            document.getElementById("bulk-ingredients-box").classList.toggle("hidden");
+        }
+
+        function applyBulkIngredients() {
+            const textarea = document.getElementById("bulk-ingredients-text");
+            const lines = textarea.value.split("\n").map(l => l.trim()).filter(Boolean);
+            if (lines.length > 0) {
+                document.querySelectorAll('input[name="ingredient[]"]').forEach(inp => {
+                    if (!inp.value.trim()) inp.parentElement.remove();
+                });
+                lines.forEach(line => addIngredientRow("", line));
+            }
+            textarea.value = "";
+            toggleBulkIngredients();
+        }
+
+        function addStepRow(valueText = "", focusNew = false) {
+            const list = document.getElementById("steps-list");
+            const stepNum = list.children.length + 1;
+            const row = document.createElement("div");
+            row.className = "flex items-start gap-2";
+            row.innerHTML = `
+                <span class="step-badge w-7 h-7 rounded-full bg-sand text-charcoal font-bold text-xs flex items-center justify-center shrink-0 mt-2">
+                    ${stepNum}
+                </span>
+                <textarea 
+                    name="step[]" 
+                    rows="2" 
+                    placeholder="Describe step ${stepNum}..."
+                    class="flex-1 p-3 rounded-xl bg-cream border border-stone-200 text-sm focus:outline-none focus:ring-2 focus:ring-terracotta focus:bg-white"
+                >${escapeHTML(valueText)}</textarea>
+                <button type="button" onclick="removeStepRow(this)" class="w-10 h-10 rounded-xl text-muted hover:text-red-600 hover:bg-red-50 flex items-center justify-center shrink-0 mt-1 transition-colors" title="Remove step">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+            `;
+            list.appendChild(row);
+            lucide.createIcons();
+            if (focusNew) row.querySelector("textarea").focus();
+        }
+
+        function removeStepRow(btn) {
+            btn.parentElement.remove();
+            document.querySelectorAll("#steps-list .step-badge").forEach((badge, i) => {
+                badge.textContent = i + 1;
+            });
+        }
+
+        function setupImageHandlers() {
+            const urlInput = document.getElementById("recipe-image-url");
+            const fileInput = document.getElementById("recipe-image-file");
+
+            urlInput.addEventListener("input", () => {
+                pendingPhotoBlob = null;
+                const url = urlInput.value.trim();
+                if (url) {
+                    showImagePreview(url, "External image URL");
+                } else {
+                    clearImageSelection();
+                }
+            });
+
+            fileInput.addEventListener("change", (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                urlInput.value = "";
+                compressImageForGitHub(file, 1000, 0.82, ({ base64Raw, previewUrl, sizeKB }) => {
+                    pendingPhotoBlob = { base64Raw, previewUrl };
+                    showImagePreview(previewUrl, `Compressed (${sizeKB} KB) • Will upload to GitHub`);
+                });
+            });
+        }
+
+        function showImagePreview(src, labelText) {
+            const container = document.getElementById("image-preview-container");
+            const img = document.getElementById("image-preview");
+            const badge = document.getElementById("image-badge-info");
+            img.src = src;
+            badge.textContent = labelText;
+            container.classList.remove("hidden");
+        }
+
+        function clearImageSelection() {
+            pendingPhotoBlob = null;
+            document.getElementById("recipe-image-url").value = "";
+            document.getElementById("recipe-image-file").value = "";
+            document.getElementById("image-preview-container").classList.add("hidden");
+        }
+
+        function compressImageForGitHub(file, maxWidth, quality, callback) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement("canvas");
+                    let width = img.width;
+                    let height = img.height;
+                    if (width > maxWidth) {
+                        height = Math.round((height * maxWidth) / width);
+                        width = maxWidth;
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0, width, height);
+                    const dataUrl = canvas.toDataURL("image/jpeg", quality);
+                    const base64Raw = dataUrl.split(",")[1];
+                    const sizeKB = Math.round((base64Raw.length * 3) / 4 / 1024);
+                    callback({ base64Raw, previewUrl: dataUrl, sizeKB });
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function slugify(text) {
+            return text
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/[^a-z0-9]+/g, "-")
+                .replace(/(^-|-$)/g, "") || "recipe";
+        }
+
+        // Submit & Commit to GitHub
+        document.getElementById("create-recipe-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            if (!ghAuth) return;
+
+            const title = document.getElementById("recipe-title").value.trim();
+            const externalUrl = document.getElementById("recipe-image-url").value.trim();
+
+            const ingredients = Array.from(document.querySelectorAll('input[name="ingredient[]"]'))
+                .map(i => i.value.trim())
+                .filter(Boolean);
+
+            const steps = Array.from(document.querySelectorAll('textarea[name="step[]"]'))
+                .map(s => s.value.trim())
+                .filter(Boolean);
+
+            if (!title) return showToast("Please enter a recipe title");
+            if (ingredients.length === 0) return showToast("Add at least one ingredient");
+            if (steps.length === 0) return showToast("Add at least one preparation step");
+
+            const progressBox = document.getElementById("publish-progress-box");
+            const progressTitle = document.getElementById("publish-progress-title");
+            const progressSub = document.getElementById("publish-progress-sub");
+            const submitBtn = document.getElementById("publish-submit-btn");
+
+            progressBox.classList.remove("hidden");
+            submitBtn.disabled = true;
+
+            try {
+                let imagePath = "";
+                let imageUrl = externalUrl || FALLBACK_IMAGE;
+
+                // Step 1: Upload photo file to GitHub images/ folder if selected
+                if (pendingPhotoBlob) {
+                    const fileName = `${slugify(title)}-${Date.now()}.jpg`;
+                    imagePath = `${CONFIG.IMAGES_DIR}/${fileName}`;
+                    progressTitle.textContent = "Uploading photo to GitHub...";
+                    progressSub.textContent = `Committing ${imagePath}`;
+
+                    await uploadImageToGitHub(imagePath, pendingPhotoBlob.base64Raw, title);
+                    imageUrl = getRawGitHubUrl(imagePath);
+
+                    if (ghAuth.isPrivate) {
+                        privateImageCache.set(imagePath, pendingPhotoBlob.previewUrl);
+                    }
+                }
+
+                // Step 2: Commit updated recipe list to data/recipes.json
+                progressTitle.textContent = "Saving recipe to GitHub...";
+                progressSub.textContent = `Committing ${CONFIG.RECIPES_PATH}`;
+
+                const newRecipe = {
+                    id: "rec_" + Date.now(),
+                    title,
+                    imagePath,
+                    imageUrl,
+                    ingredients,
+                    steps,
+                    createdAt: new Date().toISOString().split("T")[0]
+                };
+
+                const updatedList = [newRecipe, ...recipes];
+                await commitRecipesToGitHub(updatedList, `Add recipe: ${title}`);
+
+                resetCreateForm();
+                switchTab("gallery");
+                showToast("Published directly to GitHub!");
+
+            } catch (err) {
+                showToast(`GitHub Error: ${err.message}`);
+            } finally {
+                progressBox.classList.add("hidden");
+                submitBtn.disabled = false;
+            }
+        });
+
+        /**
+         * 7. NAVIGATION & SNAPSHOT EXPORT
+         */
+        function switchTab(tabName) {
+            ["gallery", "create", "settings"].forEach(name => {
+                document.getElementById(`view-${name}`).classList.add("hidden");
+            });
+            document.getElementById(`view-${tabName}`).classList.remove("hidden");
+
+            document.querySelectorAll(".nav-desk-btn").forEach(btn => {
+                btn.classList.remove("bg-white", "text-charcoal", "shadow-sm");
+                btn.classList.add("text-muted");
+            });
+            const activeDesk = document.getElementById(`nav-desk-${tabName}`);
+            if (activeDesk) {
+                activeDesk.classList.add("bg-white", "text-charcoal", "shadow-sm");
+                activeDesk.classList.remove("text-muted");
+            }
+
+            document.querySelectorAll(".nav-mob-btn").forEach(btn => {
+                btn.classList.remove("text-terracotta");
+                btn.classList.add("text-muted");
+            });
+            const activeMob = document.getElementById(`nav-mob-${tabName}`);
+            if (activeMob) {
+                activeMob.classList.add("text-terracotta");
+                activeMob.classList.remove("text-muted");
+            }
+
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        function exportRecipesJSON() {
+            const dataStr = JSON.stringify(recipes, null, 2);
+            const blob = new Blob([dataStr], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "recipes.json";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast("Downloaded recipes.json");
+        }
+
+        /**
+         * 8. UTILITIES
+         */
+        function setupEventListeners() {
+            document.getElementById("search-input").addEventListener("input", renderGallery);
+            setupImageHandlers();
+            
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape") {
+                    closeRecipeModal();
+                    closeConfirmModal();
+                }
+            });
+        }
+
+        function openConfirmModal(title, message, onConfirm) {
+            document.getElementById("confirm-title").textContent = title;
+            document.getElementById("confirm-message").textContent = message;
+            confirmCallback = onConfirm;
+            const modal = document.getElementById("confirm-modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        }
+
+        function closeConfirmModal() {
+            const modal = document.getElementById("confirm-modal");
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+            confirmCallback = null;
+        }
+
+        document.getElementById("confirm-action-btn").addEventListener("click", () => {
+            if (confirmCallback) confirmCallback();
+            closeConfirmModal();
+        });
+
+        function showToast(msg) {
+            const toast = document.getElementById("toast");
+            document.getElementById("toast-message").textContent = msg;
+            toast.classList.remove("opacity-0", "-translate-y-2");
+            setTimeout(() => {
+                toast.classList.add("opacity-0", "-translate-y-2");
+            }, 2800);
+        }
+
+        function escapeHTML(str) {
+            if (!str) return "";
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
