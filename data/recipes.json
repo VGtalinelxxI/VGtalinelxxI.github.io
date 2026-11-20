@@ -1,10 +1,21 @@
 [
   {
+    "id": "chocolate-mwpiheec",
+    "title": "Chocolate",
+    "image": null,
+    "ingredients": [],
+    "steps": [],
+    "createdAt": "2026-11-20T21:49:04.164Z"
+  },
+  {
     "id": "quiche-lorraine-mwphz0jh",
     "title": "Quiche lorraine",
     "image": "images/quiche-lorraine-mwphz0jh.jpg",
     "ingredients": [
-      "Oeuf"
+      {
+        "ingredientId": "oeuf",
+        "quantity": ""
+      }
     ],
     "steps": [
       "Idk"
@@ -16,9 +27,18 @@
     "title": "Vin chaud",
     "image": "images/vin-chaud-mwphu0w9.jpg",
     "ingredients": [
-      "Cannelle",
-      "Vin",
-      "Girofle"
+      {
+        "ingredientId": "cannelle",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "vin",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "girofle",
+        "quantity": ""
+      }
     ],
     "steps": [
       "Chauffe la gnole"
@@ -30,8 +50,14 @@
     "title": "Inked fish",
     "image": "images/inked-fish-mwphqcj9.jpg",
     "ingredients": [
-      "fish",
-      "ink"
+      {
+        "ingredientId": "fish",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "ink",
+        "quantity": ""
+      }
     ],
     "steps": [
       "ink the fish"
