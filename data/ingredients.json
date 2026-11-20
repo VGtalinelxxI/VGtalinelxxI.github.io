@@ -70,5 +70,17 @@
   {
     "id": "concombre",
     "name": "Concombre"
+  },
+  {
+    "id": "lardons",
+    "name": "Lardons"
+  },
+  {
+    "id": "pate-feuilletee",
+    "name": "Pâte feuilletée"
+  },
+  {
+    "id": "lait",
+    "name": "Lait"
   }
 ]
