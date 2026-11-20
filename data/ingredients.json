@@ -22,5 +22,25 @@
   {
     "id": "ink",
     "name": "Ink"
+  },
+  {
+    "id": "vermicelle",
+    "name": "Vermicelle"
+  },
+  {
+    "id": "jaune-d-oeuf",
+    "name": "Jaune d'Oeuf"
+  },
+  {
+    "id": "bouillon-volaille",
+    "name": "Bouillon volaille"
+  },
+  {
+    "id": "creme",
+    "name": "Crème"
+  },
+  {
+    "id": "ail",
+    "name": "Ail"
   }
 ]
