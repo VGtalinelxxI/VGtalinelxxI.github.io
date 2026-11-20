@@ -1,1 +1,53 @@
-[]
+[
+  {
+    "id": "curry-mwpi1zng",
+    "title": "Curry",
+    "image": "images/curry-mwpi1zng.jpg",
+    "ingredients": [
+      "None"
+    ],
+    "steps": [
+      "None"
+    ],
+    "createdAt": "2026-11-20T21:37:05.212Z"
+  },
+  {
+    "id": "quiche-lorraine-mwphz0jh",
+    "title": "Quiche lorraine",
+    "image": "images/quiche-lorraine-mwphz0jh.jpg",
+    "ingredients": [
+      "Oeuf"
+    ],
+    "steps": [
+      "Idk"
+    ],
+    "createdAt": "2026-11-20T21:34:46.397Z"
+  },
+  {
+    "id": "vin-chaud-mwphu0w9",
+    "title": "Vin chaud",
+    "image": "images/vin-chaud-mwphu0w9.jpg",
+    "ingredients": [
+      "Cannelle",
+      "Vin",
+      "Girofle"
+    ],
+    "steps": [
+      "Chauffe la gnole"
+    ],
+    "createdAt": "2026-11-20T21:30:53.577Z"
+  },
+  {
+    "id": "inked-fish-mwphqcj9",
+    "title": "Inked fish",
+    "image": "images/inked-fish-mwphqcj9.jpg",
+    "ingredients": [
+      "fish",
+      "ink"
+    ],
+    "steps": [
+      "ink the fish"
+    ],
+    "createdAt": "2026-11-20T21:28:02.037Z"
+  }
+]
