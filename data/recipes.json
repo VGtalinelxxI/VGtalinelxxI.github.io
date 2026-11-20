@@ -1,5 +1,19 @@
 [
   {
+    "id": "vin-chaud-mwphu0w9",
+    "title": "Vin chaud",
+    "image": "images/vin-chaud-mwphu0w9.jpg",
+    "ingredients": [
+      "Cannelle",
+      "Vin",
+      "Girofle"
+    ],
+    "steps": [
+      "Chauffe la gnole"
+    ],
+    "createdAt": "2026-11-20T21:30:53.577Z"
+  },
+  {
     "id": "inked-fish-mwphqcj9",
     "title": "Inked fish",
     "image": "images/inked-fish-mwphqcj9.jpg",
