@@ -75,13 +75,30 @@
     "ingredients": [
       {
         "ingredientId": "oeuf",
+        "quantity": "3"
+      },
+      {
+        "ingredientId": "lardons",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "pate-feuilletee",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "creme",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "lait",
         "quantity": ""
       }
     ],
     "steps": [
       "Idk"
     ],
-    "createdAt": "2026-11-20T21:34:46.397Z"
+    "createdAt": "2026-11-20T21:34:46.397Z",
+    "updatedAt": "2026-11-20T22:41:47.565Z"
   },
   {
     "id": "vin-chaud-mwphu0w9",
