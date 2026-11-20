@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "id": "inked-fish-mwphqcj9",
+    "title": "Inked fish",
+    "image": "images/inked-fish-mwphqcj9.jpg",
+    "ingredients": [
+      "fish",
+      "ink"
+    ],
+    "steps": [
+      "ink the fish"
+    ],
+    "createdAt": "2026-11-20T21:28:02.037Z"
+  }
+]
