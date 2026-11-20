@@ -1,5 +1,42 @@
 [
   {
+    "id": "fish-on-rice-mwpk252g",
+    "title": "Fish on rice",
+    "image": "images/fish-on-rice-mwpk252g.jpg",
+    "ingredients": [
+      {
+        "ingredientId": "sardines",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "algue-nori",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "cornichon",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "moutarde-a-l-ancienne",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "betterave",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "riz-sushi",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "concombre",
+        "quantity": ""
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-20T22:33:11.464Z"
+  },
+  {
     "id": "potage-a-la-reine-mwpjd1ar",
     "title": "Potage a la reine",
     "image": "images/potage-a-la-reine-mwpjd1ar.jpg",
