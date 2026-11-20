@@ -46,7 +46,7 @@
         "quantity": ""
       },
       {
-        "ingredientId": "jaune-d-oeuf",
+        "ingredientId": "oeuf",
         "quantity": "2"
       },
       {
@@ -62,8 +62,11 @@
         "quantity": ""
       }
     ],
-    "steps": [],
-    "createdAt": "2026-11-20T22:13:40.179Z"
+    "steps": [
+      "Mélanger les jaunes dans la crème et eau froide avant d'incorporer !"
+    ],
+    "createdAt": "2026-11-20T22:13:40.179Z",
+    "updatedAt": "2026-11-20T22:39:18.772Z"
   },
   {
     "id": "quiche-lorraine-mwphz0jh",
