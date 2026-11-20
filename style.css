@@ -1,0 +1,247 @@
+:root {
+  --bg: #fffaf5;
+  --surface: #ffffff;
+  --text: #2a1f1a;
+  --muted: #7a6a60;
+  --accent: #c2410c;
+  --accent-text: #ffffff;
+  --border: #ecdfd3;
+  --danger: #b91c1c;
+  --shadow: 0 2px 10px rgba(80, 40, 10, .08);
+  --radius: 14px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #17120f;
+    --surface: #231c18;
+    --text: #f5ebe3;
+    --muted: #a8998e;
+    --accent: #f97316;
+    --accent-text: #1a0e05;
+    --border: #3a2e27;
+    --danger: #f87171;
+    --shadow: 0 2px 10px rgba(0, 0, 0, .4);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+[hidden] { display: none !important; }
+
+h1, h2, h3 { line-height: 1.2; margin: 0; }
+a { color: var(--accent); }
+.muted { color: var(--muted); }
+.error { color: var(--danger); min-height: 1.5em; margin: 0; }
+
+/* ── Inputs & buttons ── */
+input, textarea, button { font: inherit; color: inherit; }
+
+input:not([type="file"]), textarea {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 16px; /* prevents iOS zoom on focus */
+}
+
+input:focus, textarea:focus, button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+textarea { resize: vertical; }
+
+input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+}
+
+label { display: flex; flex-direction: column; gap: 6px; font-weight: 600; }
+label small { font-weight: 400; color: var(--muted); }
+
+button { cursor: pointer; }
+
+button.primary {
+  padding: 14px 18px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--accent);
+  color: var(--accent-text);
+  font-weight: 700;
+}
+button.primary:disabled { opacity: .6; cursor: progress; }
+
+button.danger {
+  margin-top: 24px;
+  padding: 10px 14px;
+  background: transparent;
+  border: 1px solid var(--danger);
+  border-radius: 10px;
+  color: var(--danger);
+}
+
+/* ── Lock / setup screens ── */
+.screen {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+
+.card-form {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.card-form h1 { text-align: center; }
+.card-form p { margin: 0; }
+
+/* ── Header ── */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+header h1 { font-size: 1.15rem; margin-right: auto; }
+
+nav { display: flex; gap: 4px; background: var(--surface); padding: 4px; border-radius: 999px; border: 1px solid var(--border); }
+
+.tab {
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 600;
+}
+.tab.active { background: var(--accent); color: var(--accent-text); }
+
+.icon-btn { border: 0; background: transparent; font-size: 1.2rem; padding: 6px; }
+
+/* ── Layout ── */
+main { max-width: 1000px; margin: 0 auto; padding: 16px; }
+
+#tab-gallery { display: flex; flex-direction: column; gap: 12px; }
+
+.chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip {
+  padding: 6px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+}
+.chip.active { border-color: var(--accent); color: var(--accent); font-weight: 700; }
+
+/* ── Gallery ── */
+#grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+@media (min-width: 640px)  { #grid { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
+@media (min-width: 900px)  { #grid { grid-template-columns: repeat(4, 1fr); } }
+
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.card:active { transform: scale(.98); }
+
+.card .thumb {
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  object-fit: cover;
+  display: block;
+  background: var(--border);
+}
+.card .thumb.empty { display: grid; place-items: center; font-size: 2.5rem; }
+
+.card .info { padding: 10px 12px 12px; }
+.card .name { font-weight: 700; overflow-wrap: anywhere; }
+.card .meta { font-size: .85rem; color: var(--muted); }
+
+/* ── Create form ── */
+#create-form {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+#preview { width: 100%; max-height: 280px; object-fit: cover; border-radius: var(--radius); }
+
+/* ── Detail dialog ── */
+dialog {
+  width: min(680px, 100%);
+  max-height: 100dvh;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, .35);
+  overflow: auto;
+}
+dialog::backdrop { background: rgba(0, 0, 0, .55); }
+
+@media (max-width: 640px) {
+  dialog { width: 100%; height: 100dvh; max-width: none; border-radius: 0; }
+}
+
+dialog article { position: relative; }
+dialog #d-img { width: 100%; max-height: 360px; object-fit: cover; display: block; }
+.d-body { padding: 20px; }
+.d-body h2 { font-size: 1.6rem; margin-bottom: 16px; overflow-wrap: anywhere; }
+.d-body h3 { margin: 20px 0 8px; color: var(--accent); }
+.d-body ul, .d-body ol { padding-left: 1.3rem; margin: 0; }
+.d-body li { margin-bottom: 8px; }
+
+.close {
+  position: absolute;
+  top: calc(10px + env(safe-area-inset-top));
+  right: 10px;
+  z-index: 2;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, .55);
+  color: #fff;
+  font-size: 1.1rem;
+}
