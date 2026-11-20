@@ -65,24 +65,5 @@
       "Chauffe la gnole"
     ],
     "createdAt": "2026-11-20T21:30:53.577Z"
-  },
-  {
-    "id": "inked-fish-mwphqcj9",
-    "title": "Inked fish",
-    "image": "images/inked-fish-mwphqcj9.jpg",
-    "ingredients": [
-      {
-        "ingredientId": "fish",
-        "quantity": ""
-      },
-      {
-        "ingredientId": "ink",
-        "quantity": ""
-      }
-    ],
-    "steps": [
-      "ink the fish"
-    ],
-    "createdAt": "2026-11-20T21:28:02.037Z"
   }
 ]
