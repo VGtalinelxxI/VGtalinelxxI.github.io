@@ -3,8 +3,10 @@
 A personal recipe book hosted on GitHub Pages. Phone friendly.
 
 - **Gallery** with search by title and/or ingredients
-- **+ New** tab to add a recipe (title, picture, ingredients, steps)
-- Recipes are stored in `data/recipes.json`, pictures in `images/`, both committed to this repo
+- **+ New** tab to add a recipe. Only the **title** is mandatory; picture, ingredients and steps are optional
+- **Ingredients are reusable objects**: pick one from your library or type a new name, it is created once and shared by all recipes
+- **🛒 Grocery** tab: tick the recipes you plan to cook, get one checklist of ingredients showing which recipe needs each one (and how much)
+- Everything is stored in this repo: recipes in `data/recipes.json`, the ingredient library in `data/ingredients.json`, pictures in `images/`
 - Locked by a password, asked **once per device**
 
 ## Install (5 minutes)
@@ -22,6 +24,28 @@ A personal recipe book hosted on GitHub Pages. Phone friendly.
 
 On a phone, use *Share → Add to Home Screen* to get an app icon.
 
+## Updating an existing cookbook
+
+Replace `index.html`, `app.js`, `style.css` and `README.md` in the repo. **Do not touch `data/`, `images/` or `config.json`.**
+GitHub Pages can take a minute or two to publish; refresh the page (pull to refresh, or close and reopen the app).
+
+Recipes created with the first version (ingredients as plain text lines such as `250 g flour`) are converted automatically:
+the quantity and the name are split, and the names go into the ingredient library. The converted data is written to the repo the next time you save anything.
+
+## Grocery mode
+
+Open the **🛒 Grocery** tab (or tap *Add to grocery list* inside a recipe), tick the recipes you want, and the list below builds itself:
+
+```
+☐ Flour
+    Crêpes — 250 g
+    Chocolate cake — 200 g
+☐ Eggs
+    Crêpes — 3
+```
+
+Tick items as you shop; checked items go to the bottom. The selection and the ticks are kept on the device (not in the repo), so each phone has its own shopping list.
+
 ## How the lock works (please read)
 
 GitHub Pages is static hosting, so there is no server to check a password. Instead:
@@ -29,18 +53,36 @@ GitHub Pages is static hosting, so there is no server to check a password. Inste
 - Your GitHub token is encrypted in the browser (PBKDF2 + AES-GCM) with your password. Only the encrypted version is published in `config.json`.
 - Without the password nobody can open the app or write to your repo.
 - Because the encrypted token is public, a **short or common password can be brute-forced offline**. Use a long passphrase.
-- The repository is public, so the recipes and pictures themselves can technically be read by anyone who knows the repo URL. This protects *editing and the app*, not the confidentiality of the content. If you need private recipes, use a private repository (GitHub Pages for private repos requires a paid plan) and ask for changes.
+- The repository is public, so the recipes and pictures themselves can technically be read by anyone who knows the repo URL. This protects *editing and the app*, not the confidentiality of the content. If you need private recipes, use a private repository (GitHub Pages for private repos requires a paid plan).
 - Limit the token to this single repository, as in step 4. If you ever doubt it, revoke it on GitHub and run the setup again (delete `config.json` first).
 
 ## Data format
 
+`data/ingredients.json`
+
 ```json
-{
-  "id": "chocolate-cake-lq3x9",
-  "title": "Chocolate cake",
-  "image": "images/chocolate-cake-lq3x9.jpg",
-  "ingredients": ["200 g flour", "3 eggs"],
-  "steps": ["Preheat the oven", "Mix everything"],
-  "createdAt": "2026-11-20T21:00:00.000Z"
-}
+[
+  { "id": "flour", "name": "Flour" },
+  { "id": "eggs", "name": "Eggs" }
+]
 ```
+
+`data/recipes.json`
+
+```json
+[
+  {
+    "id": "chocolate-cake-lq3x9",
+    "title": "Chocolate cake",
+    "image": "images/chocolate-cake-lq3x9.jpg",
+    "ingredients": [
+      { "ingredientId": "flour", "quantity": "200 g" },
+      { "ingredientId": "eggs", "quantity": "3" }
+    ],
+    "steps": ["Preheat the oven", "Mix everything"],
+    "createdAt": "2026-11-20T21:00:00.000Z"
+  }
+]
+```
+
+`image` is `null` when there is no picture; `ingredients` and `steps` can be empty.

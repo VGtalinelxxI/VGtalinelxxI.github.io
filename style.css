@@ -47,7 +47,7 @@ a { color: var(--accent); }
 /* ── Inputs & buttons ── */
 input, textarea, button { font: inherit; color: inherit; }
 
-input:not([type="file"]), textarea {
+input:not([type="file"]):not([type="checkbox"]), textarea {
   width: 100%;
   padding: 12px 14px;
   background: var(--surface);
@@ -71,8 +71,10 @@ input[type="file"] {
   border-radius: 10px;
 }
 
+input[type="checkbox"] { accent-color: var(--accent); }
+
 label { display: flex; flex-direction: column; gap: 6px; font-weight: 600; }
-label small { font-weight: 400; color: var(--muted); }
+label small, .field-label small { font-weight: 400; color: var(--muted); }
 
 button { cursor: pointer; }
 
@@ -85,6 +87,14 @@ button.primary {
   font-weight: 700;
 }
 button.primary:disabled { opacity: .6; cursor: progress; }
+
+button.secondary {
+  padding: 9px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-weight: 600;
+}
 
 button.danger {
   margin-top: 24px;
@@ -118,7 +128,7 @@ button.danger {
 .card-form h1 { text-align: center; }
 .card-form p { margin: 0; }
 
-/* ── Header ── */
+/* ── Header & navigation ── */
 header {
   position: sticky;
   top: 0;
@@ -146,10 +156,28 @@ nav { display: flex; gap: 4px; background: var(--surface); padding: 4px; border-
 
 .icon-btn { border: 0; background: transparent; font-size: 1.2rem; padding: 6px; }
 
+/* On phones the tabs move to a bar at the bottom, easy to reach with a thumb */
+@media (max-width: 640px) {
+  nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 6;
+    border: 0;
+    border-top: 1px solid var(--border);
+    border-radius: 0;
+    padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+    gap: 6px;
+  }
+  .tab { flex: 1; padding: 10px 4px; border-radius: 10px; }
+  main { padding-bottom: 96px; }
+}
+
 /* ── Layout ── */
 main { max-width: 1000px; margin: 0 auto; padding: 16px; }
 
-#tab-gallery { display: flex; flex-direction: column; gap: 12px; }
+#tab-gallery, #tab-grocery { display: flex; flex-direction: column; gap: 12px; }
 
 .chips { display: flex; gap: 8px; flex-wrap: wrap; }
 .chip {
@@ -190,11 +218,11 @@ main { max-width: 1000px; margin: 0 auto; padding: 16px; }
   display: block;
   background: var(--border);
 }
-.card .thumb.empty { display: grid; place-items: center; font-size: 2.5rem; }
+.thumb.empty { display: grid; place-items: center; font-size: 2.5rem; }
 
 .card .info { padding: 10px 12px 12px; }
 .card .name { font-weight: 700; overflow-wrap: anywhere; }
-.card .meta { font-size: .85rem; color: var(--muted); }
+.card .meta { font-size: .85rem; color: var(--muted); min-height: 1.3em; }
 
 /* ── Create form ── */
 #create-form {
@@ -205,6 +233,93 @@ main { max-width: 1000px; margin: 0 auto; padding: 16px; }
   gap: 16px;
 }
 #preview { width: 100%; max-height: 280px; object-fit: cover; border-radius: var(--radius); }
+
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field-label { font-weight: 600; }
+.field > button { align-self: flex-start; }
+
+#ing-rows { display: flex; flex-direction: column; gap: 8px; }
+
+.ing-row {
+  display: grid;
+  grid-template-columns: 1fr 110px 36px;
+  gap: 8px;
+  align-items: center;
+}
+.ing-name-wrap { position: relative; }
+.ing-name-wrap input { padding-right: 52px; }
+.tag {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-text);
+  font-size: .7rem;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+/* ── Grocery ── */
+details summary { cursor: pointer; font-weight: 700; padding: 8px 0; }
+details[open] summary { margin-bottom: 8px; }
+#g-picker input[type="search"] { margin-bottom: 8px; }
+
+#g-recipes {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 340px;
+  overflow-y: auto;
+}
+
+.pick {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-weight: 400;
+  cursor: pointer;
+}
+.pick input { width: 22px; height: 22px; flex: none; }
+.pick-thumb {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border-radius: 8px;
+  object-fit: cover;
+  background: var(--border);
+}
+.pick-thumb.empty { display: grid; place-items: center; font-size: 1.3rem; }
+.pick-title { flex: 1; font-weight: 600; overflow-wrap: anywhere; }
+
+.g-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-top: 8px; }
+.g-head h2 { font-size: 1.25rem; }
+
+#g-empty { margin: 0; }
+#g-empty:empty { display: none; }
+
+#g-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+
+.g-item {
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.g-main { flex-direction: row; align-items: center; gap: 12px; font-weight: 700; cursor: pointer; }
+.g-main input { width: 24px; height: 24px; flex: none; }
+.g-uses { list-style: none; margin: 4px 0 0 36px; padding: 0; color: var(--muted); font-size: .92rem; }
+.g-recipe { color: var(--text); }
+.g-item.done { opacity: .55; }
+.g-item.done .g-name { text-decoration: line-through; }
+
+.g-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
 
 /* ── Detail dialog ── */
 dialog {
@@ -227,10 +342,11 @@ dialog::backdrop { background: rgba(0, 0, 0, .55); }
 dialog article { position: relative; }
 dialog #d-img { width: 100%; max-height: 360px; object-fit: cover; display: block; }
 .d-body { padding: 20px; }
-.d-body h2 { font-size: 1.6rem; margin-bottom: 16px; overflow-wrap: anywhere; }
+.d-body h2 { font-size: 1.6rem; margin-bottom: 12px; overflow-wrap: anywhere; }
 .d-body h3 { margin: 20px 0 8px; color: var(--accent); }
 .d-body ul, .d-body ol { padding-left: 1.3rem; margin: 0; }
 .d-body li { margin-bottom: 8px; }
+.qty { font-weight: 700; }
 
 .close {
   position: absolute;

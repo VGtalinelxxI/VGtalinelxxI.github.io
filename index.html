@@ -62,6 +62,7 @@
     <nav>
       <button class="tab active" data-tab="gallery">Gallery</button>
       <button class="tab" data-tab="create">+ New</button>
+      <button class="tab" data-tab="grocery">🛒 Grocery</button>
     </nav>
     <button id="lock-btn" class="icon-btn" title="Lock this device" aria-label="Lock this device">🔒</button>
   </header>
@@ -85,19 +86,46 @@
         <label>Title
           <input id="f-title" required maxlength="100" placeholder="Chocolate cake">
         </label>
-        <label>Picture
+        <label>Picture <small>(optional)</small>
           <input id="f-image" type="file" accept="image/*">
         </label>
         <img id="preview" alt="Preview" hidden>
-        <label>Ingredients <small>(one per line)</small>
-          <textarea id="f-ingredients" rows="6" required placeholder="200 g flour&#10;3 eggs&#10;100 g sugar"></textarea>
+
+        <div class="field">
+          <span class="field-label">Ingredients <small>(optional)</small></span>
+          <div id="ing-rows"></div>
+          <button type="button" id="add-ing" class="secondary">+ Add ingredient</button>
+          <small class="muted">Pick an existing ingredient or type a new name: it is created once and reused by all your recipes.</small>
+        </div>
+        <datalist id="ing-list"></datalist>
+
+        <label>Steps <small>(optional, one per line)</small>
+          <textarea id="f-steps" rows="8" placeholder="Preheat the oven to 180°C&#10;Mix the dry ingredients&#10;…"></textarea>
         </label>
-        <label>Steps <small>(one per line)</small>
-          <textarea id="f-steps" rows="8" required placeholder="Preheat the oven to 180°C&#10;Mix the dry ingredients&#10;…"></textarea>
-        </label>
+
         <button type="submit" id="save-btn" class="primary">Save recipe</button>
         <p id="create-msg" class="muted" role="status"></p>
       </form>
+    </section>
+
+    <!-- Grocery -->
+    <section id="tab-grocery" hidden>
+      <details id="g-picker" open>
+        <summary>Choose recipes <span id="g-count" class="muted"></span></summary>
+        <input id="g-filter" type="search" placeholder="Filter recipes…" autocomplete="off">
+        <div id="g-recipes"></div>
+      </details>
+
+      <div class="g-head">
+        <h2>Shopping list</h2>
+        <span id="g-summary" class="muted"></span>
+      </div>
+      <p id="g-empty" class="muted" role="status"></p>
+      <ul id="g-list"></ul>
+      <div class="g-actions">
+        <button type="button" id="g-uncheck" class="secondary">Uncheck all</button>
+        <button type="button" id="g-clear" class="secondary">Clear selection</button>
+      </div>
     </section>
   </main>
 </div>
@@ -109,10 +137,15 @@
     <img id="d-img" alt="" hidden>
     <div class="d-body">
       <h2 id="d-title"></h2>
-      <h3>Ingredients</h3>
-      <ul id="d-ingredients"></ul>
-      <h3>Steps</h3>
-      <ol id="d-steps"></ol>
+      <button type="button" id="d-grocery" class="secondary"></button>
+      <div id="d-ing-sec">
+        <h3>Ingredients</h3>
+        <ul id="d-ingredients"></ul>
+      </div>
+      <div id="d-steps-sec">
+        <h3>Steps</h3>
+        <ol id="d-steps"></ol>
+      </div>
       <button id="delete-btn" class="danger">Delete this recipe</button>
     </div>
   </article>
