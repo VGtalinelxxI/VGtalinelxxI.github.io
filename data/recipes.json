@@ -1,5 +1,30 @@
 [
   {
+    "id": "cinamon-roll-mwq7mur3",
+    "title": "Cinamon roll",
+    "image": "images/cinamon-roll-mwq7mur3.jpg",
+    "ingredients": [
+      {
+        "ingredientId": "cannelle",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "farine",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "philadelphia",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "levure-fraiche",
+        "quantity": ""
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-21T09:33:09.039Z"
+  },
+  {
     "id": "soupe-betterave-chaude-mwq71v8k",
     "title": "Soupe betterave chaude",
     "image": "images/soupe-betterave-chaude-mwq71v8k.jpg",
