@@ -1,5 +1,38 @@
 [
   {
+    "id": "avocado-toast-mwq8n7mg",
+    "title": "Avocado toast",
+    "image": "images/avocado-toast-mwq8n7mg.jpg",
+    "ingredients": [
+      {
+        "ingredientId": "saumon-fume",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "avocat",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "concombre",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "ciboulette",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "fromage-frais",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "pain",
+        "quantity": ""
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-21T10:01:25.336Z"
+  },
+  {
     "id": "ceviche-mwq8iivk",
     "title": "Ceviche",
     "image": "images/ceviche-mwq8iivk.jpg",
