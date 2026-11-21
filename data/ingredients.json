@@ -302,5 +302,21 @@
   {
     "id": "piment-d-espelette",
     "name": "Piment d'espelette"
+  },
+  {
+    "id": "saucisse",
+    "name": "Saucisse"
+  },
+  {
+    "id": "lentille",
+    "name": "Lentille"
+  },
+  {
+    "id": "carotte",
+    "name": "Carotte"
+  },
+  {
+    "id": "pulpe-de-tomate",
+    "name": "Pulpe de tomate"
   }
 ]
