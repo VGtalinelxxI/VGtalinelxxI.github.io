@@ -77,10 +77,15 @@
       {
         "ingredientId": "concombre",
         "quantity": ""
+      },
+      {
+        "ingredientId": "poire",
+        "quantity": ""
       }
     ],
     "steps": [],
-    "createdAt": "2026-11-20T22:33:11.464Z"
+    "createdAt": "2026-11-20T22:33:11.464Z",
+    "updatedAt": "2026-11-21T08:57:17.771Z"
   },
   {
     "id": "potage-a-la-reine-mwpjd1ar",
