@@ -269,7 +269,11 @@
     ],
     "steps": [],
     "createdAt": "2026-11-21T09:46:31.078Z",
-    "categories": []
+    "categories": [
+      "soupe",
+      "vegetarien"
+    ],
+    "updatedAt": "2026-11-21T17:27:55.147Z"
   },
   {
     "id": "cinamon-roll-mwq7mur3",
