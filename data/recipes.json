@@ -556,15 +556,22 @@
       {
         "ingredientId": "ail",
         "quantity": ""
+      },
+      {
+        "ingredientId": "poulet",
+        "quantity": "",
+        "note": "Pané",
+        "optional": true
       }
     ],
     "steps": [
       "Mélanger les jaunes dans la crème et eau froide avant d'incorporer !"
     ],
     "createdAt": "2026-11-20T22:13:40.179Z",
-    "updatedAt": "2026-11-21T13:16:29.139Z",
+    "updatedAt": "2026-11-21T17:28:25.002Z",
     "categories": [
-      "soupe"
+      "soupe",
+      "vegetarien"
     ]
   },
   {
