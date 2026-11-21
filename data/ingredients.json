@@ -158,5 +158,25 @@
   {
     "id": "ciboulette",
     "name": "Ciboulette"
+  },
+  {
+    "id": "curry-vert",
+    "name": "Curry vert"
+  },
+  {
+    "id": "riz",
+    "name": "Riz"
+  },
+  {
+    "id": "gyosas",
+    "name": "Gyosas"
+  },
+  {
+    "id": "sesame",
+    "name": "Sésame"
+  },
+  {
+    "id": "lait-de-coco",
+    "name": "Lait de coco"
   }
 ]
