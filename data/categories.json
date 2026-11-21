@@ -34,5 +34,9 @@
   {
     "id": "sandwich",
     "name": "Sandwich"
+  },
+  {
+    "id": "pates",
+    "name": "Pâtes"
   }
 ]
