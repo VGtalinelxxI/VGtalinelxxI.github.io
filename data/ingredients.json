@@ -350,5 +350,13 @@
   {
     "id": "piment-rouge",
     "name": "Piment rouge"
+  },
+  {
+    "id": "olives",
+    "name": "Olives"
+  },
+  {
+    "id": "moutarde",
+    "name": "Moutarde"
   }
 ]
