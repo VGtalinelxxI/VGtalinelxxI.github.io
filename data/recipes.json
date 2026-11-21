@@ -1,5 +1,30 @@
 [
   {
+    "id": "poulet-au-four-mwq9nsqw",
+    "title": "Poulet au four",
+    "image": "images/poulet-au-four-mwq9nsqw.jpg",
+    "ingredients": [
+      {
+        "ingredientId": "cuisse-de-poulet",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "pommes-de-terre",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "ail",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "persil",
+        "quantity": ""
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-21T10:29:52.328Z"
+  },
+  {
     "id": "avocado-toast-mwq8n7mg",
     "title": "Avocado toast",
     "image": "images/avocado-toast-mwq8n7mg-mwq8no7m.jpg",
