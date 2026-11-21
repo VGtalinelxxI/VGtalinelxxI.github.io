@@ -382,10 +382,6 @@
         "quantity": ""
       },
       {
-        "ingredientId": "farine-de-mais",
-        "quantity": ""
-      },
-      {
         "ingredientId": "riz",
         "quantity": ""
       },
@@ -406,6 +402,17 @@
         "ingredientId": "coriandre",
         "quantity": "",
         "optional": true
+      },
+      {
+        "ingredientId": "mais-grilles",
+        "quantity": "",
+        "optional": true
+      },
+      {
+        "ingredientId": "chips-de-mais",
+        "quantity": "",
+        "note": "Farine nixtemalisé",
+        "optional": true
       }
     ],
     "steps": [],
@@ -413,7 +420,7 @@
     "categories": [
       "plat"
     ],
-    "updatedAt": "2026-11-21T13:47:34.160Z"
+    "updatedAt": "2026-11-21T17:49:08.929Z"
   },
   {
     "id": "mango-stixky-rice-mwq8d1mc",
