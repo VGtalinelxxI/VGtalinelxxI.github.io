@@ -254,5 +254,13 @@
   {
     "id": "pain",
     "name": "Pain"
+  },
+  {
+    "id": "cuisse-de-poulet",
+    "name": "Cuisse de poulet"
+  },
+  {
+    "id": "persil",
+    "name": "Persil"
   }
 ]
