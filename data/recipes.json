@@ -25,10 +25,15 @@
       {
         "ingredientId": "riz",
         "quantity": ""
+      },
+      {
+        "ingredientId": "saucisse",
+        "quantity": ""
       }
     ],
     "steps": [],
-    "createdAt": "2026-11-21T17:38:38.618Z"
+    "createdAt": "2026-11-21T17:38:38.618Z",
+    "updatedAt": "2026-11-21T17:39:48.658Z"
   },
   {
     "id": "rougail-mwqoxdiw",
