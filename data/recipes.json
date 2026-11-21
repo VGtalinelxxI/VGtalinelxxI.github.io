@@ -1,5 +1,36 @@
 [
   {
+    "id": "feijoada-mwqoz7a2",
+    "title": "Feijoada",
+    "image": "images/feijoada-mwqoz7a2.jpg",
+    "categories": [],
+    "ingredients": [
+      {
+        "ingredientId": "frijoles",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "lard-fume",
+        "quantity": "",
+        "note": "Poitrine"
+      },
+      {
+        "ingredientId": "carottes",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "pulpe-de-tomate",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "riz",
+        "quantity": ""
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-21T17:38:38.618Z"
+  },
+  {
     "id": "rougail-mwqoxdiw",
     "title": "Rougail",
     "image": "images/rougail-mwqoxdiw.jpg",
