@@ -1,5 +1,26 @@
 [
   {
+    "id": "pate-pesto-mwqopb1y",
+    "title": "Pâte pesto",
+    "image": "images/pate-pesto-mwqopb1y.jpg",
+    "categories": [
+      "plat",
+      "pates"
+    ],
+    "ingredients": [
+      {
+        "ingredientId": "pates",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "pesto",
+        "quantity": ""
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-21T17:30:56.950Z"
+  },
+  {
     "id": "sabish-mwqn4z6v",
     "title": "Sabish",
     "image": "images/sabish-mwqn4z6v.jpg",
