@@ -194,5 +194,13 @@
   {
     "id": "levure-fraiche",
     "name": "Levure fraiche"
+  },
+  {
+    "id": "miso",
+    "name": "Miso"
+  },
+  {
+    "id": "champignon-de-paris",
+    "name": "Champignon de paris"
   }
 ]
