@@ -294,5 +294,13 @@
   {
     "id": "pesto",
     "name": "Pesto"
+  },
+  {
+    "id": "mayonnaise",
+    "name": "Mayonnaise"
+  },
+  {
+    "id": "piment-d-espelette",
+    "name": "Piment d'espelette"
   }
 ]
