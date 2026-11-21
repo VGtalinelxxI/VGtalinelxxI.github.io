@@ -1,5 +1,38 @@
 [
   {
+    "id": "hareng-pomme-a-l-huile-mwq6urnd",
+    "title": "Hareng pomme a l'huile",
+    "image": "images/hareng-pomme-a-l-huile-mwq6urnd.jpg",
+    "ingredients": [
+      {
+        "ingredientId": "hareng-fume",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "huile",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "aneth",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "oignons-rouges",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "pommes-de-terre",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "ciboulette",
+        "quantity": ""
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-21T09:11:18.649Z"
+  },
+  {
     "id": "stuffed-potato-mwq6mlpm",
     "title": "Stuffed potato",
     "image": "images/stuffed-potato-mwq6mlpm.jpg",
