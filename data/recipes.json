@@ -230,7 +230,10 @@
     ],
     "steps": [],
     "createdAt": "2026-11-21T09:33:09.039Z",
-    "categories": []
+    "categories": [
+      "dessert"
+    ],
+    "updatedAt": "2026-11-21T13:16:12.857Z"
   },
   {
     "id": "soupe-betterave-chaude-mwq71v8k",
