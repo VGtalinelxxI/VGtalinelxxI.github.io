@@ -2,7 +2,7 @@
   {
     "id": "avocado-toast-mwq8n7mg",
     "title": "Avocado toast",
-    "image": "images/avocado-toast-mwq8n7mg.jpg",
+    "image": "images/avocado-toast-mwq8n7mg-mwq8no7m.jpg",
     "ingredients": [
       {
         "ingredientId": "saumon-fume",
@@ -30,7 +30,8 @@
       }
     ],
     "steps": [],
-    "createdAt": "2026-11-21T10:01:25.336Z"
+    "createdAt": "2026-11-21T10:01:25.336Z",
+    "updatedAt": "2026-11-21T10:01:51.708Z"
   },
   {
     "id": "ceviche-mwq8iivk",
