@@ -239,7 +239,11 @@
       "Soja"
     ],
     "createdAt": "2026-11-21T09:50:20.409Z",
-    "categories": []
+    "categories": [
+      "entree",
+      "salade"
+    ],
+    "updatedAt": "2026-11-21T17:26:26.975Z"
   },
   {
     "id": "soupe-miso-mwq841ly",
