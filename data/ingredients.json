@@ -218,5 +218,13 @@
   {
     "id": "huile-de-sesame",
     "name": "Huile de sésame"
+  },
+  {
+    "id": "riz-gluant",
+    "name": "Riz gluant"
+  },
+  {
+    "id": "cassonade",
+    "name": "Cassonade"
   }
 ]
