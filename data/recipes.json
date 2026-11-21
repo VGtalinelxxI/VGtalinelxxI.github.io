@@ -1,5 +1,30 @@
 [
   {
+    "id": "stuffed-potato-mwq6mlpm",
+    "title": "Stuffed potato",
+    "image": "images/stuffed-potato-mwq6mlpm.jpg",
+    "ingredients": [
+      {
+        "ingredientId": "grosse-patate",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "oeuf",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "haricot-blanc",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "chorizo",
+        "quantity": ""
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-21T09:04:57.706Z"
+  },
+  {
     "id": "nachos-mwq69oq2",
     "title": "Nachos",
     "image": "images/nachos-mwq69oq2.jpg",
