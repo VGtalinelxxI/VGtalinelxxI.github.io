@@ -1,5 +1,45 @@
 [
   {
+    "id": "poulet-mafe-mwqp9sjy",
+    "title": "Poulet mafé",
+    "image": "images/poulet-mafe-mwqp9sjy.jpg",
+    "categories": [
+      "plat"
+    ],
+    "ingredients": [
+      {
+        "ingredientId": "cuisse-de-poulet",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "riz",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "beurre-de-cacahuete",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "carottes",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "pommes-de-terre",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "oignons",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "ail",
+        "quantity": ""
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-21T17:46:52.750Z"
+  },
+  {
     "id": "poulet-yassa-mwqp7hlo",
     "title": "Poulet yassa",
     "image": "images/poulet-yassa-mwqp7hlo.jpg",
