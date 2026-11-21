@@ -266,5 +266,21 @@
   {
     "id": "poisson-blanc",
     "name": "Poisson blanc"
+  },
+  {
+    "id": "pickle",
+    "name": "Pickle"
+  },
+  {
+    "id": "aubergine",
+    "name": "Aubergine"
+  },
+  {
+    "id": "houmous",
+    "name": "Houmous"
+  },
+  {
+    "id": "tomate",
+    "name": "Tomate"
   }
 ]
