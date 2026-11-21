@@ -13,16 +13,37 @@
         "quantity": ""
       },
       {
-        "ingredientId": "emmental",
+        "ingredientId": "coriandre",
         "quantity": ""
       },
       {
-        "ingredientId": "coriandre",
+        "ingredientId": "avocat",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "oignons-rouges",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "cheddar",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "citron-vert",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "cholula",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "cebettes",
         "quantity": ""
       }
     ],
     "steps": [],
-    "createdAt": "2026-11-21T08:54:55.082Z"
+    "createdAt": "2026-11-21T08:54:55.082Z",
+    "updatedAt": "2026-11-21T08:56:49.297Z"
   },
   {
     "id": "fish-on-rice-mwpk252g",
