@@ -1,5 +1,36 @@
 [
   {
+    "id": "oeuf-mimosa-mayonnaise-mwqors0x",
+    "title": "Oeuf mimosa/mayonnaise",
+    "image": "images/oeuf-mimosa-mayonnaise-mwqors0x.jpg",
+    "categories": [
+      "entree",
+      "froid"
+    ],
+    "ingredients": [
+      {
+        "ingredientId": "oeuf",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "mayonnaise",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "ciboulette",
+        "quantity": "",
+        "optional": true
+      },
+      {
+        "ingredientId": "piment-d-espelette",
+        "quantity": "",
+        "optional": true
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-21T17:32:52.257Z"
+  },
+  {
     "id": "pate-pesto-mwqopb1y",
     "title": "Pâte pesto",
     "image": "images/pate-pesto-mwqopb1y.jpg",
