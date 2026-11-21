@@ -1,5 +1,46 @@
 [
   {
+    "id": "curry-vert-aux-gyosas-mwq6wzqw",
+    "title": "Curry vert aux gyosas",
+    "image": "images/curry-vert-aux-gyosas-mwq6wzqw.jpg",
+    "ingredients": [
+      {
+        "ingredientId": "curry-vert",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "coriandre",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "riz",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "gyosas",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "cebettes",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "sesame",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "citron-vert",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "lait-de-coco",
+        "quantity": ""
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-21T09:13:02.456Z"
+  },
+  {
     "id": "hareng-pomme-a-l-huile-mwq6urnd",
     "title": "Hareng pomme a l'huile",
     "image": "images/hareng-pomme-a-l-huile-mwq6urnd.jpg",
