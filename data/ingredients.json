@@ -330,5 +330,21 @@
   {
     "id": "carottes",
     "name": "Carottes"
+  },
+  {
+    "id": "cacahuetes",
+    "name": "Cacahuètes"
+  },
+  {
+    "id": "papaye-verte",
+    "name": "Papaye verte"
+  },
+  {
+    "id": "poivron",
+    "name": "Poivron"
+  },
+  {
+    "id": "sauce-poisson",
+    "name": "Sauce poisson"
   }
 ]
