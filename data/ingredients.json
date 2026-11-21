@@ -98,5 +98,29 @@
   {
     "id": "coriandre",
     "name": "Coriandre"
+  },
+  {
+    "id": "avocat",
+    "name": "Avocat"
+  },
+  {
+    "id": "oignons-rouges",
+    "name": "Oignons rouges"
+  },
+  {
+    "id": "cheddar",
+    "name": "Cheddar"
+  },
+  {
+    "id": "citron-vert",
+    "name": "Citron vert"
+  },
+  {
+    "id": "cholula",
+    "name": "Cholula"
+  },
+  {
+    "id": "cebettes",
+    "name": "Cebettes"
   }
 ]
