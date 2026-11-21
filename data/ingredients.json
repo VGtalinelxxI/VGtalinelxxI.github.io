@@ -182,5 +182,17 @@
   {
     "id": "oignons",
     "name": "Oignons"
+  },
+  {
+    "id": "farine",
+    "name": "Farine"
+  },
+  {
+    "id": "philadelphia",
+    "name": "Philadelphia"
+  },
+  {
+    "id": "levure-fraiche",
+    "name": "Levure fraiche"
   }
 ]
