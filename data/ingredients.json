@@ -82,5 +82,21 @@
   {
     "id": "lait",
     "name": "Lait"
+  },
+  {
+    "id": "chips-tortilla",
+    "name": "Chips tortilla"
+  },
+  {
+    "id": "jallapenos",
+    "name": "Jallapenos"
+  },
+  {
+    "id": "emmental",
+    "name": "Emmental"
+  },
+  {
+    "id": "coriandre",
+    "name": "Coriandre"
   }
 ]
