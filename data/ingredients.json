@@ -242,5 +242,17 @@
   {
     "id": "fruit-sec",
     "name": "Fruit sec"
+  },
+  {
+    "id": "saumon-fume",
+    "name": "Saumon fumé"
+  },
+  {
+    "id": "fromage-frais",
+    "name": "Fromage frais"
+  },
+  {
+    "id": "pain",
+    "name": "Pain"
   }
 ]
