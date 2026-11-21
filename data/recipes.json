@@ -1,5 +1,42 @@
 [
   {
+    "id": "rougail-mwqoxdiw",
+    "title": "Rougail",
+    "image": "images/rougail-mwqoxdiw.jpg",
+    "categories": [
+      "plat"
+    ],
+    "ingredients": [
+      {
+        "ingredientId": "riz",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "saucisse",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "lentille",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "carotte",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "coriandre",
+        "quantity": "",
+        "optional": true
+      },
+      {
+        "ingredientId": "pulpe-de-tomate",
+        "quantity": ""
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-21T17:37:13.400Z"
+  },
+  {
     "id": "oeuf-mimosa-mayonnaise-mwqors0x",
     "title": "Oeuf mimosa/mayonnaise",
     "image": "images/oeuf-mimosa-mayonnaise-mwqors0x.jpg",
