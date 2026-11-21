@@ -370,5 +370,9 @@
   {
     "id": "chips-de-mais",
     "name": "Chips de maïs"
+  },
+  {
+    "id": "tofu",
+    "name": "Tofu"
   }
 ]
