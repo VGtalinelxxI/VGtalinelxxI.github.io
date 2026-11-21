@@ -362,5 +362,13 @@
   {
     "id": "beurre-de-cacahuete",
     "name": "Beurre de cacahuète"
+  },
+  {
+    "id": "mais-grilles",
+    "name": "Maïs grillés"
+  },
+  {
+    "id": "chips-de-mais",
+    "name": "Chips de maïs"
   }
 ]
