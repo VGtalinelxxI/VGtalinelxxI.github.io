@@ -1,5 +1,30 @@
 [
   {
+    "id": "nachos-mwq69oq2",
+    "title": "Nachos",
+    "image": "images/nachos-mwq69oq2.jpg",
+    "ingredients": [
+      {
+        "ingredientId": "chips-tortilla",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "jallapenos",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "emmental",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "coriandre",
+        "quantity": ""
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-21T08:54:55.082Z"
+  },
+  {
     "id": "fish-on-rice-mwpk252g",
     "title": "Fish on rice",
     "image": "images/fish-on-rice-mwpk252g.jpg",
