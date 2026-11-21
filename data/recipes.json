@@ -1,5 +1,47 @@
 [
   {
+    "id": "tofu-et-aubergines-mwqphjro",
+    "title": "Tofu et aubergines",
+    "image": "images/tofu-et-aubergines-mwqphjro.jpg",
+    "categories": [
+      "plat"
+    ],
+    "ingredients": [
+      {
+        "ingredientId": "riz",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "tofu",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "aubergine",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "cebettes",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "coriandre",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "sesame",
+        "quantity": "",
+        "optional": true
+      },
+      {
+        "ingredientId": "cacahuetes",
+        "quantity": "",
+        "optional": true
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-21T17:52:54.612Z"
+  },
+  {
     "id": "poulet-mafe-mwqp9sjy",
     "title": "Poulet mafé",
     "image": "images/poulet-mafe-mwqp9sjy.jpg",
