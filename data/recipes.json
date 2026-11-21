@@ -1,5 +1,35 @@
 [
   {
+    "id": "poulet-yassa-mwqp7hlo",
+    "title": "Poulet yassa",
+    "image": "images/poulet-yassa-mwqp7hlo.jpg",
+    "categories": [],
+    "ingredients": [
+      {
+        "ingredientId": "olives",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "moutarde",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "oignons",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "riz",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "cuisse-de-poulet",
+        "quantity": ""
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-21T17:45:05.244Z"
+  },
+  {
     "id": "salade-thai-mwqp3rk5",
     "title": "Salade thaï",
     "image": "images/salade-thai-mwqp3rk5.jpg",
