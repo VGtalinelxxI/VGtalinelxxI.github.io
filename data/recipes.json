@@ -384,7 +384,7 @@
   },
   {
     "id": "hareng-pomme-a-l-huile-mwq6urnd",
-    "title": "Hareng pomme a l'huile",
+    "title": "Hareng pommes a l'huile",
     "image": "images/hareng-pomme-a-l-huile-mwq6urnd.jpg",
     "ingredients": [
       {
@@ -414,7 +414,10 @@
     ],
     "steps": [],
     "createdAt": "2026-11-21T09:11:18.649Z",
-    "categories": []
+    "categories": [
+      "froid"
+    ],
+    "updatedAt": "2026-11-21T17:29:09.649Z"
   },
   {
     "id": "stuffed-potato-mwq6mlpm",
