@@ -1,5 +1,46 @@
 [
   {
+    "id": "ceviche-mwq8iivk",
+    "title": "Ceviche",
+    "image": "images/ceviche-mwq8iivk.jpg",
+    "ingredients": [
+      {
+        "ingredientId": "orange",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "tomate-cerise",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "oignons-rouges",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "citron-vert",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "farine-de-mais",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "riz",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "fruit-sec",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "lait-de-coco",
+        "quantity": ""
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-21T09:57:46.640Z"
+  },
+  {
     "id": "mango-stixky-rice-mwq8d1mc",
     "title": "Mango stixky rice",
     "image": "images/mango-stixky-rice-mwq8d1mc.jpg",
