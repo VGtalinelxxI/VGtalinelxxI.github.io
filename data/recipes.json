@@ -1,5 +1,53 @@
 [
   {
+    "id": "sabish-mwqn4z6v",
+    "title": "Sabish",
+    "image": "images/sabish-mwqn4z6v.jpg",
+    "categories": [
+      "froid",
+      "sandwich"
+    ],
+    "ingredients": [
+      {
+        "ingredientId": "pickle",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "oeuf",
+        "quantity": "",
+        "note": "Dur"
+      },
+      {
+        "ingredientId": "aubergine",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "concombre",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "houmous",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "persil",
+        "quantity": "",
+        "optional": true
+      },
+      {
+        "ingredientId": "coriandre",
+        "quantity": "",
+        "optional": true
+      },
+      {
+        "ingredientId": "tomate",
+        "quantity": ""
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-21T16:47:08.839Z"
+  },
+  {
     "id": "poulet-au-four-mwq9nsqw",
     "title": "Poulet au four",
     "image": "images/poulet-au-four-mwq9nsqw-mwqfjoi0.jpg",
