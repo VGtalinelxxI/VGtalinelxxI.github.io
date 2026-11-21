@@ -318,5 +318,17 @@
   {
     "id": "pulpe-de-tomate",
     "name": "Pulpe de tomate"
+  },
+  {
+    "id": "frijoles",
+    "name": "Frijoles"
+  },
+  {
+    "id": "lard-fume",
+    "name": "Lard fumé"
+  },
+  {
+    "id": "carottes",
+    "name": "Carottes"
   }
 ]
