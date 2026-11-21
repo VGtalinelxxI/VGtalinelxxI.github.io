@@ -1,5 +1,36 @@
 [
   {
+    "id": "mango-stixky-rice-mwq8d1mc",
+    "title": "Mango stixky rice",
+    "image": "images/mango-stixky-rice-mwq8d1mc.jpg",
+    "ingredients": [
+      {
+        "ingredientId": "riz-gluant",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "cassonade",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "mangue",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "sesame",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "lait-de-coco",
+        "quantity": ""
+      }
+    ],
+    "steps": [
+      "Une fois le riz cuit, versez-le dans un saladier puis ajoutez-lui délicatement et au fur et à mesure les ? du lait de coco (le riz doit bien absorber le lait)."
+    ],
+    "createdAt": "2026-11-21T09:53:30.996Z"
+  },
+  {
     "id": "salade-mangue-mwq88yk9",
     "title": "Salade mangue",
     "image": "images/salade-mangue-mwq88yk9.jpg",
