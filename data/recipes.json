@@ -1,5 +1,41 @@
 [
   {
+    "id": "salade-mangue-mwq88yk9",
+    "title": "Salade mangue",
+    "image": "images/salade-mangue-mwq88yk9.jpg",
+    "ingredients": [
+      {
+        "ingredientId": "mangue",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "concombre",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "cebettes",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "shiso",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "sauce-soja",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "huile-de-sesame",
+        "quantity": ""
+      }
+    ],
+    "steps": [
+      "Sauce",
+      "Soja"
+    ],
+    "createdAt": "2026-11-21T09:50:20.409Z"
+  },
+  {
     "id": "soupe-miso-mwq841ly",
     "title": "Soupe miso",
     "image": "images/soupe-miso-mwq841ly.jpg",
