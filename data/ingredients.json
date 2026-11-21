@@ -202,5 +202,21 @@
   {
     "id": "champignon-de-paris",
     "name": "Champignon de paris"
+  },
+  {
+    "id": "mangue",
+    "name": "Mangue"
+  },
+  {
+    "id": "shiso",
+    "name": "Shiso"
+  },
+  {
+    "id": "sauce-soja",
+    "name": "Sauce soja"
+  },
+  {
+    "id": "huile-de-sesame",
+    "name": "Huile de sésame"
   }
 ]
