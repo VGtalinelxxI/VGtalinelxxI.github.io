@@ -286,5 +286,13 @@
   {
     "id": "poulet",
     "name": "Poulet"
+  },
+  {
+    "id": "pates",
+    "name": "Pates"
+  },
+  {
+    "id": "pesto",
+    "name": "Pesto"
   }
 ]
