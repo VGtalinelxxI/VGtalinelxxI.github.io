@@ -26,5 +26,9 @@
   {
     "id": "vegetarien",
     "name": "Végétarien"
+  },
+  {
+    "id": "froid",
+    "name": "Froid"
   }
 ]
