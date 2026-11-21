@@ -1,0 +1,30 @@
+[
+  {
+    "id": "dessert",
+    "name": "Dessert"
+  },
+  {
+    "id": "patisserie",
+    "name": "Pâtisserie"
+  },
+  {
+    "id": "entree",
+    "name": "Entrée"
+  },
+  {
+    "id": "salade",
+    "name": "Salade"
+  },
+  {
+    "id": "soupe",
+    "name": "Soupe"
+  },
+  {
+    "id": "plat",
+    "name": "Plat"
+  },
+  {
+    "id": "vegetarien",
+    "name": "Végétarien"
+  }
+]
