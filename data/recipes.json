@@ -22,7 +22,7 @@
         "quantity": ""
       },
       {
-        "ingredientId": "poivron",
+        "ingredientId": "piment-rouge",
         "quantity": "",
         "optional": true
       },
@@ -35,13 +35,18 @@
         "quantity": ""
       },
       {
-        "ingredientId": "tomate",
+        "ingredientId": "tomate-cerise",
         "quantity": "",
         "optional": true
+      },
+      {
+        "ingredientId": "cassonade",
+        "quantity": ""
       }
     ],
     "steps": [],
-    "createdAt": "2026-11-21T17:42:11.525Z"
+    "createdAt": "2026-11-21T17:42:11.525Z",
+    "updatedAt": "2026-11-21T17:43:02.015Z"
   },
   {
     "id": "feijoada-mwqoz7a2",
