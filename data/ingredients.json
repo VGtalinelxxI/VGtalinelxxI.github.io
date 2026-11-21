@@ -126,5 +126,17 @@
   {
     "id": "poire",
     "name": "Poire"
+  },
+  {
+    "id": "grosse-patate",
+    "name": "Grosse patate"
+  },
+  {
+    "id": "haricot-blanc",
+    "name": "Haricot blanc"
+  },
+  {
+    "id": "chorizo",
+    "name": "Chorizo"
   }
 ]
