@@ -1,5 +1,49 @@
 [
   {
+    "id": "salade-thai-mwqp3rk5",
+    "title": "Salade thaï",
+    "image": "images/salade-thai-mwqp3rk5.jpg",
+    "categories": [
+      "entree",
+      "vegetarien",
+      "salade"
+    ],
+    "ingredients": [
+      {
+        "ingredientId": "cacahuetes",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "carottes",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "papaye-verte",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "poivron",
+        "quantity": "",
+        "optional": true
+      },
+      {
+        "ingredientId": "sauce-poisson",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "coriandre",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "tomate",
+        "quantity": "",
+        "optional": true
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-21T17:42:11.525Z"
+  },
+  {
     "id": "feijoada-mwqoz7a2",
     "title": "Feijoada",
     "image": "images/feijoada-mwqoz7a2.jpg",
