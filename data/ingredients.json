@@ -138,5 +138,25 @@
   {
     "id": "chorizo",
     "name": "Chorizo"
+  },
+  {
+    "id": "hareng-fume",
+    "name": "Hareng fumé"
+  },
+  {
+    "id": "huile",
+    "name": "Huile"
+  },
+  {
+    "id": "aneth",
+    "name": "Aneth"
+  },
+  {
+    "id": "pommes-de-terre",
+    "name": "Pommes de terre"
+  },
+  {
+    "id": "ciboulette",
+    "name": "Ciboulette"
   }
 ]
