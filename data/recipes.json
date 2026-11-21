@@ -469,7 +469,8 @@
       },
       {
         "ingredientId": "shiso",
-        "quantity": ""
+        "quantity": "",
+        "optional": true
       },
       {
         "ingredientId": "sauce-soja",
@@ -489,7 +490,7 @@
       "entree",
       "salade"
     ],
-    "updatedAt": "2026-11-21T17:26:26.975Z"
+    "updatedAt": "2026-11-21T17:48:12.546Z"
   },
   {
     "id": "soupe-miso-mwq841ly",
