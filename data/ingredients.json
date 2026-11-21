@@ -226,5 +226,21 @@
   {
     "id": "cassonade",
     "name": "Cassonade"
+  },
+  {
+    "id": "orange",
+    "name": "Orange"
+  },
+  {
+    "id": "tomate-cerise",
+    "name": "Tomate cerise"
+  },
+  {
+    "id": "farine-de-mais",
+    "name": "Farine de maïs"
+  },
+  {
+    "id": "fruit-sec",
+    "name": "Fruit sec"
   }
 ]
