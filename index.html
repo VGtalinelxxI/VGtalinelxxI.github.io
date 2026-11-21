@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#c2410c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="cookbook">
+  <title>cookbook</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ───────── Lock screen (only on the first connexion of a device) ───────── -->
+<section id="lock" class="screen" hidden>
+  <form id="lock-form" class="card-form">
+    <h1>🍳 cookbook</h1>
+    <p class="muted">Enter the password to unlock.</p>
+    <input id="lock-pass" type="password" placeholder="Password" autocomplete="current-password" required>
+    <button type="submit" class="primary">Unlock</button>
+    <p id="lock-error" class="error" role="alert"></p>
+  </form>
+</section>
+
+<!-- ───────── One-time setup (when the repo has no config.json yet) ───────── -->
+<section id="setup" class="screen" hidden>
+  <form id="setup-form" class="card-form">
+    <h1>🍳 cookbook</h1>
+    <p class="muted">First-time setup. This is done once, from any device.</p>
+
+    <label>GitHub repository
+      <input id="s-repo" placeholder="your-name/cookbook" required autocapitalize="off" autocorrect="off" spellcheck="false">
+    </label>
+
+    <label>GitHub token
+      <input id="s-token" type="password" placeholder="github_pat_…" required autocomplete="off">
+      <small>
+        Fine-grained token limited to this repository, permission <b>Contents: Read and write</b>.
+        <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Create one</a>.
+      </small>
+    </label>
+
+    <label>Choose a password
+      <input id="s-pass" type="password" minlength="8" placeholder="At least 8 characters" required autocomplete="new-password">
+    </label>
+    <label>Confirm the password
+      <input id="s-pass2" type="password" minlength="8" required autocomplete="new-password">
+    </label>
+
+    <button type="submit" class="primary">Create my cookbook</button>
+    <p id="setup-error" class="error" role="alert"></p>
+  </form>
+</section>
+
+<!-- ───────── App ───────── -->
+<div id="app" hidden>
+  <header>
+    <h1>🍳 cookbook</h1>
+    <nav>
+      <button class="tab active" data-tab="gallery">Gallery</button>
+      <button class="tab" data-tab="create">+ New</button>
+      <button class="tab" data-tab="cook">🥕 Cook</button>
+      <button class="tab" data-tab="grocery">🛒 Grocery</button>
+    </nav>
+    <button id="lock-btn" class="icon-btn" title="Lock this device" aria-label="Lock this device">🔒</button>
+  </header>
+
+  <main>
+    <!-- Gallery -->
+    <section id="tab-gallery">
+      <input id="search" type="search" placeholder="Search a title or ingredients…" autocomplete="off">
+      <div class="chips" role="group" aria-label="Search in">
+        <button class="chip active" data-mode="all">All</button>
+        <button class="chip" data-mode="title">Title</button>
+        <button class="chip" data-mode="ingredients">Ingredients</button>
+        <button class="chip archive-chip" id="archived-toggle" type="button" hidden>📦 Archived</button>
+      </div>
+      <div id="cat-filter" class="chip-cloud cat-filter" role="group" aria-label="Filter by category"></div>
+      <p id="status" class="muted" role="status"></p>
+      <div id="grid"></div>
+    </section>
+
+    <!-- Creation -->
+    <section id="tab-create" hidden>
+      <form id="create-form" novalidate>
+        <div id="edit-banner" class="edit-banner" hidden>
+          <span>✏️ Editing <b id="edit-name"></b></span>
+          <button type="button" id="edit-cancel" class="secondary small">Cancel</button>
+        </div>
+        <label>Recipe name
+          <input id="f-title" type="text" maxlength="100" placeholder="Chocolate cake" autocomplete="off" enterkeyhint="next">
+        </label>
+        <div class="field">
+          <span class="field-label">Picture <small>(optional · JPEG, PNG, HEIC, WebP… you can crop and rotate it)</small></span>
+          <input id="f-image" type="file" accept="image/*" hidden>
+          <img id="preview" alt="Preview" hidden>
+          <div class="pic-tools">
+            <button type="button" id="f-image-btn" class="secondary">🖼️ Choose a picture</button>
+            <button type="button" id="f-adjust" class="secondary" hidden>✂️ Crop / rotate</button>
+          </div>
+          <label id="f-remove-wrap" class="opt" hidden><input type="checkbox" id="f-remove-image"> Remove the current picture</label>
+        </div>
+
+        <div class="field">
+          <span class="field-label">Categories <small>(optional, several allowed)</small></span>
+          <div id="f-cats" class="chip-cloud"></div>
+          <div class="cat-new">
+            <input id="f-cat-new" type="text" placeholder="New category…" autocomplete="off" enterkeyhint="done" maxlength="40">
+            <button type="button" id="f-cat-add" class="secondary">+ Add</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <span class="field-label">Ingredients <small>(optional)</small></span>
+          <div id="ing-rows"></div>
+          <button type="button" id="add-ing" class="secondary">+ Add ingredient</button>
+          <small class="muted">Pick an existing ingredient or type a new name: it is created once and reused by all your recipes.
+            The comment (e.g. <i>suprême</i>, <i>rouge</i>) and the <i>Optional</i> tick only apply to this recipe.</small>
+        </div>
+
+        <label>Steps <small>(optional, one per line)</small>
+          <textarea id="f-steps" rows="8" placeholder="Preheat the oven to 180°C&#10;Mix the dry ingredients&#10;…"></textarea>
+        </label>
+
+        <button type="submit" id="save-btn" class="primary">Save recipe</button>
+        <p id="create-msg" class="muted" role="status"></p>
+      </form>
+    </section>
+
+    <!-- Grocery -->
+    <section id="tab-grocery" hidden>
+      <details id="g-picker" open>
+        <summary>Choose recipes <span id="g-count" class="muted"></span></summary>
+        <input id="g-filter" type="search" placeholder="Filter recipes…" autocomplete="off">
+        <div id="g-recipes"></div>
+      </details>
+
+      <div class="g-head">
+        <h2>Shopping list</h2>
+        <span id="g-summary" class="muted"></span>
+      </div>
+      <p id="g-empty" class="muted" role="status"></p>
+      <ul id="g-list"></ul>
+      <div class="g-actions">
+        <button type="button" id="g-mark-have" class="secondary" hidden>✓ Tick what I have (🥕 Cook)</button>
+        <button type="button" id="g-uncheck" class="secondary">Uncheck all</button>
+        <button type="button" id="g-clear" class="secondary">Clear selection</button>
+      </div>
+
+      <div id="g-export" class="export" hidden>
+        <h3>Export the list</h3>
+        <div class="exp-opts">
+          <label class="opt"><input type="checkbox" id="g-exp-checked" checked> Include checked items (☑)</label>
+          <label class="opt"><input type="checkbox" id="g-exp-recipes" checked> Show recipes and quantities</label>
+        </div>
+        <div class="g-actions">
+          <button type="button" id="g-share" class="secondary">📤 Share</button>
+          <button type="button" id="g-copy" class="secondary">📋 Copy</button>
+          <button type="button" id="g-download" class="secondary">⬇️ Download .txt</button>
+          <button type="button" id="g-print" class="secondary">🖨️ Print / PDF</button>
+          <button type="button" id="g-link" class="secondary">🔗 Link with ticks</button>
+        </div>
+        <p id="g-exp-msg" class="muted" role="status"></p>
+      </div>
+    </section>
+
+    <!-- Cook: what can I make with what I have? -->
+    <section id="tab-cook" hidden>
+      <div class="g-head">
+        <h2>What do I have? <span id="c-count" class="muted"></span></h2>
+        <button type="button" id="c-clear" class="link-btn" hidden>Clear</button>
+      </div>
+      <div id="c-selected" class="chip-cloud"></div>
+      <input id="c-filter" type="search" placeholder="Find an ingredient… (Enter adds the first match)" autocomplete="off" enterkeyhint="done">
+      <div id="c-library" class="chip-cloud library"></div>
+      <p id="c-library-empty" class="muted"></p>
+
+      <p id="c-hint" class="muted" role="status"></p>
+
+      <div id="c-can-sec" hidden>
+        <h2 id="c-can-title" class="c-title"></h2>
+        <p id="c-can-empty" class="muted"></p>
+        <ul id="c-can" class="c-list"></ul>
+      </div>
+
+      <div id="c-almost-sec" hidden>
+        <div class="g-head">
+          <h2 id="c-almost-title" class="c-title"></h2>
+          <label class="opt">Missing at most
+            <select id="c-max">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </label>
+        </div>
+        <p id="c-almost-empty" class="muted"></p>
+        <ul id="c-almost" class="c-list"></ul>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- Recipe detail -->
+<dialog id="detail">
+  <article>
+    <button id="close-detail" class="close" aria-label="Close">✕</button>
+    <img id="d-img" alt="" hidden>
+    <div class="d-body">
+      <div id="d-title-row" class="d-title-row">
+        <h2 id="d-title"></h2>
+        <button type="button" id="d-rename" class="icon-btn" title="Rename" aria-label="Rename the recipe">✏️</button>
+      </div>
+      <form id="d-rename-form" class="rename-form" hidden novalidate>
+        <input id="d-rename-input" type="text" maxlength="100" aria-label="Recipe name" autocomplete="off" enterkeyhint="done">
+        <button type="submit" id="d-rename-save" class="primary small">Save</button>
+        <button type="button" id="d-rename-cancel" class="secondary small">Cancel</button>
+        <p id="d-rename-msg" class="error" role="alert"></p>
+      </form>
+      <div id="d-cats" class="cat-tags"></div>
+      <p id="d-archived" class="archived-note" hidden>📦 Archived<span id="d-archived-date"></span>. Hidden from the gallery, grocery and cook tabs.</p>
+      <div class="d-actions">
+        <button type="button" id="edit-btn" class="secondary">✏️ Edit</button>
+        <button type="button" id="d-grocery" class="secondary"></button>
+      </div>
+      <div id="d-ing-sec">
+        <h3>Ingredients</h3>
+        <ul id="d-ingredients"></ul>
+      </div>
+      <div id="d-steps-sec">
+        <h3>Steps</h3>
+        <ol id="d-steps"></ol>
+      </div>
+      <button type="button" id="archive-btn" class="archive">📦 Archive this recipe</button>
+    </div>
+  </article>
+</dialog>
+
+<!-- Crop tool -->
+<div id="cropper" class="cropper" role="dialog" aria-modal="true" aria-label="Adjust the picture" hidden>
+  <div class="crop-top">
+    <button type="button" id="crop-cancel" class="crop-link">Cancel</button>
+    <b>Adjust the picture</b>
+    <button type="button" id="crop-ok" class="primary small">Use</button>
+  </div>
+  <div id="crop-wrap" class="crop-wrap">
+    <div id="crop-stage" class="crop-stage"><canvas id="crop-canvas"></canvas></div>
+  </div>
+  <div class="crop-tools">
+    <input id="crop-zoom" type="range" min="1" max="6" step="0.01" value="1" aria-label="Zoom">
+    <div class="crop-row">
+      <button type="button" id="crop-rotate" class="secondary small">⟳ Rotate</button>
+      <div id="crop-ratios" class="chips">
+        <button type="button" class="chip active" data-ratio="4:3">4:3</button>
+        <button type="button" class="chip" data-ratio="1:1">1:1</button>
+        <button type="button" class="chip" data-ratio="original">Original</button>
+      </div>
+      <button type="button" id="crop-reset" class="secondary small">Reset</button>
+    </div>
+    <small>Drag to move · pinch or use the slider to zoom</small>
+  </div>
+</div>
+
+<div id="toast" class="toast" role="status" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>
