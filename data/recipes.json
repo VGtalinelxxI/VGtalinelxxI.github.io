@@ -5,7 +5,8 @@
     "image": "images/oeuf-mimosa-mayonnaise-mwqors0x.jpg",
     "categories": [
       "entree",
-      "froid"
+      "froid",
+      "vegetarien"
     ],
     "ingredients": [
       {
@@ -28,7 +29,8 @@
       }
     ],
     "steps": [],
-    "createdAt": "2026-11-21T17:32:52.257Z"
+    "createdAt": "2026-11-21T17:32:52.257Z",
+    "updatedAt": "2026-11-21T17:34:56.527Z"
   },
   {
     "id": "pate-pesto-mwqopb1y",
