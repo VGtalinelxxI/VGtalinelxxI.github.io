@@ -1,5 +1,40 @@
 [
   {
+    "id": "soupe-betterave-chaude-mwq71v8k",
+    "title": "Soupe betterave chaude",
+    "image": "images/soupe-betterave-chaude-mwq71v8k.jpg",
+    "ingredients": [
+      {
+        "ingredientId": "betterave",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "oeuf",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "lardons",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "bouillon-volaille",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "oignons",
+        "quantity": ""
+      }
+    ],
+    "steps": [
+      "Commencer par réduire les oignons au max.",
+      "Râper les betterave, les mélanger a de l'eau chaude.",
+      "Versé a travers une passoire.",
+      "Ajout d'un bouillon de volaille",
+      "Oeuf poché"
+    ],
+    "createdAt": "2026-11-21T09:16:49.892Z"
+  },
+  {
     "id": "curry-vert-aux-gyosas-mwq6wzqw",
     "title": "Curry vert aux gyosas",
     "image": "images/curry-vert-aux-gyosas-mwq6wzqw.jpg",
