@@ -2,7 +2,7 @@
   {
     "id": "poulet-au-four-mwq9nsqw",
     "title": "Poulet au four",
-    "image": "images/poulet-au-four-mwq9nsqw.jpg",
+    "image": "images/poulet-au-four-mwq9nsqw-mwqfjoi0.jpg",
     "ingredients": [
       {
         "ingredientId": "cuisse-de-poulet",
@@ -22,7 +22,11 @@
       }
     ],
     "steps": [],
-    "createdAt": "2026-11-21T10:29:52.328Z"
+    "createdAt": "2026-11-21T10:29:52.328Z",
+    "categories": [
+      "plat"
+    ],
+    "updatedAt": "2026-11-21T13:14:41.239Z"
   },
   {
     "id": "avocado-toast-mwq8n7mg",
@@ -56,7 +60,8 @@
     ],
     "steps": [],
     "createdAt": "2026-11-21T10:01:25.336Z",
-    "updatedAt": "2026-11-21T10:01:51.708Z"
+    "updatedAt": "2026-11-21T10:01:51.708Z",
+    "categories": []
   },
   {
     "id": "ceviche-mwq8iivk",
@@ -97,7 +102,8 @@
       }
     ],
     "steps": [],
-    "createdAt": "2026-11-21T09:57:46.640Z"
+    "createdAt": "2026-11-21T09:57:46.640Z",
+    "categories": []
   },
   {
     "id": "mango-stixky-rice-mwq8d1mc",
@@ -128,7 +134,8 @@
     "steps": [
       "Une fois le riz cuit, versez-le dans un saladier puis ajoutez-lui délicatement et au fur et à mesure les ? du lait de coco (le riz doit bien absorber le lait)."
     ],
-    "createdAt": "2026-11-21T09:53:30.996Z"
+    "createdAt": "2026-11-21T09:53:30.996Z",
+    "categories": []
   },
   {
     "id": "salade-mangue-mwq88yk9",
@@ -164,7 +171,8 @@
       "Sauce",
       "Soja"
     ],
-    "createdAt": "2026-11-21T09:50:20.409Z"
+    "createdAt": "2026-11-21T09:50:20.409Z",
+    "categories": []
   },
   {
     "id": "soupe-miso-mwq841ly",
@@ -189,7 +197,8 @@
       }
     ],
     "steps": [],
-    "createdAt": "2026-11-21T09:46:31.078Z"
+    "createdAt": "2026-11-21T09:46:31.078Z",
+    "categories": []
   },
   {
     "id": "cinamon-roll-mwq7mur3",
@@ -214,7 +223,8 @@
       }
     ],
     "steps": [],
-    "createdAt": "2026-11-21T09:33:09.039Z"
+    "createdAt": "2026-11-21T09:33:09.039Z",
+    "categories": []
   },
   {
     "id": "soupe-betterave-chaude-mwq71v8k",
@@ -249,7 +259,8 @@
       "Ajout d'un bouillon de volaille",
       "Oeuf poché"
     ],
-    "createdAt": "2026-11-21T09:16:49.892Z"
+    "createdAt": "2026-11-21T09:16:49.892Z",
+    "categories": []
   },
   {
     "id": "curry-vert-aux-gyosas-mwq6wzqw",
@@ -290,7 +301,8 @@
       }
     ],
     "steps": [],
-    "createdAt": "2026-11-21T09:13:02.456Z"
+    "createdAt": "2026-11-21T09:13:02.456Z",
+    "categories": []
   },
   {
     "id": "hareng-pomme-a-l-huile-mwq6urnd",
@@ -323,7 +335,8 @@
       }
     ],
     "steps": [],
-    "createdAt": "2026-11-21T09:11:18.649Z"
+    "createdAt": "2026-11-21T09:11:18.649Z",
+    "categories": []
   },
   {
     "id": "stuffed-potato-mwq6mlpm",
@@ -348,7 +361,8 @@
       }
     ],
     "steps": [],
-    "createdAt": "2026-11-21T09:04:57.706Z"
+    "createdAt": "2026-11-21T09:04:57.706Z",
+    "categories": []
   },
   {
     "id": "nachos-mwq69oq2",
@@ -394,7 +408,8 @@
     ],
     "steps": [],
     "createdAt": "2026-11-21T08:54:55.082Z",
-    "updatedAt": "2026-11-21T08:56:49.297Z"
+    "updatedAt": "2026-11-21T08:56:49.297Z",
+    "categories": []
   },
   {
     "id": "fish-on-rice-mwpk252g",
@@ -436,7 +451,8 @@
     ],
     "steps": [],
     "createdAt": "2026-11-20T22:33:11.464Z",
-    "updatedAt": "2026-11-21T08:57:17.771Z"
+    "updatedAt": "2026-11-21T08:57:17.771Z",
+    "categories": []
   },
   {
     "id": "potage-a-la-reine-mwpjd1ar",
@@ -468,7 +484,8 @@
       "Mélanger les jaunes dans la crème et eau froide avant d'incorporer !"
     ],
     "createdAt": "2026-11-20T22:13:40.179Z",
-    "updatedAt": "2026-11-20T22:39:18.772Z"
+    "updatedAt": "2026-11-20T22:39:18.772Z",
+    "categories": []
   },
   {
     "id": "quiche-lorraine-mwphz0jh",
@@ -500,7 +517,8 @@
       "Idk"
     ],
     "createdAt": "2026-11-20T21:34:46.397Z",
-    "updatedAt": "2026-11-20T22:41:47.565Z"
+    "updatedAt": "2026-11-20T22:41:47.565Z",
+    "categories": []
   },
   {
     "id": "vin-chaud-mwphu0w9",
@@ -523,6 +541,7 @@
     "steps": [
       "Chauffe la gnole"
     ],
-    "createdAt": "2026-11-20T21:30:53.577Z"
+    "createdAt": "2026-11-20T21:30:53.577Z",
+    "categories": []
   }
 ]
