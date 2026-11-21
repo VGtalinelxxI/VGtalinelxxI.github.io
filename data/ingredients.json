@@ -346,5 +346,9 @@
   {
     "id": "sauce-poisson",
     "name": "Sauce poisson"
+  },
+  {
+    "id": "piment-rouge",
+    "name": "Piment rouge"
   }
 ]
