@@ -102,6 +102,16 @@
       {
         "ingredientId": "lait-de-coco",
         "quantity": ""
+      },
+      {
+        "ingredientId": "poisson-blanc",
+        "quantity": "",
+        "note": "Dorade ?"
+      },
+      {
+        "ingredientId": "coriandre",
+        "quantity": "",
+        "optional": true
       }
     ],
     "steps": [],
@@ -109,7 +119,7 @@
     "categories": [
       "plat"
     ],
-    "updatedAt": "2026-11-21T13:15:58.141Z"
+    "updatedAt": "2026-11-21T13:47:34.160Z"
   },
   {
     "id": "mango-stixky-rice-mwq8d1mc",
