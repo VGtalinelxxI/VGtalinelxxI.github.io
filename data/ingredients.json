@@ -402,5 +402,21 @@
   {
     "id": "courgettes",
     "name": "Courgettes"
+  },
+  {
+    "id": "fusilli",
+    "name": "Fusilli"
+  },
+  {
+    "id": "ricotta",
+    "name": "Ricotta"
+  },
+  {
+    "id": "menthe",
+    "name": "Menthe"
+  },
+  {
+    "id": "citron",
+    "name": "Citron"
   }
 ]
