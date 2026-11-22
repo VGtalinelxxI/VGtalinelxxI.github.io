@@ -1,5 +1,57 @@
 [
   {
+    "id": "curry-panang-cacahuete-lait-de-coco-mwrurg4h",
+    "title": "Curry panang cacahuète lait de coco",
+    "image": "images/curry-panang-cacahuete-lait-de-coco-mwrurg4h.jpg",
+    "categories": [
+      "plat"
+    ],
+    "ingredients": [
+      {
+        "ingredientId": "curry-panang",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "cacahuetes",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "lait-de-coco",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "riz-jasmin",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "courgettes",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "carottes",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "poivron",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "oignons",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "oeuf",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "coriandre",
+        "quantity": ""
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-22T13:08:20.705Z"
+  },
+  {
     "id": "potee-chou-pdt-lardons-mwrup02c",
     "title": "Potée chou PDT lardons",
     "image": "images/potee-chou-pdt-lardons-mwrup02c.jpg",
