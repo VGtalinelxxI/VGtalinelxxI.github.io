@@ -378,5 +378,17 @@
   {
     "id": "beurre",
     "name": "beurre"
+  },
+  {
+    "id": "chou",
+    "name": "Chou"
+  },
+  {
+    "id": "huile-d-olive",
+    "name": "Huile d’olive"
+  },
+  {
+    "id": "celeri",
+    "name": "Céleri"
   }
 ]
