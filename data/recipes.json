@@ -1,5 +1,32 @@
 [
   {
+    "id": "galette-complete-mws2fq2t",
+    "title": "Galette complète",
+    "image": "images/galette-complete-mws2fq2t.jpg",
+    "categories": [],
+    "ingredients": [
+      {
+        "ingredientId": "crepe",
+        "quantity": "",
+        "note": "Sarazzin"
+      },
+      {
+        "ingredientId": "oeuf",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "jambon",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "compte",
+        "quantity": ""
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-22T16:43:10.661Z"
+  },
+  {
     "id": "croque-messieur-mws2dz8h",
     "title": "Croque messieur",
     "image": "images/croque-messieur-mws2dz8h.jpg",
