@@ -390,5 +390,17 @@
   {
     "id": "celeri",
     "name": "Céleri"
+  },
+  {
+    "id": "curry-panang",
+    "name": "Curry panang"
+  },
+  {
+    "id": "riz-jasmin",
+    "name": "Riz jasmin"
+  },
+  {
+    "id": "courgettes",
+    "name": "Courgettes"
   }
 ]
