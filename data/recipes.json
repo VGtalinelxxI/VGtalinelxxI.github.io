@@ -1,5 +1,52 @@
 [
   {
+    "id": "lasagnes-mws28gap",
+    "title": "Lasagnes",
+    "image": "images/lasagnes-mws28gap.jpg",
+    "categories": [
+      "plat",
+      "pates"
+    ],
+    "ingredients": [
+      {
+        "ingredientId": "pates",
+        "quantity": "",
+        "note": "Lasagne"
+      },
+      {
+        "ingredientId": "courgette",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "tomate",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "viande-hache",
+        "quantity": "",
+        "optional": true
+      },
+      {
+        "ingredientId": "carotte",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "lait",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "beurre",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "farine",
+        "quantity": ""
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-22T16:37:31.393Z"
+  },
+  {
     "id": "boulette-de-crevette-soupe-tomate-mwrv0oz0",
     "title": "Boulettes de crevettes - soupe tomate œuf tofu",
     "image": "images/boulette-de-crevette-soupe-tomate-mwrv0oz0.jpg",
