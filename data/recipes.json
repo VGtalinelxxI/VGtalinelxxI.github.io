@@ -1,5 +1,50 @@
 [
   {
+    "id": "concombre-chinois-pai-huanggua-mws2lp6p",
+    "title": "Concombre chinois pāi huángguā",
+    "image": "images/concombre-chinois-pai-huanggua-mws2lp6p.jpg",
+    "categories": [
+      "froid",
+      "salade"
+    ],
+    "ingredients": [
+      {
+        "ingredientId": "concombre",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "piment",
+        "quantity": "",
+        "optional": true
+      },
+      {
+        "ingredientId": "huile-de-sesame",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "sauce-soja",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "cebettes",
+        "quantity": "",
+        "optional": true
+      },
+      {
+        "ingredientId": "vinaigre",
+        "quantity": "",
+        "optional": true
+      },
+      {
+        "ingredientId": "sucre",
+        "quantity": "",
+        "optional": true
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-22T16:47:49.441Z"
+  },
+  {
     "id": "taboule-lobanais-mws2ioxa",
     "title": "Taboule lobanais",
     "image": "images/taboule-lobanais-mws2ioxa.jpg",
