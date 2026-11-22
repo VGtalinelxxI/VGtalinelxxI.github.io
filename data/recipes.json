@@ -3,7 +3,10 @@
     "id": "coleslaw-mws2boeo",
     "title": "Coleslaw",
     "image": "images/coleslaw-mws2boeo.jpg",
-    "categories": [],
+    "categories": [
+      "salade",
+      "froid"
+    ],
     "ingredients": [
       {
         "ingredientId": "chou",
@@ -33,7 +36,8 @@
       }
     ],
     "steps": [],
-    "createdAt": "2026-11-22T16:40:01.872Z"
+    "createdAt": "2026-11-22T16:40:01.872Z",
+    "updatedAt": "2026-11-22T16:40:14.821Z"
   },
   {
     "id": "lasagnes-mws28gap",
