@@ -2,7 +2,7 @@
   {
     "id": "puree-saucisse-mwrs0tih",
     "title": "Purée saucisse",
-    "image": null,
+    "image": "images/puree-saucisse-mwrs0tih-mwrujxtn.jpg",
     "categories": [
       "plat"
     ],
@@ -27,7 +27,8 @@
       "ajouter le beurre",
       "ajouter le lait chaud"
     ],
-    "createdAt": "2026-11-22T11:51:39.113Z"
+    "createdAt": "2026-11-22T11:51:39.113Z",
+    "updatedAt": "2026-11-22T13:02:33.887Z"
   },
   {
     "id": "tofu-et-aubergines-mwqphjro",
