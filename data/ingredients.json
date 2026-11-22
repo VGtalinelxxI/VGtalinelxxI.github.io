@@ -442,5 +442,17 @@
   {
     "id": "sucre",
     "name": "Sucre"
+  },
+  {
+    "id": "pain-de-mie",
+    "name": "Pain de mie"
+  },
+  {
+    "id": "jambon",
+    "name": "Jambon"
+  },
+  {
+    "id": "compte",
+    "name": "Compté"
   }
 ]
