@@ -1,5 +1,41 @@
 [
   {
+    "id": "chou-fleur-roti-mws2oxnp",
+    "title": "Chou fleur roti",
+    "image": "images/chou-fleur-roti-mws2oxnp.jpg",
+    "categories": [
+      "plat",
+      "vegetarien"
+    ],
+    "ingredients": [
+      {
+        "ingredientId": "chou-fleur",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "tahini",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "citron",
+        "quantity": "",
+        "optional": true
+      },
+      {
+        "ingredientId": "noisette",
+        "quantity": "",
+        "optional": true
+      },
+      {
+        "ingredientId": "persil",
+        "quantity": "",
+        "optional": true
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-22T16:50:20.389Z"
+  },
+  {
     "id": "concombre-chinois-pai-huanggua-mws2lp6p",
     "title": "Concombre chinois pāi huángguā",
     "image": "images/concombre-chinois-pai-huanggua-mws2lp6p.jpg",
