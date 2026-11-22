@@ -3,7 +3,9 @@
     "id": "galette-complete-mws2fq2t",
     "title": "Galette complète",
     "image": "images/galette-complete-mws2fq2t.jpg",
-    "categories": [],
+    "categories": [
+      "plat"
+    ],
     "ingredients": [
       {
         "ingredientId": "crepe",
@@ -24,7 +26,8 @@
       }
     ],
     "steps": [],
-    "createdAt": "2026-11-22T16:43:10.661Z"
+    "createdAt": "2026-11-22T16:43:10.661Z",
+    "updatedAt": "2026-11-22T16:43:28.337Z"
   },
   {
     "id": "croque-messieur-mws2dz8h",
