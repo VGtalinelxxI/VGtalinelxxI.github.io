@@ -2,7 +2,7 @@
   {
     "id": "sandwich-oeuf-tamago-sando-mws2qsy0",
     "title": "Sandwich oeuf - Tamago sando",
-    "image": null,
+    "image": "images/sandwich-oeuf-tamago-sando-mws2qsy0-mws2r6hd.jpg",
     "categories": [
       "sandwich"
     ],
@@ -22,7 +22,8 @@
       }
     ],
     "steps": [],
-    "createdAt": "2026-11-22T16:51:47.592Z"
+    "createdAt": "2026-11-22T16:51:47.592Z",
+    "updatedAt": "2026-11-22T16:52:09.418Z"
   },
   {
     "id": "chou-fleur-roti-mws2oxnp",
