@@ -179,7 +179,7 @@
   },
   {
     "id": "tofu-et-aubergines-mwqphjro",
-    "title": "Tofu et aubergines",
+    "title": "Curry vert tofu et aubergines",
     "image": "images/tofu-et-aubergines-mwqphjro.jpg",
     "categories": [
       "plat"
@@ -217,7 +217,8 @@
       }
     ],
     "steps": [],
-    "createdAt": "2026-11-21T17:52:54.612Z"
+    "createdAt": "2026-11-21T17:52:54.612Z",
+    "updatedAt": "2026-11-22T13:11:40.998Z"
   },
   {
     "id": "poulet-mafe-mwqp9sjy",
