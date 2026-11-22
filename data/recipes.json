@@ -263,7 +263,7 @@
   },
   {
     "id": "poulet-mafe-mwqp9sjy",
-    "title": "Poulet mafé",
+    "title": "Mafé poulet",
     "image": "images/poulet-mafe-mwqp9sjy.jpg",
     "categories": [
       "plat"
@@ -299,7 +299,8 @@
       }
     ],
     "steps": [],
-    "createdAt": "2026-11-21T17:46:52.750Z"
+    "createdAt": "2026-11-21T17:46:52.750Z",
+    "updatedAt": "2026-11-22T13:15:39.199Z"
   },
   {
     "id": "poulet-yassa-mwqp7hlo",
