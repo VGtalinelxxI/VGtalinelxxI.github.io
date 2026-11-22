@@ -434,5 +434,13 @@
   {
     "id": "viande-hache",
     "name": "Viande haché"
+  },
+  {
+    "id": "vinaigre",
+    "name": "Vinaigre"
+  },
+  {
+    "id": "sucre",
+    "name": "Sucre"
   }
 ]
