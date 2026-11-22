@@ -1,5 +1,59 @@
 [
   {
+    "id": "potee-chou-pdt-lardons-mwrup02c",
+    "title": "Potée chou PDT lardons",
+    "image": "images/potee-chou-pdt-lardons-mwrup02c.jpg",
+    "categories": [
+      "plat"
+    ],
+    "ingredients": [
+      {
+        "ingredientId": "pommes-de-terre",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "carottes",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "lardons",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "chou",
+        "quantity": "",
+        "note": "Si possible choudou"
+      },
+      {
+        "ingredientId": "oignons",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "riz",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "bouillon-volaille",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "persil",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "huile-d-olive",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "celeri",
+        "quantity": "",
+        "optional": true
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-22T13:06:26.580Z"
+  },
+  {
     "id": "puree-saucisse-mwrs0tih",
     "title": "Purée saucisse",
     "image": "images/puree-saucisse-mwrs0tih-mwrujxtn.jpg",
