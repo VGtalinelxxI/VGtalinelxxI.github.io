@@ -1,5 +1,35 @@
 [
   {
+    "id": "puree-saucisse-mwrs0tih",
+    "title": "Purée saucisse",
+    "image": null,
+    "categories": [
+      "plat"
+    ],
+    "ingredients": [
+      {
+        "ingredientId": "pommes-de-terre",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "beurre",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "lait",
+        "quantity": ""
+      }
+    ],
+    "steps": [
+      "Cuire les patates à l'eau",
+      "moudre les patates",
+      "les laisser se deshydrater (sur feu doux si besoin)",
+      "ajouter le beurre",
+      "ajouter le lait chaud"
+    ],
+    "createdAt": "2026-11-22T11:51:39.113Z"
+  },
+  {
     "id": "tofu-et-aubergines-mwqphjro",
     "title": "Tofu et aubergines",
     "image": "images/tofu-et-aubergines-mwqphjro.jpg",
