@@ -1,5 +1,46 @@
 [
   {
+    "id": "fusilli-courgettes-ricotta-menthe-citron-mwruty2e",
+    "title": "Fusilli courgettes ricotta menthe citron",
+    "image": "images/fusilli-courgettes-ricotta-menthe-citron-mwruty2e.jpg",
+    "categories": [
+      "plat",
+      "vegetarien"
+    ],
+    "ingredients": [
+      {
+        "ingredientId": "fusilli",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "courgettes",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "ricotta",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "menthe",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "citron",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "ciboulette",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "huile-d-olive",
+        "quantity": ""
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-22T13:10:17.270Z"
+  },
+  {
     "id": "curry-panang-cacahuete-lait-de-coco-mwrurg4h",
     "title": "Curry panang cacahuète lait de coco",
     "image": "images/curry-panang-cacahuete-lait-de-coco-mwrurg4h.jpg",
