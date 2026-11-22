@@ -1,5 +1,41 @@
 [
   {
+    "id": "boulette-de-crevette-soupe-tomate-mwrv0oz0",
+    "title": "Boulette de crevette soupe tomate",
+    "image": "images/boulette-de-crevette-soupe-tomate-mwrv0oz0.jpg",
+    "categories": [],
+    "ingredients": [
+      {
+        "ingredientId": "tofu",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "oeuf",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "crevette",
+        "quantity": "",
+        "note": "En boulette"
+      },
+      {
+        "ingredientId": "farine",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "tomate",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "coriandre",
+        "quantity": "",
+        "optional": true
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-22T13:15:32.076Z"
+  },
+  {
     "id": "fusilli-courgettes-ricotta-menthe-citron-mwruty2e",
     "title": "Fusilli courgettes ricotta menthe citron",
     "image": "images/fusilli-courgettes-ricotta-menthe-citron-mwruty2e.jpg",
