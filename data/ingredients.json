@@ -466,5 +466,9 @@
   {
     "id": "grenade",
     "name": "Grenade"
+  },
+  {
+    "id": "piment",
+    "name": "Piment"
   }
 ]
