@@ -454,5 +454,9 @@
   {
     "id": "compte",
     "name": "Compté"
+  },
+  {
+    "id": "crepe",
+    "name": "Crêpe"
   }
 ]
