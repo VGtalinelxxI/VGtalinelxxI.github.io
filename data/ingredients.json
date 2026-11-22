@@ -426,5 +426,13 @@
   {
     "id": "crevette",
     "name": "Crevette"
+  },
+  {
+    "id": "courgette",
+    "name": "Courgette"
+  },
+  {
+    "id": "viande-hache",
+    "name": "Viande haché"
   }
 ]
