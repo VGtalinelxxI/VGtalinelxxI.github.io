@@ -1,5 +1,47 @@
 [
   {
+    "id": "taboule-lobanais-mws2ioxa",
+    "title": "Taboule lobanais",
+    "image": "images/taboule-lobanais-mws2ioxa.jpg",
+    "categories": [
+      "froid",
+      "salade"
+    ],
+    "ingredients": [
+      {
+        "ingredientId": "couscous",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "persil",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "huile-d-olive",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "tomate",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "concombre",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "citron",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "grenade",
+        "quantity": "",
+        "optional": true
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-22T16:45:29.134Z"
+  },
+  {
     "id": "galette-complete-mws2fq2t",
     "title": "Galette complète",
     "image": "images/galette-complete-mws2fq2t.jpg",
