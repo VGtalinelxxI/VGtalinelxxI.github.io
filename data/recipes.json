@@ -1,5 +1,33 @@
 [
   {
+    "id": "croque-messieur-mws2dz8h",
+    "title": "Croque messieur",
+    "image": "images/croque-messieur-mws2dz8h.jpg",
+    "categories": [
+      "plat"
+    ],
+    "ingredients": [
+      {
+        "ingredientId": "pain-de-mie",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "jambon",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "creme",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "compte",
+        "quantity": ""
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-22T16:41:49.217Z"
+  },
+  {
     "id": "coleslaw-mws2boeo",
     "title": "Coleslaw",
     "image": "images/coleslaw-mws2boeo.jpg",
