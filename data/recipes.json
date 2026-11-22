@@ -1,5 +1,41 @@
 [
   {
+    "id": "coleslaw-mws2boeo",
+    "title": "Coleslaw",
+    "image": "images/coleslaw-mws2boeo.jpg",
+    "categories": [],
+    "ingredients": [
+      {
+        "ingredientId": "chou",
+        "quantity": "",
+        "note": "Blanc"
+      },
+      {
+        "ingredientId": "carotte",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "mayonnaise",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "vinaigre",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "ciboulette",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "sucre",
+        "quantity": "",
+        "optional": true
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-22T16:40:01.872Z"
+  },
+  {
     "id": "lasagnes-mws28gap",
     "title": "Lasagnes",
     "image": "images/lasagnes-mws28gap.jpg",
