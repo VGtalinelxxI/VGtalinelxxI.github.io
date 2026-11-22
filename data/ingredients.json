@@ -470,5 +470,17 @@
   {
     "id": "piment",
     "name": "Piment"
+  },
+  {
+    "id": "chou-fleur",
+    "name": "Chou fleur"
+  },
+  {
+    "id": "tahini",
+    "name": "Tahini"
+  },
+  {
+    "id": "noisette",
+    "name": "Noisette"
   }
 ]
