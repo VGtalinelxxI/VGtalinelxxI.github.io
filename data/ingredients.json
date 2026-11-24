@@ -482,5 +482,9 @@
   {
     "id": "noisette",
     "name": "Noisette"
+  },
+  {
+    "id": "bouillon-de-boeuf",
+    "name": "Bouillon de boeuf"
   }
 ]
