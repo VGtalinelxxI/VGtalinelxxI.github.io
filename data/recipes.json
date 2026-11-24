@@ -1,5 +1,48 @@
 [
   {
+    "id": "creole-gumbo-mwv9nuye",
+    "title": "Creole gumbo",
+    "image": null,
+    "categories": [],
+    "ingredients": [
+      {
+        "ingredientId": "farine",
+        "quantity": "",
+        "note": "Roux brun"
+      },
+      {
+        "ingredientId": "celeri",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "oignons",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "poivron",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "saucisse",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "crevette",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "bouillon-de-boeuf",
+        "quantity": ""
+      },
+      {
+        "ingredientId": "ail",
+        "quantity": ""
+      }
+    ],
+    "steps": [],
+    "createdAt": "2026-11-24T22:28:46.070Z"
+  },
+  {
     "id": "sandwich-oeuf-tamago-sando-mws2qsy0",
     "title": "Sandwich oeuf - Tamago sando",
     "image": "images/sandwich-oeuf-tamago-sando-mws2qsy0-mws2r6hd.jpg",
